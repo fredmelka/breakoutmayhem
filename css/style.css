@@ -1,0 +1,85 @@
+
+/* IMPORT FOR FONTS AND ANIMATIONS */
+
+/* GENERAL SETTTING AND DEFAULT BROWSER SETTINGS RESET */
+
+* {
+    margin: 0;
+    padding: 0;
+    background-color: whitesmoke;
+}
+
+header {
+    border-bottom: 2px solid lightblue;
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem;
+}
+
+section div {
+    display: inline-block;
+    margin: 0 1rem 0 auto;
+}
+
+header p {
+    color: navy;
+    font-size: 2em;
+}
+
+#gameArea {
+
+    border: 1px solid lightgray;  
+  /*border-image-slice: 1;
+    border-image-source: linear-gradient(90deg, brown, orange, 30%, navy 50%, orange 70%, lightblue);
+    border-width: 0.7rem;*/
+    border-left: 0;
+    border-right: 0;
+    height: 80vh;
+    margin: 2rem auto;
+    position: relative;
+    width: 80vw;
+}
+
+.paddle {
+    border-radius: 0.2rem;
+    box-shadow: 0 0 0.2rem white, inset 0 0 0.2rem white;
+    height: 6vh;
+    position: absolute;
+    width: 1vw;    
+}
+
+.paddle.left {
+    background-color: darkcyan;
+    top: 37vh;
+    left: 0vw;
+}
+
+.paddle.right {
+    background-color: darkred;
+    top: 37vh;
+    left: 79vw;
+}
+
+.ball {
+    border-radius: 1vw;
+    position: absolute;
+    width: 2vw;
+    aspect-ratio: 1;
+    animation: rotation 1.5s linear infinite reverse none;
+}
+@keyframes rotation { to { transform: rotate(360deg); } }
+
+.wall {
+    background-color: #2f4f4f;
+    border: white solid 1px;            /***** border thickness set as a px value ******/
+    border-radius: 0.5vw;
+    position: absolute;
+}
+
+.brick {
+    border: white solid 1px;            /***** border thickness set as a px value ******/
+    border-radius: 0.5vw;
+    position: absolute;
+}
+
+
