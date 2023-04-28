@@ -16,9 +16,7 @@ export const gameSettings = {
 
 // DOM MAIN OBJECTS
 export const gameArea = document.getElementById('gameArea');        // ADD addEventListener("resize", (event) => {}); TO KEEP GAME ZONE OK AND BALLS INSIDE WHILE RESIZING
-let gameAreaBorders
-
-; 
+let gameAreaBorders; 
 
 const mainMenu = document.getElementById('mainMenu');
 const dialogBox = document.getElementById('dialogBox');
@@ -235,6 +233,7 @@ const noBallsLeft = getInPlay();
 if (noBallsLeft) {
     return gameOver()
 }
+
 movePaddle(player1);
 movePaddle(player2);
 BouncePaddle(gameSettings._opponents.left.ballsInPlay[0], player1); // FIX THIS AWFUL ARGUMENTATION AND SET THE BALLINPLAY AS A SINGLE KEY VALUE OBJECT
