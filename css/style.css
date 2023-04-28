@@ -56,7 +56,7 @@ nav {
     font-size: 3em;
     margin: 0 auto;
     padding: 1vw 1vh;
-    text-align: left;
+    text-align: center;
 }
 
 #gameArea {
@@ -76,7 +76,6 @@ nav {
     display: none;
     flex-direction: column;
     align-items: center;
-    opacity: 0;
     text-align: center;
     padding: 5vw 5vh;
 }
@@ -90,7 +89,7 @@ nav {
 }
 
 .appear {
-    display: block;
+    display: block !important;
 }
 
 .hidden {

@@ -1,29 +1,30 @@
 
 // IMPORT | EXPORT | GLOBAL VARIABLES
 import { gameSettings } from './code.js';
-import { gameAreaBorders } from './code.js';
+// import { gameAreaBorders } from './code.js';
 import { gameArea } from './code.js';
 import Paddle from './paddle.js';
 
 export const ballSet = {
-                            basket: {src: '🏀', size: 1.5, strength: 20, speed: 0.4},
-                            foot:   {src: '⚽', size: 1.5, strength: 20, speed: 0.4},
-                            rugby:  {src: '🏈', size: 1.5, strength: 15, speed: 0.5},
-                            tennis: {src: '🥎', size: 1.5, strength: 10, speed: 0.8},
-                            volley: {src: '🏐', size: 1.5, strength: 20, speed: 0.4}};
+                            basket: {src: '', size: 1.5, strength: 20, speed: 0.4},
+                            foot:   {src: '', size: 1.5, strength: 20, speed: 0.4},
+                            rugby:  {src: '', size: 1.5, strength: 15, speed: 0.5},
+                            tennis: {src: '', size: 1.5, strength: 10, speed: 0.8},
+                            volley: {src: '', size: 1.5, strength: 20, speed: 0.4}};
 
 // CLASS | BALL //
 export default class Ball {
 
-constructor(name, side, x, y) {
+constructor(name, side, x, y, gameAreaBorders) {
  
 this._name                  = name;
 this._side                  = side;             //left or right
 this._element               = this.createBall();
 this._x                     = x;
 this._y                     = y;
-this._vector                = { x: this.side == 'left' ? 1 : -1, y: this.side == 'right' ? 1 : -1 };
+this._vector                = { x: this.side == 'left' ? -1 : +1, y: 1 };
 this._strength              = ballSet[this.name].strength;
+this.gameAreaBorders = gameAreaBorders
 
 this.setPosition()
 }
@@ -44,7 +45,7 @@ set strength(num)           {this._strength = num;}
 
 createBall()                {const div = document.createElement('div');
                             div.classList.add('ball');
-                            div.classList.add(this.name);
+                            div.classList.add(this.side);
                             div.innerText = ballSet[this.name].src;
                             div.style.fontSize = `${ballSet[this.name].size}rem`;
                             gameArea.append(div);
@@ -56,17 +57,17 @@ move()                      {this.x += ballSet[this.name].speed * this.vector.x;
                             this.y += ballSet[this.name].speed * this.vector.y;
                             let ballBounding = this.element.getBoundingClientRect();
                             
-                            if (ballBounding.top <= gameAreaBorders.top) {this.vector.y = +1};
-                            if (ballBounding.bottom >= gameAreaBorders.bottom) {this.vector.y = -1};
+                            if (ballBounding.top <= this.gameAreaBorders.top) {this.vector.y = +1};
+                            if (ballBounding.bottom >= this.gameAreaBorders.bottom) {this.vector.y = -1};
                             
                             switch (this.side) {
                                 case 'left':
-                                    if (ballBounding.left <= gameAreaBorders.left) {this.element.remove(); gameSettings._opponents[this.side].isInPlay = false;}                             
-                                    if (ballBounding.right >= gameAreaBorders.right) {this.vector.x = -1};
+                                    if (ballBounding.left <= this.gameAreaBorders.left) {this.element.remove(); gameSettings._opponents[this.side].isInPlay = false;}                             
+                                    if (ballBounding.right >= this.gameAreaBorders.right) {this.vector.x = -1};
                                     break;
                                 case 'right':
-                                    if (ballBounding.left <= gameAreaBorders.left) {this.vector.x = +1;}
-                                    if (ballBounding.right >= gameAreaBorders.right) {this.element.remove(); gameSettings._opponents[this.side].isInPlay = false;};        
+                                    if (ballBounding.left <= this.gameAreaBorders.left) {this.vector.x = +1;}
+                                    if (ballBounding.right >= this.gameAreaBorders.right) {this.element.remove(); gameSettings._opponents[this.side].isInPlay = false;};        
                                     break;
                             };
 

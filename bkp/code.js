@@ -6,44 +6,30 @@ import Box, { Brick } from './brick.js'
 import { mapDiamond, mapFace, mapIsland } from './map.js'
 
 export const gameSettings = {
-    _gameBoard: {width: 80, height: 80},            // VW, VH CSS units //
+    _gameBoard: {width: 80, height: 80},  // VW, VH CSS units
     _gameMap: [],
     _paddle: {height: 12, width: 1.5, speed: 0.7},
     _opponents: {
-            left:   {score: 0, lives: 3, isInPlay: false, ballsInPlay: []},
-            right:  {score: 0, lives: 3, isInPlay: false, ballsInPlay: []}}
+            left:   {score: 0, lives: 5, isInPlay: false, ballsInPlay: []}, // FIX THIS AWFUL ARGUMENTATION AND SET THE BALLINPLAY AS A SINGLE KEY VALUE OBJECT
+            right:  {score: 0, lives: 5, isInPlay: false, ballsInPlay: []}} // FIX THIS AWFUL ARGUMENTATION AND SET THE BALLINPLAY AS A SINGLE KEY VALUE OBJECT
     };                                 
 
-export const gameArea = document.getElementById('gameArea'); // ADD addEventListener("resize", (event) => {}); TO KEEP GAME ZONE OK AND BALLS INSIDE WHILE RESIZING
-export const gameAreaBorders = gameArea.getBoundingClientRect();
+// DOM MAIN OBJECTS
+export const gameArea = document.getElementById('gameArea');        // ADD addEventListener("resize", (event) => {}); TO KEEP GAME ZONE OK AND BALLS INSIDE WHILE RESIZING
+let gameAreaBorders; 
 
+const mainMenu = document.getElementById('mainMenu');
+const dialogBox = document.getElementById('dialogBox');
 const scoreLeft = document.querySelector('.score.left');
 const scoreRight = document.querySelector('.score.right');
+const livesLeft = document.querySelector('.lives.left');
+const livesRight = document.querySelector('.lives.right');
 
-// GAME | OBJECT CREATION AND TESTING 
+// CLASS INSTANCES | PADDLE OBJECTS CREATION (INITITALLY FOR TESTING...) 
 const player1 = new Paddle("gabriel", 0, 37, 'left');
 const player2 = new Paddle("Diane", 78.5, 37, 'right');
 
-function loadMap(map) {
-
-    let rowInterval = gameSettings._gameBoard.width / map.length;
-    let columnInterval = gameSettings._gameBoard.height / map[0].length;
-
-    for (let row in map) {
-        for (let column in map[row]) {
-            switch (map[row][column]) {
-                case 'W': gameSettings._gameMap.push(new Box('wall', column * columnInterval, row * rowInterval, 100)); break;
-                case 'B': gameSettings._gameMap.push(new Brick('brick', column * columnInterval, row * rowInterval, 100)); break;
-                default: break;
-            };
-        };
-    };
-};
-
-loadMap(mapDiamond);
-console.table(gameSettings._gameMap);
-
-// KEYBOARD LISTENER | PADDLE CONTROLS
+// KEYBOARD LISTENERS | PADDLE CONTROLS
 const keyDown = document.addEventListener('keydown', keyDownHandler, false);
 function keyDownHandler(event) {
     switch (event.key) {
@@ -72,18 +58,39 @@ function keyUpHandler(event) {
     };
 };
 
+const gameLauncher = document.getElementById('gamelaunch');
+gameLauncher.addEventListener('click',game,false)
+
 // GAME LOGIC | FUNCTIONS
+
+function loadMap(map) {
+
+    let rowInterval = gameSettings._gameBoard.width / map.length;
+    let columnInterval = gameSettings._gameBoard.height / map[0].length;
+
+    for (let row in map) {
+        for (let column in map[row]) {
+            switch (map[row][column]) {
+                case 'W': gameSettings._gameMap.push(new Box('wall', column * columnInterval, row * rowInterval, 100)); break;
+                case 'B': gameSettings._gameMap.push(new Brick('brick', column * columnInterval, row * rowInterval, 100)); break;
+                default: break;
+            };
+        };
+    };
+};
 
 function getInPlay() {
 
     for (let player in gameSettings._opponents) {
-        if (gameSettings._opponents[player].lives > 0 && gameSettings._opponents[player].isInPlay == false) {
-                gameSettings._opponents[player].ballsInPlay.pop();
-                gameSettings._opponents[player].lives -- ;
-                gameSettings._opponents[player].isInPlay = true;
-                gameSettings._opponents[player].ballsInPlay.push(new Ball ('foot', player, 40, 0));
+        if (gameSettings._opponents[player].isInPlay == false) {
+            gameSettings._opponents[player].ballsInPlay.pop();
+            if (gameSettings._opponents[player].lives > 0) {gameSettings._opponents[player].lives -- ;
+                                                                gameSettings._opponents[player].isInPlay = true;
+                                                                gameSettings._opponents[player].ballsInPlay.push(new Ball ('foot', player, 40, 0, gameAreaBorders));
+            };
         };
     };
+    return Object.values(gameSettings._opponents).every(player => player.ballsInPlay.length === 0)
 };
 
 function moveBalls() {
@@ -100,12 +107,12 @@ function movePaddle(player) {
 };
 
 function BouncePaddle(ball, paddle) {
-
+    if (!ball) return
     let ballEdge = ball.element.getBoundingClientRect();
     let paddleEdge = paddle.element.getBoundingClientRect();
     let paddleSide = paddle.side;
 
-    // PADDLE CONTROL PARAMETERS TO MOVE UP
+    // PARAMETERS FOR CONTROLLING THE BALL WITH THE PADDLE
     let ballCenter = (ballEdge.top + ballEdge.bottom) / 2;
     let paddleCenter = (paddleEdge.top + paddleEdge.bottom) / 2;
     let radiusFactor = 1.5;
@@ -158,6 +165,7 @@ function collisionDetection (obstacle, ball) {
 };
 
 function hitAndScore(ball) {
+    if (!ball) return
 
 for (let i in gameSettings._gameMap)    {let block = gameSettings._gameMap[i];
                                         let test = collisionDetection(block, ball);
@@ -166,53 +174,81 @@ for (let i in gameSettings._gameMap)    {let block = gameSettings._gameMap[i];
                                         };
 };
 
-function displayScore() {
+function displayScoreAndLives() {
     
-    let stringify = (num) => {
+    let stringify = (num, nDigits) => {
+        let stringed = Math.min(Math.pow(10, nDigits) - 1, num).toString().split('').slice(0,nDigits);
+        for (let i = stringed.length ; i < nDigits ; i++) {stringed.unshift('0');};
+        return stringed.join('');}
 
-        let stringed = Math.min(9999, num).toString().split('').reverse().slice(0,4);
-           
-        let units = typeof stringed[0] != 'undefined' ? stringed[0] : stringed.push('0') ;
-        let tens = typeof stringed[1] != 'undefined' ? stringed[1] : stringed.push('0') ;
-        let hundreds = typeof stringed[2] != 'undefined' ? stringed[2] : stringed.push('0') ;
-        let thousands = typeof stringed[3] != 'undefined' ? stringed[3] : stringed.push('0') ;
-    
-    return stringed.reverse().join('');}
+    scoreLeft.innerText = '🪙' + stringify(gameSettings._opponents.left.score, 5);
+    scoreRight.innerText = stringify(gameSettings._opponents.right.score, 5) + '🪙';
 
-    scoreLeft.innerText = stringify(gameSettings._opponents.left.score);
-    scoreRight.innerText = stringify(gameSettings._opponents.right.score);
-
+    livesLeft.innerText = '❤️' + stringify(gameSettings._opponents.left.lives, 1);
+    livesRight.innerText = stringify(gameSettings._opponents.right.lives, 1) + '❤️';
 };
+
+function isGameInProgress() {
+
+    return ((gameSettings._opponents.left.lives !== 0 && gameSettings._opponents.left.ballsInPlay.length > 0)
+            ||
+            (gameSettings._opponents.right.lives !== 0 && gameSettings._opponents.right.ballsInPlay.length > 0));
+};
+
+function gameOver() {
+
+    let winnerSide = gameSettings._opponents.left.score > gameSettings._opponents.right.score ? 'Left' : 'Right';
+    dialogBox.querySelectorAll('p')[0].innerText = `${winnerSide} player wins, Terrific!`;
+    dialogBox.querySelectorAll('p')[1].innerText = `Click to return`;
+
+    gameArea.classList.add('fade-out');
+
+    setTimeout(() => {gameArea.innerHTML = "";
+                      dialogBox.classList.add('appear')}, 4000);
+
+    dialogBox.addEventListener('click', () => {dialogBox.classList.remove('appear');
+                                                 mainMenu.classList.add('appear');})
+;};
+
+function game() {
+
+mainMenu.classList.add('hidden');
+
+gameArea.classList.remove('hidden');
+gameAreaBorders = gameArea.getBoundingClientRect()
+
+loadMap(mapDiamond);
+console.table(gameSettings._gameMap);
+
+renderGame();
+
+}
 
 // GAME | RENDERING 
 function renderGame() {
 
-getInPlay();
 
-//for (let player in gameSettings._opponents) {console.log(player, gameSettings._opponents[player].lives);};
+
+const noBallsLeft = getInPlay();
+if (noBallsLeft) {
+    return gameOver()
+}
 
 movePaddle(player1);
 movePaddle(player2);
-
-BouncePaddle(gameSettings._opponents.left.ballsInPlay[0], player1);
-BouncePaddle(gameSettings._opponents.right.ballsInPlay[0], player2);
-
+BouncePaddle(gameSettings._opponents.left.ballsInPlay[0], player1); // FIX THIS AWFUL ARGUMENTATION AND SET THE BALLINPLAY AS A SINGLE KEY VALUE OBJECT
+BouncePaddle(gameSettings._opponents.right.ballsInPlay[0], player2); // FIX THIS AWFUL ARGUMENTATION AND SET THE BALLINPLAY AS A SINGLE KEY VALUE OBJECT
 moveBalls();
 
-hitAndScore(gameSettings._opponents.left.ballsInPlay[0]);
-hitAndScore(gameSettings._opponents.right.ballsInPlay[0]);
+hitAndScore(gameSettings._opponents.left.ballsInPlay[0]); // FIX THIS AWFUL ARGUMENTATION AND SET THE BALLINPLAY AS A SINGLE KEY VALUE OBJECT
+hitAndScore(gameSettings._opponents.right.ballsInPlay[0]); // FIX THIS AWFUL ARGUMENTATION AND SET THE BALLINPLAY AS A SINGLE KEY VALUE OBJECT
+displayScoreAndLives();
 
-displayScore();
-
-if      ((gameSettings._opponents.left.lives !== 0 && gameSettings._opponents.left.ballsInPlay.length > 0)
-        ||
-        (gameSettings._opponents.right.lives !== 0 && gameSettings._opponents.right.ballsInPlay.length > 0))
-        
-        {requestAnimationFrame(renderGame);}
-
-else    {console.log(`game over!!`)};
+if (isGameInProgress()) {requestAnimationFrame(renderGame)}
+else {gameOver(); console.log(`Good Game!`)};
 
 };
 
 // GAME | LAUNCH
-renderGame();
+//renderGame();
+//gameOver();

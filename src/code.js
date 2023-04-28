@@ -204,10 +204,11 @@ function gameOver() {
     gameArea.classList.add('fade-out');
 
     setTimeout(() => {gameArea.innerHTML = "";
-                      dialogBox.classList.add('appear')}, 4000);
+                      dialogBox.classList.add('appear');gameArea.classList.add('hidden');}, 4000);
 
     dialogBox.addEventListener('click', () => {dialogBox.classList.remove('appear');
-                                                 mainMenu.classList.add('appear');})
+                                                mainMenu.classList.remove('hidden');
+                                                mainMenu.classList.add('appear');})
 ;};
 
 function game() {
@@ -226,8 +227,6 @@ renderGame();
 
 // GAME | RENDERING 
 function renderGame() {
-
-
 
 const noBallsLeft = getInPlay();
 if (noBallsLeft) {
