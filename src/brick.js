@@ -1,7 +1,7 @@
 
 // IMPORT | EXPORT | GLOBAL VARIABLES
 import { gameSettings } from './code.js';
-import { gameAreaBorders } from './code.js';
+// import { gameAreaBorders } from './code.js';
 import { gameArea } from './code.js';
 import Paddle from './paddle.js';
 

@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Melka & Cie Technologies">
     <meta name="description" content="Gaming Project">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
     <script src="./src/code.js" type="module"></script>
     <title>Crazy Breakout Mayhem</title>
@@ -16,25 +19,32 @@
     
     <!-- HEADER | SCORING SECTION -->
     <header>
-        <!-- SECTION | PLAYER 1 STATS -->
         <section>
             <div><p>Player 1</p></div>
-            <div><p>❤️ 01</p></div>
-            <div><p class="score left">🪙 000</p></div>
+            <div><p class = "lives left"></p></div>
+            <div><p class = "score left"></p></div>
         </section>
-        <!-- SECTION | PLAYER 2 STATS -->
         <section>
-            <div><p class= "score right">🪙 000</p></div>
-            <div><p>❤️ 04</p></div>
+            <div><p class = "score right"></p></div>
+            <div><p class = "lives right"></p></div>
             <div><p>Player 2</p></div>
         </section> 
     </header>
 
-    <!-- NAV | GAME SCREEN -->
+    <!-- NAV | PLAYING ZONE -->
     <nav>
-        <!-- MAIN | GAME SCREEN -->
-        <main id="gameArea">
-        </main>
+        <div id="dialogBox">
+            <p></p>
+            <p></p>
+        </div>
+        <section  id="mainMenu">
+            <div>
+                <p id="gamelaunch">Play a game</p>
+                <p>Rules</p>
+                <p>Credits</p>
+            </div>
+            </section>
+        <main id="gameArea" class="hidden"></main>
     </nav>
 
     <!-- FOOTER | ADDITIONAL FEATURES -->

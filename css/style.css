@@ -7,6 +7,7 @@
     margin: 0;
     padding: 0;
     background-color: whitesmoke;
+    font-family: 'Roboto Condensed', sans-serif;
 }
 
 header {
@@ -16,29 +17,95 @@ header {
     padding: 1rem;
 }
 
-section div {
+header section div {
     display: inline-block;
     margin: 0 1rem 0 auto;
 }
 
-header p {
+p {
     color: navy;
-    font-size: 2em;
+    font-size: 3em;
+    margin: 0;
+    padding: 1vw 1vh;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+#mainMenu {
+    border: 2px solid lightblue;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 60vw;
+
+}
+
+#maiMenu div {
+    padding: 1vw 1vh;
+
+}
+
+#mainMenu p {
+    color: navy;
+    font-size: 3em;
+    margin: 0 auto;
+    padding: 1vw 1vh;
+    text-align: left;
 }
 
 #gameArea {
-
-    border: 1px solid lightgray;  
-  /*border-image-slice: 1;
-    border-image-source: linear-gradient(90deg, brown, orange, 30%, navy 50%, orange 70%, lightblue);
-    border-width: 0.7rem;*/
-    border-left: 0;
-    border-right: 0;
+    border-top: 1px solid lightgray;  
+    border-left: 3px dashed rgb(239, 243, 10);
+    border-right: 3px dashed rgb(32, 41, 161);
     height: 80vh;
-    margin: 2rem auto;
+    margin: 2vh auto;
     position: relative;
     width: 80vw;
 }
+
+#dialogBox {
+    border: 1px solid lightgray;
+    border-radius: 1vh;;
+    box-shadow: 0 0 1rem darkgray;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    text-align: center;
+    padding: 5vw 5vh;
+}
+
+#dialogBox p {
+    font-size: 2rem;
+    padding: 1vw 1vh;
+}
+#gamelaunch {
+    cursor: pointer;
+}
+
+.appear {
+    display: block;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.fade-in {
+	animation: fade-in 1.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+}
+@keyframes fade-in{0%{opacity:0}100%{opacity:1}}
+
+.fade-out {
+	animation: fade-out 2s ease-out 2s both;
+}
+@keyframes fade-out{0%{opacity:1}100%{opacity:0}}
 
 .paddle {
     border-radius: 0.2rem;
@@ -49,15 +116,15 @@ header p {
 }
 
 .paddle.left {
-    background-color: darkcyan;
+    background-color: rgb(239, 243, 10);
     top: 37vh;
     left: 0vw;
 }
 
 .paddle.right {
-    background-color: darkred;
+    background-color: rgb(32, 41, 161);
     top: 37vh;
-    left: 79vw;
+    left: 78.5vw;
 }
 
 .ball {
@@ -65,12 +132,20 @@ header p {
     position: absolute;
     width: 2vw;
     aspect-ratio: 1;
-    animation: rotation 1.5s linear infinite reverse none;
+    animation: rotation 2.0s linear infinite reverse none;
 }
 @keyframes rotation { to { transform: rotate(360deg); } }
 
+.ball.left {
+    background-color: rgb(239, 243, 10);
+}
+
+.ball.right {
+    background-color: rgb(32, 41, 161);
+}
+
 .wall {
-    background-color: #2f4f4f;
+    background-color: #0e0230;
     border: white solid 1px;            /***** border thickness set as a px value ******/
     border-radius: 0.5vw;
     position: absolute;
@@ -82,4 +157,7 @@ header p {
     position: absolute;
 }
 
+footer {
+    border-top: 1px solid lightblue;
 
+}
