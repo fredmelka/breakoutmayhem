@@ -24,9 +24,9 @@ header section div {
 
 p {
     color: navy;
-    font-size: 3em;
+    font-size: 5vh;
     margin: 0;
-    padding: 1vw 1vh;
+    padding: 0vw 1vh;
 }
 
 nav {
@@ -60,7 +60,6 @@ nav {
 }
 
 #gameArea {
-    border-top: 1px solid lightgray;  
     border-left: 3px dashed rgb(239, 243, 10);
     border-right: 3px dashed rgb(32, 41, 161);
     height: 80vh;
