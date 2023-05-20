@@ -5,18 +5,24 @@ import Ball, { ballSet } from './ball.js';
 import Box, { Brick } from './brick.js'
 import { mapDiamond, mapFace, mapIsland } from './map.js'
 
+
+// GAME | SETTINGS SINGLETON 
 export const gameSettings = {
     _gameBoard: {width: 80, height: 80},  // VW, VH CSS units
     _gameMap: [],
+    _ballPerRound: 5,
     _paddle: {height: 12, width: 1.5, speed: 0.7},
     _opponents: {
-            left:   {score: 0, lives: 5, isInPlay: false, ballsInPlay: []}, // FIX THIS AWFUL ARGUMENTATION AND SET THE BALLINPLAY AS A SINGLE KEY VALUE OBJECT
-            right:  {score: 0, lives: 5, isInPlay: false, ballsInPlay: []}} // FIX THIS AWFUL ARGUMENTATION AND SET THE BALLINPLAY AS A SINGLE KEY VALUE OBJECT
-    };                                 
-
+        left:   {score: 0, lives: 5, isInPlay: false, ballsInPlay: []}, // BALLS IN PLAY IS SET AS AN ARRAY IN CASE WE WANT TO IN PLAY PUT MULTIPLE BALLS PER PLAYER
+        right:  {score: 0, lives: 5, isInPlay: false, ballsInPlay: []}} // BALLS IN PLAY IS SET AS AN ARRAY IN CASE WE WANT TO IN PLAY PUT MULTIPLE BALLS PER PLAYER
+};                                 
+    
+let gameAreaBorders;
+let player1;
+let player2;
+    
 // DOM MAIN OBJECTS
 export const gameArea = document.getElementById('gameArea');        // ADD addEventListener("resize", (event) => {}); TO KEEP GAME ZONE OK AND BALLS INSIDE WHILE RESIZING
-let gameAreaBorders; 
 
 const mainMenu = document.getElementById('mainMenu');
 const dialogBox = document.getElementById('dialogBox');
@@ -25,22 +31,22 @@ const scoreRight = document.querySelector('.score.right');
 const livesLeft = document.querySelector('.lives.left');
 const livesRight = document.querySelector('.lives.right');
 
-// CLASS INSTANCES | PADDLE OBJECTS CREATION (INITITALLY FOR TESTING...) 
-const player1 = new Paddle("gabriel", 0, 37, 'left');
-const player2 = new Paddle("Diane", 78.5, 37, 'right');
+const gameLauncher = document.getElementById('gamelaunch');
+gameLauncher.addEventListener('click', game, false)
 
-// KEYBOARD LISTENERS | PADDLE CONTROLS
+
+// PADDLE CONTROLS | KEYBOARD LISTENERS AND MOBILE CONTROLS
 const keyDown = document.addEventListener('keydown', keyDownHandler, false);
 function keyDownHandler(event) {
     switch (event.key) {
-        case 'q':
-        case 'Q': player1.upPressed = true; break;                   // !!!! fix the hard code of the player designation
-        case 'w':
-        case 'W': player1.downPressed = true; break;                 // !!!! fix the hard code of the player designation
-        case 'Up':
-        case'ArrowUp': player2.upPressed = true; break;              // !!!! fix the hard code of the player designation
-        case 'Down':
-        case 'ArrowDown': player2.downPressed = true; break;         // !!!! fix the hard code of the player designation
+    case 'q':
+    case 'Q': player1.upPressed = true; break;                   // !!!! fix the hard code of the player designation
+    case 'w':
+    case 'W': player1.downPressed = true; break;                 // !!!! fix the hard code of the player designation
+    case 'Up':
+    case'ArrowUp': player2.upPressed = true; break;              // !!!! fix the hard code of the player designation
+    case 'Down':
+    case 'ArrowDown': player2.downPressed = true; break;         // !!!! fix the hard code of the player designation
     };
 };
 
@@ -58,11 +64,8 @@ function keyUpHandler(event) {
     };
 };
 
-const gameLauncher = document.getElementById('gamelaunch');
-gameLauncher.addEventListener('click',game,false)
 
-// GAME LOGIC | FUNCTIONS
-
+// MAP | MAP BUILDING
 function loadMap(map) {
 
     let rowInterval = gameSettings._gameBoard.width / map.length;
@@ -79,6 +82,8 @@ function loadMap(map) {
     };
 };
 
+
+// GAME | PLACE NEW BALLS IN PLAY UNTIL NO MORE PLAYERS HAS LIVES
 function getInPlay() {
 
     for (let player in gameSettings._opponents) {
@@ -93,12 +98,16 @@ function getInPlay() {
     return Object.values(gameSettings._opponents).every(player => player.ballsInPlay.length === 0)
 };
 
+
+// BALL | MOVE BALLS IN GAME AREA
 function moveBalls() {
     for (let player in gameSettings._opponents) {
         for (let ball of gameSettings._opponents[player].ballsInPlay) {ball.move();}
     };
 };
 
+
+// PADDLE | MOVE PADDLES
 function movePaddle(player) {
 
     if (player.upPressed) {player.moveUp();};
@@ -106,6 +115,8 @@ function movePaddle(player) {
     player.setPosition();
 };
 
+
+// BALL AND PADDLE | BOUNCING AND BALL CONTROL WITH THE PADDLE
 function BouncePaddle(ball, paddle) {
     if (!ball) return
     let ballEdge = ball.element.getBoundingClientRect();
@@ -133,68 +144,78 @@ function BouncePaddle(ball, paddle) {
     };
 }; 
 
+
+// BALL | COLLISION AND BOUNCING MANAGEMENT
 function collisionDetection (obstacle, ball) {
 
-        let ballEdge = ball.element.getBoundingClientRect();
-        let obstacleEdge = obstacle.element.getBoundingClientRect();
+    let ballEdge = ball.element.getBoundingClientRect();
+    let obstacleEdge = obstacle.element.getBoundingClientRect();
 
-        let randomBouncing = Math.random() * 1 - 0.5;
+    let randomBouncing = Math.random() * 1 - 0.5;
 
-        let isInX =
-                ballEdge.left < obstacleEdge.right &&
-                ballEdge.right > obstacleEdge.left;
-        let isInY = 
-                ballEdge.bottom > obstacleEdge.top &&
-                ballEdge.top < obstacleEdge.bottom;
+    let isInX =
+            ballEdge.left < obstacleEdge.right &&
+            ballEdge.right > obstacleEdge.left;
 
-        if (isInX && isInY) {
+    let isInY = 
+            ballEdge.bottom > obstacleEdge.top &&
+            ballEdge.top < obstacleEdge.bottom;
 
-            if (ballEdge.top > ballEdge.left) {
+    if (isInX && isInY) {
 
-                if (ballEdge.left < obstacleEdge.left)      {ball.vector.x = -1 + randomBouncing;}
-                else                                        {ball.vector.x = +1 + randomBouncing;};
-                }
+        if (ballEdge.top > ballEdge.left) {
 
+            if (ballEdge.left < obstacleEdge.left)      {ball.vector.x = -1 + randomBouncing;}
+            else                                        {ball.vector.x = +1 + randomBouncing;};
+        }
         else {
                 if (ballEdge.bottom > obstacleEdge.bottom)  {ball.vector.y = +1 + randomBouncing;}
                 else                                        {ball.vector.y = -1 + randomBouncing;};
-                };
-        }   ;
+        };
+    };
 
-        return (isInX && isInY);
+    return (isInX && isInY);
 };
 
-function hitAndScore(ball) {
-    if (!ball) return
 
-for (let i in gameSettings._gameMap)    {let block = gameSettings._gameMap[i];
-                                        let test = collisionDetection(block, ball);
+// BALL | SCORING
+function hitAndScore(ball) {
+    
+    if (!ball) {return}
+    for (let i in gameSettings._gameMap)    {let block = gameSettings._gameMap[i];
+                                            let test = collisionDetection(block, ball);
                                             if (test && block.name == 'brick')  {gameSettings._opponents[ball.side].score += block.receiveDamage(ball.strength);};
                                             if (block.energyPoints <= 0)        {gameSettings._gameMap.splice(i,1);}
-                                        };
+    };
 };
 
+
+// HEADER | SCORING DISPLAY
 function displayScoreAndLives() {
     
     let stringify = (num, nDigits) => {
-        let stringed = Math.min(Math.pow(10, nDigits) - 1, num).toString().split('').slice(0,nDigits);
+        let stringed = Math.min(Math.pow(10, nDigits) - 1, num).toString().split('').slice(0, nDigits);
         for (let i = stringed.length ; i < nDigits ; i++) {stringed.unshift('0');};
         return stringed.join('');}
 
-    scoreLeft.innerText = '🪙' + stringify(gameSettings._opponents.left.score, 5);
-    scoreRight.innerText = stringify(gameSettings._opponents.right.score, 5) + '🪙';
+    scoreLeft.innerText = '🪙 ' + stringify(gameSettings._opponents.left.score, 5);
+    scoreRight.innerText = stringify(gameSettings._opponents.right.score, 5) + ' 🪙';
 
-    livesLeft.innerText = '❤️' + stringify(gameSettings._opponents.left.lives, 1);
-    livesRight.innerText = stringify(gameSettings._opponents.right.lives, 1) + '❤️';
+    livesLeft.innerText = '❤️ ' + stringify(gameSettings._opponents.left.lives, 1);
+    livesRight.innerText = stringify(gameSettings._opponents.right.lives, 1) + ' ❤️';
 };
 
+
+// GAME | CONTROL FOR GAME PROGRESS
 function isGameInProgress() {
 
-    return ((gameSettings._opponents.left.lives !== 0 && gameSettings._opponents.left.ballsInPlay.length > 0)
+    return ((gameSettings._opponents.left.lives !== 0 || gameSettings._opponents.left.ballsInPlay.length > 0)
             ||
-            (gameSettings._opponents.right.lives !== 0 && gameSettings._opponents.right.ballsInPlay.length > 0));
+            (gameSettings._opponents.right.lives !== 0 || gameSettings._opponents.right.ballsInPlay.length > 0));
 };
 
+
+// GAME | TERMINATE GAME
 function gameOver() {
 
     let winnerSide = gameSettings._opponents.left.score > gameSettings._opponents.right.score ? 'Left' : 'Right';
@@ -202,52 +223,62 @@ function gameOver() {
     dialogBox.querySelectorAll('p')[1].innerText = `Click to return`;
 
     gameArea.classList.add('fade-out');
+    gameSettings._gameMap = [];
 
-    setTimeout(() => {gameArea.innerHTML = "";
-                      dialogBox.classList.add('appear');gameArea.classList.add('hidden');}, 4000);
+    setTimeout(() => {gameArea.innerHTML = '';
+                      dialogBox.classList.add('appear');
+                      gameArea.classList.add('hidden');}, 4000);
 
     dialogBox.addEventListener('click', () => {dialogBox.classList.remove('appear');
                                                 mainMenu.classList.remove('hidden');
                                                 mainMenu.classList.add('appear');})
 ;};
 
+
+// GAME | NEW GAME LAUNCH 
 function game() {
 
-mainMenu.classList.add('hidden');
+    console.log('Setting new game..')
+    for (let player in gameSettings._opponents) {
+        gameSettings._opponents[player].lives = gameSettings._ballPerRound;
+        gameSettings._opponents[player].isInPlay = false;
+        gameSettings._opponents[player].score = 0;
+    };
 
-gameArea.classList.remove('hidden');
-gameAreaBorders = gameArea.getBoundingClientRect()
+    mainMenu.classList.add('hidden');
+    gameArea.classList.remove('hidden');
+    gameArea.classList.remove('fade-out'); gameArea.classList.add('fade-in');
 
-loadMap(mapDiamond);
-console.table(gameSettings._gameMap);
+    gameAreaBorders = gameArea.getBoundingClientRect();
 
-renderGame();
+    // CLASS NEW INSTANCES | PADDLE OBJECTS CREATION 
+    player1 = new Paddle("gabriel", 0, 37, 'left');
+    player2 = new Paddle("Diane", 78.5, 37, 'right');
 
-}
+    loadMap(mapDiamond);
+    console.table(gameSettings._gameMap);
 
-// GAME | RENDERING 
-function renderGame() {
-
-const noBallsLeft = getInPlay();
-if (noBallsLeft) {
-    return gameOver()
-}
-
-movePaddle(player1);
-movePaddle(player2);
-BouncePaddle(gameSettings._opponents.left.ballsInPlay[0], player1); // FIX THIS AWFUL ARGUMENTATION AND SET THE BALLINPLAY AS A SINGLE KEY VALUE OBJECT
-BouncePaddle(gameSettings._opponents.right.ballsInPlay[0], player2); // FIX THIS AWFUL ARGUMENTATION AND SET THE BALLINPLAY AS A SINGLE KEY VALUE OBJECT
-moveBalls();
-
-hitAndScore(gameSettings._opponents.left.ballsInPlay[0]); // FIX THIS AWFUL ARGUMENTATION AND SET THE BALLINPLAY AS A SINGLE KEY VALUE OBJECT
-hitAndScore(gameSettings._opponents.right.ballsInPlay[0]); // FIX THIS AWFUL ARGUMENTATION AND SET THE BALLINPLAY AS A SINGLE KEY VALUE OBJECT
-displayScoreAndLives();
-
-if (isGameInProgress()) {requestAnimationFrame(renderGame)}
-else {gameOver(); console.log(`Good Game!`)};
-
+    renderGame();
 };
 
-// GAME | LAUNCH
-//renderGame();
-//gameOver();
+
+// GAME | GAME PLAY RENDERING
+function renderGame() {
+
+    let noBallsLeft = getInPlay();
+    if (noBallsLeft) {return gameOver()};
+
+    movePaddle(player1);
+    movePaddle(player2);
+    BouncePaddle(gameSettings._opponents.left.ballsInPlay[0], player1); // BALLS IN PLAY IS AN ARRAY IN CASE WE WANT TO SET GAME WITH MULTIPLES BALL PER PLAYER
+    BouncePaddle(gameSettings._opponents.right.ballsInPlay[0], player2);
+    moveBalls();
+
+    hitAndScore(gameSettings._opponents.left.ballsInPlay[0]);
+    hitAndScore(gameSettings._opponents.right.ballsInPlay[0]);
+    displayScoreAndLives();
+
+    if (isGameInProgress()) {requestAnimationFrame(renderGame)}
+    else {gameOver(); console.log(`Good Game!`)};
+
+};

@@ -16,11 +16,11 @@ Two players battle with a paddle to control their balls and destroy as much bric
 
 ## How to run the game
 
-Please click the link: https://fredmelka.github.io/ironhack-gaming-project-exercise/
+Please click the link: https://fredmelka.github.io/ironhack-gaming-project-breakout/
 
 Or, simply scan the QR code:
 
-<img src='./img/qrcode.png' width = '250px' height = '250px' alt='App QR Code" />
+<img src='https://fredmelka.github.io/ironhack-gaming-project-breakout/img/qrcode.png' width = '250px' height = '250px' alt='App QR Code" />
 
 ## How to play the game
 

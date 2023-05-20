@@ -7,7 +7,7 @@
     margin: 0;
     padding: 0;
     background-color: whitesmoke;
-    font-family: 'Roboto Condensed', sans-serif;
+    font-family: 'Ubuntu Condensed', sans-serif;
 }
 
 header {
@@ -25,8 +25,6 @@ header section div {
 p {
     color: navy;
     font-size: 5vh;
-    margin: 0;
-    padding: 0vw 1vh;
 }
 
 nav {
@@ -36,26 +34,25 @@ nav {
     height: 80vh;
 }
 
-#mainMenu {
+/* #mainMenu {
     border: 2px solid lightblue;
-    display: flex;
+    border-radius: 1vh;
+    box-shadow: 0 0 1vh darkgray;
+    display: block;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 60vw;
-
-}
+    width: 70vw;
+} */
 
 #maiMenu div {
-    padding: 1vw 1vh;
+    padding: 1vh 1vw;
 
 }
 
 #mainMenu p {
-    color: navy;
-    font-size: 3em;
     margin: 0 auto;
-    padding: 1vw 1vh;
+    padding: 1vh 1vw;
     text-align: center;
 }
 
@@ -69,9 +66,9 @@ nav {
 }
 
 #dialogBox {
-    border: 1px solid lightgray;
+    border: 2px solid lightgray;
     border-radius: 1vh;;
-    box-shadow: 0 0 1rem darkgray;
+    box-shadow: 0 0 1vh darkgray;
     display: none;
     flex-direction: column;
     align-items: center;
@@ -81,10 +78,21 @@ nav {
 
 #dialogBox p {
     font-size: 2rem;
-    padding: 1vw 1vh;
+    padding: 1vh 1vw;
 }
+
 #gamelaunch {
     cursor: pointer;
+    color: red;
+    font-weight: bold;
+    line-height: 5vh;;
+    animation: pulse 3s ease-in-out infinite;
+}
+@keyframes pulse{50%{font-size:5.5vh;}}
+
+#title {
+    font-size: 5rem;
+    font-weight: bold;
 }
 
 .appear {
@@ -107,7 +115,7 @@ nav {
 
 .paddle {
     border-radius: 0.2rem;
-    box-shadow: 0 0 0.2rem white, inset 0 0 0.2rem white;
+    box-shadow: 0 0 0.2vh white, inset 0 0 0.5vh lightgray;
     height: 6vh;
     position: absolute;
     width: 1vw;    
@@ -127,6 +135,7 @@ nav {
 
 .ball {
     border-radius: 1vw;
+    box-shadow: inset 0 0 1vh ghostwhite;
     position: absolute;
     width: 2vw;
     aspect-ratio: 1;
@@ -151,6 +160,7 @@ nav {
 
 .brick {
     border: white solid 1px;            /***** border thickness set as a px value ******/
+    box-shadow: inset 0 0 0.5vh black;
     border-radius: 0.5vw;
     position: absolute;
 }
