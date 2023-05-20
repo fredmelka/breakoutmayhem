@@ -1,4 +1,8 @@
 
+// Currently map sizings are set as 20x20 units ;
+// This can be changed and updated via the Singleton of parameters in order to make box sizes smaller or bigger and maps look different ;
+// Use mapmaker .xls file to design quickly a new game map. 
+
 export const mapDiamond = [
     ['0','0','0','B','B','B','B','B','0','0','0','0','B','B','B','B','B','0','0','0',],
     ['0','0','0','0','B','B','B','0','0','0','0','0','0','B','B','B','0','0','0','0',],
@@ -20,7 +24,6 @@ export const mapDiamond = [
     ['0','0','0','0','0','B','0','0','0','0','0','0','0','0','B','0','0','0','0','0',],
     ['0','0','0','0','B','B','B','0','0','0','0','0','0','B','B','B','0','0','0','0',],
     ['0','0','0','B','B','B','B','B','0','0','0','0','B','B','B','B','B','0','0','0',],
-
 ];
 
 export const mapFace = [
