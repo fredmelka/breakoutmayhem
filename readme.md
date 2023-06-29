@@ -1,13 +1,13 @@
 
 # _Crazy Breakout Mayhem Game_
-#
+
 
 ## About the project
 
 
  This repository is the first coding project built entirely from the ground-up in the course of my Web Development formation.
 
- Its purpose is to practice and rehearse concepts and languages.
+ Its purpose is to practice and rehearse coding concepts and programming languages.
 
  Project specification was to develop a game app.
  
@@ -43,9 +43,9 @@ Mobile controllers:
 
 Most settings can be modified through a singleton object, including: game speed, ball controls, number of lives, ball strength, brick sizes, etc.
 
-Players can create and edit their own gamemaps via a .xls file attached: layout, bricks, walls, brick sizes, etc.
+Developers can also create and edit their own gamemaps via a '.xls' file attached to the github repository: layout, bricks, walls, brick sizes, etc.
 
-Coming updates of the project will likely include animations, candies released, single player mode, and more surprises!
+Coming updates of the project will likely include sounds, menu animations, candies released, and more surprises!
 
 
 ## Tools used in the project
@@ -55,4 +55,4 @@ Coming updates of the project will likely include animations, candies released, 
 - Concepts: DOM manipulation, functions & callbacks, arrays & iterators, objects, asynchronous programming, classes, modules, responsive design, external libraries.
 
 
-Thanks for your attention and Happy Gaming !
+Thanks for your attention and Happy Gaming !.
