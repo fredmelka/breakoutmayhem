@@ -20,7 +20,7 @@ Please click the link: https://fredmelka.github.io/ironhack-gaming-project-break
 
 Or, simply scan the QR code:
 
-<img src='https://fredmelka.github.io/ironhack-gaming-project-breakout/img/qrcode.png' width = '250px' height = '250px' alt='App QR Code" />
+<img src="https://fredmelka.github.io/ironhack-gaming-project-breakout/img/qrcode.png" width = "250px" height = "250px" alt="App QR Code" />
 
 ## How to play the game
 
