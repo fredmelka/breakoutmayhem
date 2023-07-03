@@ -1,15 +1,16 @@
 
 // IMPORT | EXPORT | GLOBAL VARIABLES
 import Paddle from './paddle.js';
-import Ball, { ballSet } from './ball.js';
-import Box, { Brick } from './brick.js'
-import { mapDiamond, mapFace, mapIsland } from './map.js'
+import Ball from './ball.js';
+import Box, { Brick } from './brick.js';
+import { mapDiamond, mapFace, mapIsland } from './map.js';;
 
 
 // GAME | SETTINGS SINGLETON 
 export const gameSettings = {
     _gameBoard: {width: 80, height: 80},  // expressed as {vw,vh} CSS units
     _gameMap: [],
+    _ballSet: {src: '', size: 1.5, strength: 20, speed: 0.4}, // src is there in case we want to render the ball using either an emoji or an image
     _ballPerRound: 5,
     _paddle: {height: 12, width: 1.5, speed: 0.7},
     _opponents: {
@@ -18,6 +19,7 @@ export const gameSettings = {
 };
 
 let gameAreaBorders, player1, player2;
+
     
 // DOM MAIN OBJECTS
 export const gameArea = document.getElementById('gameArea');        // ADD addEventListener("resize", (event) => {}); TO KEEP GAME ZONE OK AND BALLS INSIDE WHILE RESIZING
@@ -93,7 +95,7 @@ function getInPlay() {
                                 
                     gameSettings._opponents[player].lives -- ;
                     gameSettings._opponents[player].isInPlay = true;
-                    gameSettings._opponents[player].ballsInPlay.push(new Ball ('foot', player, 40, 0, gameAreaBorders));
+                    gameSettings._opponents[player].ballsInPlay.push(new Ball (player, 40, 0, gameAreaBorders));
 
                     document.querySelector('#new-ball').play();
                                                             
@@ -128,7 +130,6 @@ function BouncePaddle(ball, paddle) {
 
     let ballEdge = ball.element.getBoundingClientRect();
     let paddleEdge = paddle.element.getBoundingClientRect();
-    let paddleSide = paddle.side;
 
     // PARAMETERS FOR CONTROLLING THE BALL WITH THE PADDLE
     let ballCenter = (ballEdge.top + ballEdge.bottom) / 2;
@@ -136,7 +137,7 @@ function BouncePaddle(ball, paddle) {
     let radiusFactor = 1.5;
     let bounceAngle = Math.floor(10 * radiusFactor * Math.max(-1, Math.min((ballCenter - paddleCenter) * 2 / paddleEdge.height, 1))) / 10;
     
-    switch (paddleSide) {
+    switch (paddle.side) {
     case 'left':
         if (ballEdge.left < paddleEdge.right &&
             ballEdge.bottom > paddleEdge.top &&
@@ -279,8 +280,13 @@ function renderGame() {
 
     movePaddle(player1);
     movePaddle(player2);
+    
     BouncePaddle(gameSettings._opponents.left.ballsInPlay[0], player1); // BALLS IN PLAY IS AN ARRAY IN CASE WE WANT TO SET GAME WITH MULTIPLES BALL PER PLAYER
     BouncePaddle(gameSettings._opponents.right.ballsInPlay[0], player2);
+
+    BouncePaddle(gameSettings._opponents.left.ballsInPlay[0], player2); // BALLS IN PLAY IS AN ARRAY IN CASE WE WANT TO SET GAME WITH MULTIPLES BALL PER PLAYER
+    BouncePaddle(gameSettings._opponents.right.ballsInPlay[0], player1);
+
     moveBalls();
 
     hitAndScore(gameSettings._opponents.left.ballsInPlay[0]);
