@@ -2,7 +2,6 @@
 // IMPORT | EXPORT | GLOBAL VARIABLES
 import { gameSettings } from './code.js';
 import { gameArea } from './code.js';
-import Paddle from './paddle.js';
 
 export const ballSet = {
                             basket: {src: '', size: 1.5, strength: 20, speed: 0.4},

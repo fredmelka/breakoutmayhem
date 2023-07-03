@@ -85,11 +85,18 @@ function loadMap(map) {
 function getInPlay() {
 
     for (let player in gameSettings._opponents) {
+
         if (gameSettings._opponents[player].isInPlay == false) {
             gameSettings._opponents[player].ballsInPlay.pop();
-            if (gameSettings._opponents[player].lives > 0) {gameSettings._opponents[player].lives -- ;
-                                                                gameSettings._opponents[player].isInPlay = true;
-                                                                gameSettings._opponents[player].ballsInPlay.push(new Ball ('foot', player, 40, 0, gameAreaBorders));
+
+            if (gameSettings._opponents[player].lives > 0) {
+                                
+                    gameSettings._opponents[player].lives -- ;
+                    gameSettings._opponents[player].isInPlay = true;
+                    gameSettings._opponents[player].ballsInPlay.push(new Ball ('foot', player, 40, 0, gameAreaBorders));
+
+                    document.querySelector('#new-ball').play();
+                                                            
             };
         };
     };
@@ -116,7 +123,9 @@ function movePaddle(player) {
 
 // BALL AND PADDLE | BOUNCING AND BALL CONTROL WITH THE PADDLE
 function BouncePaddle(ball, paddle) {
-    if (!ball) return
+
+    if (!ball) {return};
+
     let ballEdge = ball.element.getBoundingClientRect();
     let paddleEdge = paddle.element.getBoundingClientRect();
     let paddleSide = paddle.side;
@@ -216,11 +225,11 @@ function isGameInProgress() {
 // GAME | TERMINATE GAME
 function gameOver() {
 
-    let winnerSide = gameSettings._opponents.left.score > gameSettings._opponents.right.score ? 'Left' : 'Right';
-    dialogBox.querySelectorAll('p')[0].innerText = `${winnerSide} player wins, Terrific!`;
+    let winner = gameSettings._opponents.left.score > gameSettings._opponents.right.score ? 'Left' : 'Right';
+    dialogBox.querySelectorAll('p')[0].innerText = `${winner} player wins, Terrific!`;
     dialogBox.querySelectorAll('p')[1].innerText = `Click to return`;
 
-    let jingleGameOver = document.querySelector('#game-over'); jingleGameOver.play();
+    document.querySelector('#game-over').play();
     
     gameArea.classList.add('fade-out');
     gameSettings._gameMap = [];
@@ -255,7 +264,7 @@ function game() {
     player1 = new Paddle('playerLeft', 0, 37, 'left');
     player2 = new Paddle('playerRight', 78.5, 37, 'right');
 
-    loadMap(mapDiamond);
+    loadMap(mapFace);
     console.table(gameSettings._gameMap);
 
     renderGame();

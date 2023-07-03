@@ -2,7 +2,6 @@
 // IMPORT | EXPORT | GLOBAL VARIABLES
 import { gameSettings } from './code.js';
 import { gameArea } from './code.js';
-import Paddle from './paddle.js';
 
 export const boxSet = {
                             wall:   {name: 'wall', width: 3.9, height: 3.9},
