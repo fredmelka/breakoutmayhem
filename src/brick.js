@@ -1,5 +1,5 @@
 
-// IMPORT | EXPORT | GLOBAL VARIABLES
+// Import Export | Global Variables
 import { gameSettings } from './code.js';
 import { gameArea } from './code.js';
 
@@ -7,9 +7,9 @@ export const boxSet = {
                             wall:   {name: 'wall', width: 3.9, height: 3.9},
                             brick:  {name: 'brick', width: 3.9, height: 3.9}};
 
-export const OpacityLevels   = [0, 25, 50, 100];         // SET IN ABSOLUTE LEVELS OF ENERGY POINTS
+export const OpacityLevels   = [0, 25, 50, 100]; // Abolute remaining energy points of the Brick 
 
-// CLASS MAIN | BOX
+// Main Class | Box
 export default class Box {
 
 constructor(name, x, y) {
@@ -42,7 +42,8 @@ createBox()                 {const div = document.createElement('div');
 
 };
 
-// CLASS EXTENSION | BRICK
+
+// Class Extension | Brick
 export class Brick extends Box {
 
 constructor(name, x, y, energyPoints) {

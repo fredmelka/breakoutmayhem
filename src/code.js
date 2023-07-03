@@ -1,12 +1,12 @@
 
-// IMPORT | EXPORT | GLOBAL VARIABLES
+// Import Export | Global Variables
 import Paddle from './paddle.js';
 import Ball from './ball.js';
 import Box, { Brick } from './brick.js';
 import { mapDiamond, mapFace, mapIsland } from './map.js';;
 
 
-// GAME | SETTINGS SINGLETON 
+// Game | Settings Singleton 
 export const gameSettings = {
     _gameBoard: {width: 80, height: 80},  // expressed as {vw,vh} CSS units
     _gameMap: [],
@@ -21,7 +21,7 @@ export const gameSettings = {
 let gameAreaBorders, player1, player2;
 
     
-// DOM MAIN OBJECTS
+// DOM Principal Objects
 export const gameArea = document.getElementById('gameArea');        // ADD addEventListener("resize", (event) => {}); TO KEEP GAME ZONE OK AND BALLS INSIDE WHILE RESIZING
 
 const mainMenu = document.getElementById('mainMenu');
@@ -35,18 +35,18 @@ const gameLauncher = document.getElementById('gamelaunch');
 gameLauncher.addEventListener('click', game, false)
 
 
-// PADDLE CONTROLS | KEYBOARD LISTENERS AND MOBILE CONTROLS
+// Game Controls | Keyboard listeners and mobile pointer events
 const keyDown = document.addEventListener('keydown', keyDownHandler, false);
 function keyDownHandler(event) {
     switch (event.key) {
     case 'q':
-    case 'Q': player1.upPressed = true; break;                   // !!!! fix the hard code of the player designation
+    case 'Q': player1.upPressed = true; break;
     case 'w':
-    case 'W': player1.downPressed = true; break;                 // !!!! fix the hard code of the player designation
+    case 'W': player1.downPressed = true; break;
     case 'Up':
-    case'ArrowUp': player2.upPressed = true; break;              // !!!! fix the hard code of the player designation
+    case'ArrowUp': player2.upPressed = true; break;
     case 'Down':
-    case 'ArrowDown': player2.downPressed = true; break;         // !!!! fix the hard code of the player designation
+    case 'ArrowDown': player2.downPressed = true; break;
     };
 };
 
@@ -54,18 +54,18 @@ const keyUp = document.addEventListener('keyup', keyUpHandler, false);
 function keyUpHandler(event) {
     switch (event.key) {
         case 'q':
-        case 'Q': player1.upPressed = false; break;                 // !!!! fix the hard code of the player designation
+        case 'Q': player1.upPressed = false; break;
         case 'w':
-        case 'W': player1.downPressed = false; break;               // !!!! fix the hard code of the player designation
+        case 'W': player1.downPressed = false; break
         case 'Up':
-        case'ArrowUp': player2.upPressed = false; break;            // !!!! fix the hard code of the player designation
+        case'ArrowUp': player2.upPressed = false; break;
         case 'Down':
-        case 'ArrowDown': player2.downPressed = false; break;       // !!!! fix the hard code of the player designation
+        case 'ArrowDown': player2.downPressed = false; break;
     };
 };
 
 
-// MAP | MAP BUILDING
+// Map | Game map builder
 function loadMap(map) {
 
     let rowInterval = gameSettings._gameBoard.width / map.length;
@@ -83,7 +83,7 @@ function loadMap(map) {
 };
 
 
-// GAME | PLACE NEW BALLS IN PLAY UNTIL NO MORE PLAYERS HAS LIVES
+// Game | Add a new ball in play until both players have no more lives
 function getInPlay() {
 
     for (let player in gameSettings._opponents) {
@@ -106,7 +106,7 @@ function getInPlay() {
 };
 
 
-// BALL | MOVE BALLS IN GAME AREA
+// Game | Execute the ball move() method for all balls in play
 function moveBalls() {
     for (let player in gameSettings._opponents) {
         for (let ball of gameSettings._opponents[player].ballsInPlay) {ball.move();}
@@ -114,16 +114,15 @@ function moveBalls() {
 };
 
 
-// PADDLE | MOVE PADDLES
+// Game | Execute the paddle move() method for a given player during game
 function movePaddle(player) {
-
     if (player.upPressed) {player.moveUp();};
     if (player.downPressed) {player.moveDown();};
     player.setPosition();
 };
 
 
-// BALL AND PADDLE | BOUNCING AND BALL CONTROL WITH THE PADDLE
+// Paddle | Ball control and bounce of the paddle
 function BouncePaddle(ball, paddle) {
 
     if (!ball) {return};
@@ -131,7 +130,7 @@ function BouncePaddle(ball, paddle) {
     let ballEdge = ball.element.getBoundingClientRect();
     let paddleEdge = paddle.element.getBoundingClientRect();
 
-    // PARAMETERS FOR CONTROLLING THE BALL WITH THE PADDLE
+    // Parameters for controlling the ball bounce off the paddle
     let ballCenter = (ballEdge.top + ballEdge.bottom) / 2;
     let paddleCenter = (paddleEdge.top + paddleEdge.bottom) / 2;
     let radiusFactor = 1.5;
@@ -153,7 +152,7 @@ function BouncePaddle(ball, paddle) {
 }; 
 
 
-// BALL | COLLISION AND BOUNCING MANAGEMENT
+// Ball | Collision Detection and Bouncing algorithm off obstacles
 function collisionDetection (obstacle, ball) {
 
     let ballEdge = ball.element.getBoundingClientRect();
@@ -186,7 +185,7 @@ function collisionDetection (obstacle, ball) {
 };
 
 
-// BALL | SCORING
+// Game | Hit and Scoring
 function hitAndScore(ball) {
     
     if (!ball) {return};
@@ -198,7 +197,7 @@ function hitAndScore(ball) {
 };
 
 
-// HEADER | SCORING DISPLAY
+// Header | Scoreboard update
 function displayScoreAndLives() {
     
     let stringify = (num, nDigits) => {
@@ -214,7 +213,7 @@ function displayScoreAndLives() {
 };
 
 
-// GAME | CONTROL FOR GAME PROGRESS
+// Game | Control of the game status
 function isGameInProgress() {
 
     return ((gameSettings._opponents.left.lives !== 0 || gameSettings._opponents.left.ballsInPlay.length > 0)
@@ -223,7 +222,7 @@ function isGameInProgress() {
 };
 
 
-// GAME | TERMINATE GAME
+// Game | Terminate game
 function gameOver() {
 
     let winner = gameSettings._opponents.left.score > gameSettings._opponents.right.score ? 'Left' : 'Right';
@@ -245,7 +244,7 @@ function gameOver() {
 ;};
 
 
-// GAME | NEW GAME LAUNCH 
+// Game | Launch a new game 
 function game() {
 
     console.log('Setting new game..')
@@ -261,9 +260,9 @@ function game() {
 
     gameAreaBorders = gameArea.getBoundingClientRect();
 
-    // CLASS NEW INSTANCES | PADDLE OBJECTS CREATION 
-    player1 = new Paddle('playerLeft', 0, 37, 'left');
-    player2 = new Paddle('playerRight', 78.5, 37, 'right');
+    // Instantiation of the two new paddles for the game ahead
+    player1 = new Paddle(0, 37, 'left');
+    player2 = new Paddle(78.5, 37, 'right');
 
     loadMap(mapFace);
     console.table(gameSettings._gameMap);
@@ -272,7 +271,7 @@ function game() {
 };
 
 
-// GAME | GAME PLAY RENDERING
+// Game | Game Render Processing
 function renderGame() {
 
     let noBallsLeft = getInPlay();
@@ -291,6 +290,7 @@ function renderGame() {
 
     hitAndScore(gameSettings._opponents.left.ballsInPlay[0]);
     hitAndScore(gameSettings._opponents.right.ballsInPlay[0]);
+    
     displayScoreAndLives();
 
     if (isGameInProgress()) {requestAnimationFrame(renderGame)}

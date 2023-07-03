@@ -1,10 +1,10 @@
 
-// IMPORT | EXPORT | GLOBAL VARIABLES
+// Import Export | Global Variables
 import { gameSettings } from './code.js';
 import { gameArea } from './code.js';
 
 
-// CLASS | BALL
+// Class | Ball
 export default class Ball {
 
 constructor(side, x, y, gameAreaBorders) {
@@ -46,6 +46,7 @@ createBall()                {const div = document.createElement('div');
 
 setPosition()               {this.element.style.left = `${this.x}vw`; this.element.style.top = `${this.y}vh`;}
 
+
 move()                      {this.x += this.speed * this.vector.x;                                                          
                             this.y += this.speed * this.vector.y;
                             let ballBounding = this.element.getBoundingClientRect();
@@ -65,17 +66,17 @@ move()                      {this.x += this.speed * this.vector.x;
                             };
                             this.setPosition();}
 
-touchDown()                 {let opponentSide = this.side == 'left' ? 'right' : 'left';
 
+touchDown()                 {let opponentSide = this.side == 'left' ? 'right' : 'left';
                             if (!gameSettings._opponents[opponentSide].ballsInPlay[0]) {return};
 
                             gameSettings._opponents[opponentSide].ballsInPlay[0].speed *= 0.1;
-                            setTimeout(() => {gameSettings._opponents[opponentSide].ballsInPlay[0].speed /= 0.1;}, 3000);}
+                            setTimeout(() => {gameSettings._opponents[opponentSide].ballsInPlay[0].speed /= 0.1;}, 5000);}
+
 
 playSound(effect)           {let soundPalette = {
-                                    wallBounce: document.querySelector('#ball-wall-bounce'),
-                                    touchDown: document.querySelector('#ball-touchdown'),
-                                };
+                                wallBounce: document.querySelector('#ball-wall-bounce'),
+                                touchDown: document.querySelector('#ball-touchdown')};
                             return soundPalette[effect].play();}
 
 };
