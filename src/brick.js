@@ -1,7 +1,6 @@
 
 // IMPORT | EXPORT | GLOBAL VARIABLES
 import { gameSettings } from './code.js';
-// import { gameAreaBorders } from './code.js';
 import { gameArea } from './code.js';
 import Paddle from './paddle.js';
 
@@ -63,10 +62,15 @@ setColor()                  {let rgb = '#' + Math.floor(Math.random()*16777215).
 receiveDamage(damage)       {let bonusKill = 100;
                             this.energyPoints -= damage;
                             this.element.style.opacity = `${OpacityLevels.find(threshold => threshold > this.energyPoints) / 100}`;
-                            if (this.energyPoints <= 0) {this.element.remove(); damage += bonusKill;};
+                            if (this.energyPoints <= 0) {this.element.remove(); damage += bonusKill; this.playSound('explosion');};
                             this.energyPoints > 0
                                 ? console.log(`A brick has received ${damage} points of damage!`)
                                 : console.log(`A brick has been exploded: ${bonusKill} bonus points!`);
                             return damage;}
+
+playSound(effect)           {let soundPalette = {
+                                explosion: document.querySelector('#brick-explosion')};
+                            return soundPalette[effect].play();
+                            };
 
 };

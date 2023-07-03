@@ -8,18 +8,16 @@ import { mapDiamond, mapFace, mapIsland } from './map.js'
 
 // GAME | SETTINGS SINGLETON 
 export const gameSettings = {
-    _gameBoard: {width: 80, height: 80},  // VW, VH CSS units
+    _gameBoard: {width: 80, height: 80},  // expressed as {vw,vh} CSS units
     _gameMap: [],
     _ballPerRound: 5,
     _paddle: {height: 12, width: 1.5, speed: 0.7},
     _opponents: {
-        left:   {score: 0, lives: 5, isInPlay: false, ballsInPlay: []}, // BALLS IN PLAY IS SET AS AN ARRAY IN CASE WE WANT TO IN PLAY PUT MULTIPLE BALLS PER PLAYER
-        right:  {score: 0, lives: 5, isInPlay: false, ballsInPlay: []}} // BALLS IN PLAY IS SET AS AN ARRAY IN CASE WE WANT TO IN PLAY PUT MULTIPLE BALLS PER PLAYER
-};                                 
-    
-let gameAreaBorders;
-let player1;
-let player2;
+        left:   {score: 0, lives: 5, isInPlay: false, ballsInPlay: []}, // ballsInPlay is set as an array in case the developer want to allow multiple balls in play for each player
+        right:  {score: 0, lives: 5, isInPlay: false, ballsInPlay: []}} 
+};
+
+let gameAreaBorders, player1, player2;
     
 // DOM MAIN OBJECTS
 export const gameArea = document.getElementById('gameArea');        // ADD addEventListener("resize", (event) => {}); TO KEEP GAME ZONE OK AND BALLS INSIDE WHILE RESIZING
@@ -181,7 +179,7 @@ function collisionDetection (obstacle, ball) {
 // BALL | SCORING
 function hitAndScore(ball) {
     
-    if (!ball) {return}
+    if (!ball) {return};
     for (let i in gameSettings._gameMap)    {let block = gameSettings._gameMap[i];
                                             let test = collisionDetection(block, ball);
                                             if (test && block.name == 'brick')  {gameSettings._opponents[ball.side].score += block.receiveDamage(ball.strength);};
@@ -222,6 +220,8 @@ function gameOver() {
     dialogBox.querySelectorAll('p')[0].innerText = `${winnerSide} player wins, Terrific!`;
     dialogBox.querySelectorAll('p')[1].innerText = `Click to return`;
 
+    let jingleGameOver = document.querySelector('#game-over'); jingleGameOver.play();
+    
     gameArea.classList.add('fade-out');
     gameSettings._gameMap = [];
 
@@ -252,8 +252,8 @@ function game() {
     gameAreaBorders = gameArea.getBoundingClientRect();
 
     // CLASS NEW INSTANCES | PADDLE OBJECTS CREATION 
-    player1 = new Paddle("gabriel", 0, 37, 'left');
-    player2 = new Paddle("Diane", 78.5, 37, 'right');
+    player1 = new Paddle('playerLeft', 0, 37, 'left');
+    player2 = new Paddle('playerRight', 78.5, 37, 'right');
 
     loadMap(mapDiamond);
     console.table(gameSettings._gameMap);

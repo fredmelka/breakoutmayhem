@@ -1,7 +1,6 @@
 
 // IMPORT | EXPORT | GLOBAL VARIABLES
 import { gameSettings } from './code.js';
-// import { gameAreaBorders } from './code.js';
 import { gameArea } from './code.js';
 import Paddle from './paddle.js';
 
@@ -12,7 +11,7 @@ export const ballSet = {
                             tennis: {src: '', size: 1.5, strength: 10, speed: 0.8},
                             volley: {src: '', size: 1.5, strength: 20, speed: 0.4}};
 
-// CLASS | BALL //
+// CLASS | BALL
 export default class Ball {
 
 constructor(name, side, x, y, gameAreaBorders) {
@@ -57,20 +56,26 @@ move()                      {this.x += ballSet[this.name].speed * this.vector.x;
                             this.y += ballSet[this.name].speed * this.vector.y;
                             let ballBounding = this.element.getBoundingClientRect();
                             
-                            if (ballBounding.top <= this.gameAreaBorders.top) {this.vector.y = +1};
-                            if (ballBounding.bottom >= this.gameAreaBorders.bottom) {this.vector.y = -1};
+                            if (ballBounding.top <= this.gameAreaBorders.top) {this.vector.y = +1; this.playSound('wallBounce');};
+                            if (ballBounding.bottom >= this.gameAreaBorders.bottom) {this.vector.y = -1; this.playSound('wallBounce');};
                             
                             switch (this.side) {
                                 case 'left':
-                                    if (ballBounding.left <= this.gameAreaBorders.left) {this.element.remove(); gameSettings._opponents[this.side].isInPlay = false;}                             
-                                    if (ballBounding.right >= this.gameAreaBorders.right) {this.vector.x = -1};
+                                    if (ballBounding.left <= this.gameAreaBorders.left) {this.element.remove(); gameSettings._opponents[this.side].isInPlay = false;};
+                                    if (ballBounding.right >= this.gameAreaBorders.right) {this.vector.x = -1; this.playSound('fieldBounce');};
                                     break;
                                 case 'right':
-                                    if (ballBounding.left <= this.gameAreaBorders.left) {this.vector.x = +1;}
+                                    if (ballBounding.left <= this.gameAreaBorders.left) {this.vector.x = +1; this.playSound('fieldBounce');};
                                     if (ballBounding.right >= this.gameAreaBorders.right) {this.element.remove(); gameSettings._opponents[this.side].isInPlay = false;};        
                                     break;
                             };
 
                             this.setPosition();};
+
+playSound(effect)           {let soundPalette = {
+                                    wallBounce: document.querySelector('#ball-wall-bounce'),
+                                    fieldBounce: document.querySelector('#ball-field-bounce')};
+                            return soundPalette[effect].play();
+                            };
 
 };
