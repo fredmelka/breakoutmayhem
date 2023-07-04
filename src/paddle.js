@@ -65,13 +65,15 @@ bounceControl(ball)         {if (!ball) {return};
                             switch (this.side) {
                             case 'left':
                                 if (ballEdge.left < paddleEdge.right && ballEdge.bottom > paddleEdge.top && ballEdge.top < paddleEdge.bottom)
-                                {ball.vector.x = 1; ball.vector.y = bounceAngle;};
+                                {ball.vector.x = 1; ball.vector.y = bounceAngle; this.playSound();};
                             break;
 
                             case 'right':
                                 if (ballEdge.right > paddleEdge.left && ballEdge.bottom > paddleEdge.top && ballEdge.top < paddleEdge.bottom)
-                                {ball.vector.x = -1; ball.vector.y = bounceAngle;};
+                                {ball.vector.x = -1; ball.vector.y = bounceAngle; this.playSound();};
                             break;
                             };}
+
+playSound()                 {document.querySelector('#paddle-ball-bounce').play();}
     
 };
