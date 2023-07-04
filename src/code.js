@@ -98,7 +98,6 @@ function getInPlay() {
                     gameSettings._opponents[player].ballsInPlay.push(new Ball (player, 40, 0, gameAreaBorders));
 
                     document.querySelector('#new-ball').play();
-                                                            
             };
         };
     };
@@ -120,36 +119,6 @@ function movePaddle(player) {
     if (player.downPressed) {player.moveDown();};
     player.setPosition();
 };
-
-
-// Paddle | Ball control and bounce of the paddle
-function BouncePaddle(ball, paddle) {
-
-    if (!ball) {return};
-
-    let ballEdge = ball.element.getBoundingClientRect();
-    let paddleEdge = paddle.element.getBoundingClientRect();
-
-    // Parameters for controlling the ball bounce off the paddle
-    let ballCenter = (ballEdge.top + ballEdge.bottom) / 2;
-    let paddleCenter = (paddleEdge.top + paddleEdge.bottom) / 2;
-    let radiusFactor = 1.5;
-    let bounceAngle = Math.floor(10 * radiusFactor * Math.max(-1, Math.min((ballCenter - paddleCenter) * 2 / paddleEdge.height, 1))) / 10;
-    
-    switch (paddle.side) {
-    case 'left':
-        if (ballEdge.left < paddleEdge.right &&
-            ballEdge.bottom > paddleEdge.top &&
-            ballEdge.top < paddleEdge.bottom)           {ball.vector.x = 1; ball.vector.y = bounceAngle;};
-        break;
-
-    case 'right':
-        if (ballEdge.right > paddleEdge.left &&
-            ballEdge.bottom > paddleEdge.top &&
-            ballEdge.top < paddleEdge.bottom)           {ball.vector.x = -1; ball.vector.y = bounceAngle;};
-        break;
-    };
-}; 
 
 
 // Ball | Collision Detection and Bouncing algorithm off obstacles
@@ -176,29 +145,27 @@ function collisionDetection (obstacle, ball) {
             else                                        {ball.vector.x = +1 + randomBouncing;};
         }
         else {
-                if (ballEdge.bottom > obstacleEdge.bottom)  {ball.vector.y = +1 + randomBouncing;}
-                else                                        {ball.vector.y = -1 + randomBouncing;};
+                
+            if (ballEdge.bottom > obstacleEdge.bottom)  {ball.vector.y = +1 + randomBouncing;}
+            else                                        {ball.vector.y = -1 + randomBouncing;};
         };
     };
-
     return (isInX && isInY);
 };
 
 
-// Game | Hit and Scoring
+// Game | Collide, Hit and Score!
 function hitAndScore(ball) {
-    
     if (!ball) {return};
     for (let i in gameSettings._gameMap)    {let block = gameSettings._gameMap[i];
                                             let test = collisionDetection(block, ball);
                                             if (test && block.name == 'brick')  {gameSettings._opponents[ball.side].score += block.receiveDamage(ball.strength);};
-                                            if (block.energyPoints <= 0)        {gameSettings._gameMap.splice(i,1);}
-    };
+                                            if (block.energyPoints <= 0)        {gameSettings._gameMap.splice(i,1);};};
 };
 
 
-// Header | Scoreboard update
-function displayScoreAndLives() {
+// Header | Scoreboard Update
+function updateScoreboard() {
     
     let stringify = (num, nDigits) => {
         let stringed = Math.min(Math.pow(10, nDigits) - 1, num).toString().split('').slice(0, nDigits);
@@ -261,8 +228,8 @@ function game() {
     gameAreaBorders = gameArea.getBoundingClientRect();
 
     // Instantiation of the two new paddles for the game ahead
-    player1 = new Paddle(0, 37, 'left');
-    player2 = new Paddle(78.5, 37, 'right');
+    player1 = new Paddle(0, 34, 'left');
+    player2 = new Paddle(gameSettings._gameBoard.width - gameSettings._paddle.width, 34, 'right');
 
     loadMap(mapFace);
     console.table(gameSettings._gameMap);
@@ -278,20 +245,19 @@ function renderGame() {
     if (noBallsLeft) {return gameOver()};
 
     movePaddle(player1);
-    movePaddle(player2);
+    player1.bounceControl(gameSettings._opponents.left.ballsInPlay[0]);
+    player1.bounceControl(gameSettings._opponents.right.ballsInPlay[0]);
     
-    BouncePaddle(gameSettings._opponents.left.ballsInPlay[0], player1); // BALLS IN PLAY IS AN ARRAY IN CASE WE WANT TO SET GAME WITH MULTIPLES BALL PER PLAYER
-    BouncePaddle(gameSettings._opponents.right.ballsInPlay[0], player2);
-
-    BouncePaddle(gameSettings._opponents.left.ballsInPlay[0], player2); // BALLS IN PLAY IS AN ARRAY IN CASE WE WANT TO SET GAME WITH MULTIPLES BALL PER PLAYER
-    BouncePaddle(gameSettings._opponents.right.ballsInPlay[0], player1);
+    movePaddle(player2);
+    player2.bounceControl(gameSettings._opponents.left.ballsInPlay[0]);
+    player2.bounceControl(gameSettings._opponents.right.ballsInPlay[0]);
 
     moveBalls();
 
     hitAndScore(gameSettings._opponents.left.ballsInPlay[0]);
     hitAndScore(gameSettings._opponents.right.ballsInPlay[0]);
     
-    displayScoreAndLives();
+    updateScoreboard();
 
     if (isGameInProgress()) {requestAnimationFrame(renderGame)}
     else {gameOver(); console.log(`Good Game!`)};

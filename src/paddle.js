@@ -50,5 +50,28 @@ setPosition()               {this.element.style.top = `${this.y}vh`; this.elemen
 moveUp()                    {let moveUp = this.y; moveUp -= gameSettings._paddle.speed; this.y = moveUp;}
     
 moveDown()                  {let moveDown = this.y; moveDown += gameSettings._paddle.speed; this.y = moveDown;}
+
+bounceControl(ball)         {if (!ball) {return};
+
+                            let ballEdge = ball.element.getBoundingClientRect();
+                            let paddleEdge = this.element.getBoundingClientRect();
+
+                            // Parameters for controlling the ball bounce off the paddle
+                            let ballCenter = (ballEdge.top + ballEdge.bottom) / 2;
+                            let paddleCenter = (paddleEdge.top + paddleEdge.bottom) / 2;
+                            let radiusFactor = 1.8;
+                            let bounceAngle = Math.floor(10 * radiusFactor * Math.max(-1, Math.min((ballCenter - paddleCenter) * 2 / paddleEdge.height, 1))) / 10;
+    
+                            switch (this.side) {
+                            case 'left':
+                                if (ballEdge.left < paddleEdge.right && ballEdge.bottom > paddleEdge.top && ballEdge.top < paddleEdge.bottom)
+                                {ball.vector.x = 1; ball.vector.y = bounceAngle;};
+                            break;
+
+                            case 'right':
+                                if (ballEdge.right > paddleEdge.left && ballEdge.bottom > paddleEdge.top && ballEdge.top < paddleEdge.bottom)
+                                {ball.vector.x = -1; ball.vector.y = bounceAngle;};
+                            break;
+                            };}
     
 };
