@@ -64,6 +64,16 @@ function keyUpHandler(event) {
     };
 };
 
+const touchScreen = document.addEventListener('pointermove', touchScreenHandler, false);
+function touchScreenHandler(event) {
+    let playerSide = event.clientX < (gameAreaBorders.left + gameAreaBorders.right) / 2 ? 'left' : 'right';
+    let paddleY = gameSettings._gameBoard.height * Math.max(0, Math.min((event.clientY - gameAreaBorders.top) / gameAreaBorders.height, 1));
+    let paddleOffsetTop = Math.max(0, Math.min(paddleY, gameSettings._gameBoard.height - gameSettings._paddle.height));
+    switch (playerSide) {
+        case 'left': player1.y = paddleOffsetTop; player1.setPosition(); break;
+        case 'right': player2.y = paddleOffsetTop; player2.setPosition(); break;
+    };
+};
 
 // Map | Game map builder
 function loadMap(map) {
@@ -81,7 +91,6 @@ function loadMap(map) {
         };
     };
 };
-
 
 // Game | Add a new ball in play until both players have no more lives
 function getInPlay() {
@@ -104,7 +113,6 @@ function getInPlay() {
     return Object.values(gameSettings._opponents).every(player => player.ballsInPlay.length === 0)
 };
 
-
 // Game | Execute the ball move() method for all balls in play
 function moveBalls() {
     for (let player in gameSettings._opponents) {
@@ -112,14 +120,12 @@ function moveBalls() {
     };
 };
 
-
 // Game | Execute the paddle move() method for a given player during game
 function movePaddle(player) {
     if (player.upPressed) {player.moveUp();};
     if (player.downPressed) {player.moveDown();};
     player.setPosition();
 };
-
 
 // Ball | Collision Detection and Bouncing algorithm off obstacles
 function collisionDetection (obstacle, ball) {
@@ -153,7 +159,6 @@ function collisionDetection (obstacle, ball) {
     return (isInX && isInY);
 };
 
-
 // Game | Collide, Hit and Score!
 function hitAndScore(ball) {
     if (!ball) {return};
@@ -162,7 +167,6 @@ function hitAndScore(ball) {
                                             if (test && block.name == 'brick')  {gameSettings._opponents[ball.side].score += block.receiveDamage(ball.strength);};
                                             if (block.energyPoints <= 0)        {gameSettings._gameMap.splice(i,1);};};
 };
-
 
 // Header | Scoreboard Update
 function updateScoreboard() {
@@ -179,7 +183,6 @@ function updateScoreboard() {
     livesRight.innerText = stringify(gameSettings._opponents.right.lives, 1) + ' ❤️';
 };
 
-
 // Game | Control of the game status
 function isGameInProgress() {
 
@@ -187,7 +190,6 @@ function isGameInProgress() {
             ||
             (gameSettings._opponents.right.lives !== 0 || gameSettings._opponents.right.ballsInPlay.length > 0));
 };
-
 
 // Game | Terminate game
 function gameOver() {
@@ -207,9 +209,8 @@ function gameOver() {
 
     dialogBox.addEventListener('click', () => {dialogBox.classList.remove('appear');
                                                 mainMenu.classList.remove('hidden');
-                                                mainMenu.classList.add('appear');})
-;};
-
+                                                mainMenu.classList.add('appear');});
+};
 
 // Game | Launch a new game 
 function game() {
@@ -236,7 +237,6 @@ function game() {
 
     renderGame();
 };
-
 
 // Game | Game Render Processing
 function renderGame() {
