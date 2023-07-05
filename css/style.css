@@ -10,10 +10,6 @@
     font-family: 'Ubuntu Condensed', sans-serif;
 }
 
-body {
-    touch-action: none;
-}
-
 header {
     border-bottom: 2px solid lightblue;
     display: flex;
@@ -97,6 +93,11 @@ nav {
 #title {
     font-size: 5rem;
     font-weight: bold;
+}
+
+/* For mobile devices: prevent browser from intercepting touch gestures */
+.screenLock {
+    touch-action: none;
 }
 
 .appear {

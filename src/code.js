@@ -64,8 +64,9 @@ function keyUpHandler(event) {
     };
 };
 
-const touchScreen = document.addEventListener('pointermove', touchScreenHandler, false);
+// the Event Listener for Mobile Device Control is activated only when the game actually starts as the variable 'gameAreaBorders' is not yet defined
 function touchScreenHandler(event) {
+    
     let playerSide = event.clientX < (gameAreaBorders.left + gameAreaBorders.right) / 2 ? 'left' : 'right';
     let paddleY = gameSettings._gameBoard.height * Math.max(0, Math.min((event.clientY - gameAreaBorders.top) / gameAreaBorders.height, 1));
     let paddleOffsetTop = Math.max(0, Math.min(paddleY, gameSettings._gameBoard.height - gameSettings._paddle.height));
@@ -185,7 +186,6 @@ function updateScoreboard() {
 
 // Game | Control of the game status
 function isGameInProgress() {
-
     return ((gameSettings._opponents.left.lives !== 0 || gameSettings._opponents.left.ballsInPlay.length > 0)
             ||
             (gameSettings._opponents.right.lives !== 0 || gameSettings._opponents.right.ballsInPlay.length > 0));
@@ -193,6 +193,9 @@ function isGameInProgress() {
 
 // Game | Terminate game
 function gameOver() {
+
+    document.removeEventListener('pointermove', touchScreenHandler);
+    document.querySelector('body').classList.remove('screenLock');
 
     let winner = gameSettings._opponents.left.score > gameSettings._opponents.right.score ? 'Left' : 'Right';
     dialogBox.querySelectorAll('p')[0].innerText = `${winner} player wins, Terrific!`;
@@ -219,14 +222,16 @@ function game() {
     for (let player in gameSettings._opponents) {
         gameSettings._opponents[player].lives = gameSettings._ballPerRound;
         gameSettings._opponents[player].isInPlay = false;
-        gameSettings._opponents[player].score = 0;
-    };
+        gameSettings._opponents[player].score = 0;};
 
     mainMenu.classList.add('hidden');
     gameArea.classList.remove('hidden');
     gameArea.classList.remove('fade-out'); gameArea.classList.add('fade-in');
 
     gameAreaBorders = gameArea.getBoundingClientRect();
+
+    document.addEventListener('pointermove', touchScreenHandler, false);
+    document.querySelector('body').classList.add('screenLock');
 
     // Instantiation of the two new paddles for the game ahead
     player1 = new Paddle(0, 34, 'left');
