@@ -238,7 +238,7 @@ function game() {
     player1 = new Paddle(0, 34, 'left');
     player2 = new Paddle(gameSettings._gameBoard.width - gameSettings._paddle.width, 34, 'right');
 
-    loadMap(mapDiamond);
+    loadMap(mapFace);
     console.table(gameSettings._gameMap);
 
     renderGame();
