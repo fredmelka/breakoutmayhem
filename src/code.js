@@ -237,7 +237,7 @@ function game() {
     player1 = new Paddle(0, 34, 'left');
     player2 = new Paddle(gameSettings._gameBoard.width - gameSettings._paddle.width, 34, 'right');
 
-    loadMap(mapFace);
+    loadMap(mapIsland);
     console.table(gameSettings._gameMap);
 
     renderGame();
