@@ -23,7 +23,7 @@ Two players battle with a paddle to control their balls and destroy as much bric
 
 ## How to run the game
 
-Please click the link: https://fredmelka.github.io/ironhack-gaming-project-breakout/
+Please click the link: https://breakoutmahyem.netlify.app
 
 Or, simply scan the QR code:
 
@@ -38,14 +38,16 @@ Desktop controllers:
 
 Mobile controllers:
 
+- Swipe paddles with your fingers!
+
 
 ## Settings and futures releases
 
-Most settings can be modified through a singleton object, including: game speed, ball controls, number of lives, ball strength, brick sizes, etc.
+Most game settings can be modified through a singleton object: game speed, ball controls, number of lives, ball strength, brick sizes, etc.
 
-Developers can also create and edit their own gamemaps via a '.xls' file attached to the github repository: layout, bricks, walls, brick sizes, etc.
+Developers can also create their own gamemaps via a '.xls' file attached to the github repository: layout, bricks, walls, brick sizes, etc.
 
-Coming updates of the project will likely include sounds, menu animations, candies released, and more surprises!
+Coming updates of the project will include sounds, animations, candies and more surprises!
 
 
 ## Tools used in the project
@@ -55,4 +57,4 @@ Coming updates of the project will likely include sounds, menu animations, candi
 - Concepts: DOM manipulation, functions & callbacks, arrays & iterators, objects, asynchronous programming, classes, modules, responsive design, external libraries.
 
 
-Thanks for your attention and Happy Gaming !.
+Thanks for your attention and Happy Gaming !

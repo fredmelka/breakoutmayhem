@@ -226,7 +226,8 @@ function game() {
 
     mainMenu.classList.add('hidden');
     gameArea.classList.remove('hidden');
-    gameArea.classList.remove('fade-out'); gameArea.classList.add('fade-in');
+    gameArea.classList.remove('fade-out');
+    gameArea.classList.add('fade-in');
 
     gameAreaBorders = gameArea.getBoundingClientRect();
 
@@ -237,7 +238,7 @@ function game() {
     player1 = new Paddle(0, 34, 'left');
     player2 = new Paddle(gameSettings._gameBoard.width - gameSettings._paddle.width, 34, 'right');
 
-    loadMap(mapIsland);
+    loadMap(mapDiamond);
     console.table(gameSettings._gameMap);
 
     renderGame();
@@ -247,7 +248,7 @@ function game() {
 function renderGame() {
 
     let noBallsLeft = getInPlay();
-    if (noBallsLeft) {return gameOver()};
+    if (noBallsLeft || gameSettings._gameMap.length == 0) {return gameOver()};
 
     movePaddle(player1);
     player1.bounceControl(gameSettings._opponents.left.ballsInPlay[0]);
@@ -264,7 +265,7 @@ function renderGame() {
     
     updateScoreboard();
 
-    if (isGameInProgress()) {requestAnimationFrame(renderGame)}
+    if (isGameInProgress() && gameSettings._gameMap.length > 0) {requestAnimationFrame(renderGame)}
     else {gameOver(); console.log(`Good Game!`)};
 
 };
