@@ -60,8 +60,8 @@ nav {
 }
 
 #gameArea {
-    border-left: 3px dashed rgb(239, 243, 10);
-    border-right: 3px dashed rgb(32, 41, 161);
+    border-left: 3px dashed #f5222d;
+    border-right: 3px dashed #52c41a;
     height: 80vh;
     margin: 2vh auto;
     position: relative;
