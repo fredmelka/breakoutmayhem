@@ -101,7 +101,7 @@ nav {
 /* For mobile devices: prevent browser from intercepting touch gestures */
 .screenLock {
     touch-action: none;
-    pointer-events: none;
+    /* pointer-events: none; */
 }
 
 .appear {
