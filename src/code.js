@@ -3,7 +3,7 @@
 import Paddle from './paddle.js';
 import Ball from './ball.js';
 import Box, { Brick } from './brick.js';
-import { mapDiamond, mapFace, mapIsland } from './map.js';;
+import { mapDiamond, mapFace, mapIsland, mapTest } from './map.js';;
 
 
 // Game | Settings Singleton 
@@ -238,7 +238,7 @@ function game() {
     player1 = new Paddle(0, 34, 'left');
     player2 = new Paddle(gameSettings._gameBoard.width - gameSettings._paddle.width, 34, 'right');
 
-    loadMap(mapFace);
+    loadMap(mapTest);
     console.table(gameSettings._gameMap);
 
     renderGame();

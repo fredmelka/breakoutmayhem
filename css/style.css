@@ -101,6 +101,7 @@ nav {
 /* For mobile devices: prevent browser from intercepting touch gestures */
 .screenLock {
     touch-action: none;
+    pointer-events: none;
 }
 
 .appear {
@@ -160,16 +161,16 @@ nav {
 }
 
 .wall {
-    background-color: #8c8c8c;
-    box-shadow: inset 0 0 0.2vh #1f1f1f;
-    border: #1f1f1f solid 1px;            /***** border thickness set as a px value ******/
+    background-color: #595959;
+    box-shadow: inset 0 0 0.5vh #fafafa;
+    border: #000000 solid 1px;            /***** border thickness set as a px value ******/
     border-radius: 0.5vw;
     position: absolute;
 }
 
 .brick {
-    border: #1f1f1f solid 1px;            /***** border thickness set as a px value ******/
-    box-shadow: inset 0 0 0.2vh #1f1f1f;
+    border: #000000 solid 1px;            /***** border thickness set as a px value ******/
+    box-shadow: inset 0 0 0.5vh #fafafa;
     border-radius: 0.5vw;
     position: absolute;
 }
