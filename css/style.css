@@ -110,11 +110,22 @@ nav {
 
 #title:hover > .explosive {transition-duration: 800ms;}
 
-#title:hover > .explosive:nth-child(1) {transform: translate(-100%, 60%) rotate(10deg);}
-#title:hover > .explosive:nth-child(2) {transform: translate(-110%, -60%) rotate(-30deg);}
-#title:hover > .explosive:nth-child(3) {transform: translate(-50%, -30%) rotate(10deg);}
-#title:hover > .explosive:nth-child(4) {transform: translate(-10%, 30%) rotate(50deg);}
-#title:hover > .explosive:nth-child(5) {transform: translate(-10%, -70%) rotate(-10deg);}
+#title:hover > .explosive:nth-child(1) {transform: translate(-130%, 60%) rotate(10deg);}
+#title:hover > .explosive:nth-child(2) {transform: translate(-120%, -60%) rotate(-30deg);}
+#title:hover > .explosive:nth-child(3) {transform: translate(-70%, -30%) rotate(10deg);}
+#title:hover > .explosive:nth-child(4) {transform: translate(-20%, 30%) rotate(50deg);}
+#title:hover > .explosive:nth-child(5) {transform: translate(-10%, -70%) rotate(-100deg);}
+#title:hover > .explosive:nth-child(6) {transform: translate(-10%, 20%) rotate(45deg);}
+#title:hover > .explosive:nth-child(7) {transform: translate(-5%, 5%) rotate(-5deg);}
+#title:hover > .explosive:nth-child(8) {transform: translate(0%, -5%) rotate(-5deg);}
+/* 9th child is the space character between the two words! */
+#title:hover > .explosive:nth-child(10) {transform: translate(-10%, -100%) rotate(-530deg);}
+#title:hover > .explosive:nth-child(11) {transform: translate(10%, -60%) rotate(420deg);}
+#title:hover > .explosive:nth-child(12) {transform: translate(20%, 30%) rotate(-20deg);}
+#title:hover > .explosive:nth-child(13) {transform: translate(45%, -30%) rotate(40deg);}
+#title:hover > .explosive:nth-child(14) {transform: translate(75%, 40%) rotate(-80deg);}
+#title:hover > .explosive:nth-child(15) {transform: translate(120%, 20%) rotate(-375deg);}
+
 
 /* For mobile devices: prevent browser from intercepting touch gestures */
 .screenLock {
