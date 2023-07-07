@@ -134,28 +134,38 @@ function collisionDetection (obstacle, ball) {
     let ballEdge = ball.element.getBoundingClientRect();
     let obstacleEdge = obstacle.element.getBoundingClientRect();
 
-    let randomBouncing = Math.random() * 1 - 0.5;
+    let randomBounceFactor = (Math.random() - 0.5) * 0.75;
 
     let isInX =
             ballEdge.left < obstacleEdge.right &&
             ballEdge.right > obstacleEdge.left;
-
     let isInY = 
             ballEdge.bottom > obstacleEdge.top &&
             ballEdge.top < obstacleEdge.bottom;
 
     if (isInX && isInY) {
-
-        if (ballEdge.top > ballEdge.left) {
-
-            if (ballEdge.left < obstacleEdge.left)      {ball.vector.x = -1 + randomBouncing;}
-            else                                        {ball.vector.x = +1 + randomBouncing;};
-        }
-        else {
-                
-            if (ballEdge.bottom > obstacleEdge.bottom)  {ball.vector.y = +1 + randomBouncing;}
-            else                                        {ball.vector.y = -1 + randomBouncing;};
+    
+        let inOutAnalysis = {
+            left: {
+                entrance:  ballEdge.left < obstacleEdge.left ? ballEdge.right - obstacleEdge.left : 0,
+                bounceEffect: function (ball) {ball.vector.x = -1 + randomBounceFactor;}
+            },
+            right: {
+                entrance:  ballEdge.right > obstacleEdge.right ? obstacleEdge.right - ballEdge.left : 0,
+                bounceEffect: function (ball) {ball.vector.x = +1 + randomBounceFactor;}
+            },
+            bottom: {    
+                entrance: ballEdge.bottom > obstacleEdge.bottom ? obstacleEdge.bottom - ballEdge.top : 0,
+                bounceEffect: function (ball) {ball.vector.y = +1 + randomBounceFactor;}
+            },
+            top: {
+                entrance: ballEdge.top < obstacleEdge.top ? ballEdge.bottom - obstacleEdge.top : 0,
+                bounceEffect: function (ball) {ball.vector.y = -1 + randomBounceFactor;}
+            },
         };
+
+        // console.log(ball.side, Object.entries(inOutAnalysis).map(x => [x[0], x[1].entrance]).filter(x => x[1] > 0));
+        Object.values(inOutAnalysis).sort((a,b) => b.entrance - a.entrance).shift().bounceEffect(ball);
     };
     return (isInX && isInY);
 };
@@ -198,8 +208,9 @@ function gameOver() {
     document.querySelector('body').classList.remove('screenLock');
 
     let winner = gameSettings._opponents.left.score > gameSettings._opponents.right.score ? 'Left' : 'Right';
-    dialogBox.querySelectorAll('p')[0].innerText = `${winner} player wins, Terrific!`;
-    dialogBox.querySelectorAll('p')[1].innerText = `Click to return`;
+    dialogBox.querySelectorAll('p')[0].innerText = `Game Over!`;
+    dialogBox.querySelectorAll('p')[1].innerText = `Fantastic, ${winner} player wins!`;
+    dialogBox.querySelectorAll('p')[2].innerText = `Click to return`;
 
     document.querySelector('#game-over').play();
     

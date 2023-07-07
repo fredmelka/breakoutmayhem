@@ -1,6 +1,5 @@
 
 /* IMPORT FOR FONTS AND ANIMATIONS */
-
 /* GENERAL SETTTING AND DEFAULT BROWSER SETTINGS RESET */
 
 * {
@@ -76,7 +75,7 @@ nav {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 5vw 5vh;
+    padding: 2vw 3vh;
 }
 
 #dialogBox p {
@@ -84,9 +83,15 @@ nav {
     padding: 1vh 1vw;
 }
 
+#dialogBox p:first-child {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #faad14;
+}
+
 #gamelaunch {
     cursor: pointer;
-    color: red;
+    color:#fa541c;
     font-weight: bold;
     line-height: 5vh;;
     animation: pulse 3s ease-in-out infinite;
