@@ -21,7 +21,7 @@ export const gameSettings = {
 let gameAreaBorders, player1, player2;
 
     
-// DOM Principal Objects
+// DOM | Principal Objects
 export const gameArea = document.getElementById('gameArea');        // ADD addEventListener("resize", (event) => {}); TO KEEP GAME ZONE OK AND BALLS INSIDE WHILE RESIZING
 
 const mainMenu = document.getElementById('mainMenu');
@@ -30,6 +30,17 @@ const scoreLeft = document.querySelector('.score.left');
 const scoreRight = document.querySelector('.score.right');
 const livesLeft = document.querySelector('.lives.left');
 const livesRight = document.querySelector('.lives.right');
+
+// Menu | Title Explosion effect
+const explose = (id) => {
+    let element = document.getElementById(id);
+    let text = element.innerText.split('');
+    element.innerText = '';
+    text.forEach(letter => {
+        let span = document.createElement(letter != ' ' ? 'span' : 'p');
+        span.classList.add('explosive'); span.innerText = letter; element.appendChild(span);});
+};
+explose('title');
 
 const gameLauncher = document.getElementById('gamelaunch');
 gameLauncher.addEventListener('click', gameStart, false)
@@ -178,10 +189,10 @@ function hitAndScore(ball) {
     // Set a radius around the ball to scan for collision detection and is expressed in viewport(v) css units 
     let radius = 5; 
     // Sub-function that returns a Boolean whether a given block and the ball are within radius distance
-    let isToScan = (block) => (((block.x - ball.x)**2 + (block.y - ball.y)**2)**0.5) < radius;
+    let isWithinRadius = (block) => (((block.x - ball.x)**2 + (block.y - ball.y)**2)**0.5) < radius;
     // Set a filter of the gameMap to scan around a radius of num
-    let scanZone = gameSettings._gameMap.filter(isToScan);
-    // Early exits if no brick to hit!
+    let scanZone = gameSettings._gameMap.filter(isWithinRadius);
+    // Early exits if no brick in the radius range!
     if (scanZone.length == 0) {return;};
     
     for (let block of scanZone) {
@@ -240,7 +251,6 @@ function gameOver() {
 // Game | Launch a new game 
 function gameStart() {
 
-    console.log('Setting new game..')
     for (let player in gameSettings._opponents) {
         gameSettings._opponents[player].lives = gameSettings._ballPerRound;
         gameSettings._opponents[player].isInPlay = false;

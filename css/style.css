@@ -93,7 +93,7 @@ nav {
     cursor: pointer;
     color:#fa541c;
     font-weight: bold;
-    line-height: 5vh;;
+    line-height: 5vh;
     animation: pulse 3s ease-in-out infinite;
 }
 @keyframes pulse{50%{font-size:5.5vh;}}
@@ -102,6 +102,19 @@ nav {
     font-size: 5rem;
     font-weight: bold;
 }
+
+.explosive {
+    display: inline-block;
+    transition: transform 400ms ease;
+}
+
+#title:hover > .explosive {transition-duration: 800ms;}
+
+#title:hover > .explosive:nth-child(1) {transform: translate(-100%, 60%) rotate(10deg);}
+#title:hover > .explosive:nth-child(2) {transform: translate(-110%, -60%) rotate(-30deg);}
+#title:hover > .explosive:nth-child(3) {transform: translate(-50%, -30%) rotate(10deg);}
+#title:hover > .explosive:nth-child(4) {transform: translate(-10%, 30%) rotate(50deg);}
+#title:hover > .explosive:nth-child(5) {transform: translate(-10%, -70%) rotate(-10deg);}
 
 /* For mobile devices: prevent browser from intercepting touch gestures */
 .screenLock {
