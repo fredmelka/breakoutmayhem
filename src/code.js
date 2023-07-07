@@ -14,8 +14,8 @@ export const gameSettings = {
     _ballPerRound: 5,
     _paddle: {height: 12, width: 1.5, speed: 0.7},
     _opponents: {
-        left:   {score: 0, lives: 5, isInPlay: false, ballsInPlay: []}, // ballsInPlay is set as an array in case the developer want to allow multiple balls in play for each player
-        right:  {score: 0, lives: 5, isInPlay: false, ballsInPlay: []}} 
+        left:   {score: 0, lives: 1, isInPlay: false, ballsInPlay: []}, // ballsInPlay is set as an array in case the developer want to allow multiple balls in play for each player
+        right:  {score: 0, lives: 1, isInPlay: false, ballsInPlay: []}} 
 };
 
 let gameAreaBorders, player1, player2;
@@ -32,7 +32,7 @@ const livesLeft = document.querySelector('.lives.left');
 const livesRight = document.querySelector('.lives.right');
 
 const gameLauncher = document.getElementById('gamelaunch');
-gameLauncher.addEventListener('click', game, false)
+gameLauncher.addEventListener('click', gameStart, false)
 
 
 // Game Controls | Keyboard listeners and mobile pointer events
@@ -85,7 +85,7 @@ function loadMap(map) {
     for (let row in map) {
         for (let column in map[row]) {
             switch (map[row][column]) {
-                case 'W': gameSettings._gameMap.push(new Box('wall', column * columnInterval, row * rowInterval, 100)); break;
+                case 'W': gameSettings._gameMap.push(new Box('wall', column * columnInterval, row * rowInterval)); break;
                 case 'B': gameSettings._gameMap.push(new Brick('brick', column * columnInterval, row * rowInterval, 100)); break;
                 default: break;
             };
@@ -172,11 +172,22 @@ function collisionDetection (obstacle, ball) {
 
 // Game | Collide, Hit and Score!
 function hitAndScore(ball) {
-    if (!ball) {return};
-    for (let i in gameSettings._gameMap)    {let block = gameSettings._gameMap[i];
-                                            let test = collisionDetection(block, ball);
-                                            if (test && block.name == 'brick')  {gameSettings._opponents[ball.side].score += block.receiveDamage(ball.strength);};
-                                            if (block.energyPoints <= 0)        {gameSettings._gameMap.splice(i,1);};};
+
+    if (!ball) {return;};
+
+    // Set a radius around the ball to scan for collision detection and is expressed in viewport(v) css units 
+    let radius = 5; 
+    // Sub-function that returns a Boolean whether a given block and the ball are within radius distance
+    let isToScan = (block) => (((block.x - ball.x)**2 + (block.y - ball.y)**2)**0.5) < radius;
+    // Set a filter of the gameMap to scan around a radius of num
+    let scanZone = gameSettings._gameMap.filter(isToScan);
+    // Early exits if no brick to hit!
+    if (scanZone.length == 0) {return;};
+    
+    for (let block of scanZone) {
+        if (collisionDetection(block, ball) && block.name == 'brick') {gameSettings._opponents[ball.side].score += block.receiveDamage(ball.strength);};};
+
+    gameSettings._gameMap = gameSettings._gameMap.filter(block => (block.name == 'wall') || (block.energyPoints > 0));
 };
 
 // Header | Scoreboard Update
@@ -227,7 +238,7 @@ function gameOver() {
 };
 
 // Game | Launch a new game 
-function game() {
+function gameStart() {
 
     console.log('Setting new game..')
     for (let player in gameSettings._opponents) {
@@ -259,7 +270,7 @@ function game() {
 function renderGame() {
 
     let noBallsLeft = getInPlay();
-    if (noBallsLeft || gameSettings._gameMap.length == 0) {return gameOver()};
+    if (noBallsLeft || gameSettings._gameMap.length == 0) {return gameOver();};
 
     movePaddle(player1);
     player1.bounceControl(gameSettings._opponents.left.ballsInPlay[0]);

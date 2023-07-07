@@ -2,6 +2,7 @@
 // Import Export | Global Variables
 import { gameSettings } from "./code.js";
 
+
 // CLASS | Paddle
 export default class Paddle {
 
@@ -51,7 +52,7 @@ moveUp()                    {let moveUp = this.y; moveUp -= gameSettings._paddle
     
 moveDown()                  {let moveDown = this.y; moveDown += gameSettings._paddle.speed; this.y = moveDown;}
 
-bounceControl(ball)         {if (!ball) {return};
+bounceControl(ball)         {if (!ball) {return;};
 
                             let ballEdge = ball.element.getBoundingClientRect();
                             let paddleEdge = this.element.getBoundingClientRect();
@@ -66,13 +67,14 @@ bounceControl(ball)         {if (!ball) {return};
                             case 'left':
                                 if (ballEdge.left < paddleEdge.right && ballEdge.bottom > paddleEdge.top && ballEdge.top < paddleEdge.bottom)
                                 {ball.vector.x = 1; ball.vector.y = bounceAngle; this.playSound();};
-                            break;
+                                break;
 
                             case 'right':
                                 if (ballEdge.right > paddleEdge.left && ballEdge.bottom > paddleEdge.top && ballEdge.top < paddleEdge.bottom)
                                 {ball.vector.x = -1; ball.vector.y = bounceAngle; this.playSound();};
-                            break;
-                            };}
+                                break;
+                            };
+                            }
 
 playSound()                 {document.querySelector('#paddle-ball-bounce').play();}
     

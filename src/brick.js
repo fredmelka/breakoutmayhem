@@ -9,6 +9,7 @@ export const boxSet = {
 
 export const OpacityLevels   = [0, 25, 50, 100]; // Abolute remaining energy points of the Brick 
 
+
 // Main Class | Box
 export default class Box {
 
