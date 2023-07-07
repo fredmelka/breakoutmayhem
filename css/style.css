@@ -48,7 +48,7 @@ nav {
 } */
 
 #maiMenu div {
-    padding: 1vh 1vw;
+    padding: 0.5vh 0.5vw;
 
 }
 
@@ -105,26 +105,27 @@ nav {
 
 .explosive {
     display: inline-block;
-    transition: transform 400ms ease;
+    transition: transform 400ms ease, color 1s ease;
 }
 
+/* explosive title transition */
 #title:hover > .explosive {transition-duration: 800ms;}
 
-#title:hover > .explosive:nth-child(1) {transform: translate(-130%, 60%) rotate(10deg);}
-#title:hover > .explosive:nth-child(2) {transform: translate(-120%, -60%) rotate(-30deg);}
-#title:hover > .explosive:nth-child(3) {transform: translate(-70%, -30%) rotate(10deg);}
-#title:hover > .explosive:nth-child(4) {transform: translate(-20%, 30%) rotate(50deg);}
-#title:hover > .explosive:nth-child(5) {transform: translate(-10%, -70%) rotate(-100deg);}
-#title:hover > .explosive:nth-child(6) {transform: translate(-10%, 20%) rotate(45deg);}
-#title:hover > .explosive:nth-child(7) {transform: translate(-5%, 5%) rotate(-5deg);}
-#title:hover > .explosive:nth-child(8) {transform: translate(0%, -5%) rotate(-5deg);}
+#title:hover > .explosive:nth-child(1) {transform: translate(-130%, 60%) rotate(10deg); color: #cf1322;}
+#title:hover > .explosive:nth-child(2) {transform: translate(-120%, -60%) rotate(-30deg); color: #d46b08;}
+#title:hover > .explosive:nth-child(3) {transform: translate(-70%, -30%) rotate(10deg); color: #ffe58f;}
+#title:hover > .explosive:nth-child(4) {transform: translate(-20%, 30%) rotate(50deg); color: #a0d911;}
+#title:hover > .explosive:nth-child(5) {transform: translate(-10%, -70%) rotate(-100deg); color: #2f54eb;}
+#title:hover > .explosive:nth-child(6) {transform: translate(-10%, 20%) rotate(45deg); color: #9e1068;}
+#title:hover > .explosive:nth-child(7) {transform: translate(-5%, 5%) rotate(-5deg); color: #eb2f96;}
+#title:hover > .explosive:nth-child(8) {transform: translate(0%, -5%) rotate(-5deg); color: #ffadd2;}
 /* 9th child is the space character between the two words! */
-#title:hover > .explosive:nth-child(10) {transform: translate(-10%, -100%) rotate(-530deg);}
-#title:hover > .explosive:nth-child(11) {transform: translate(10%, -60%) rotate(420deg);}
-#title:hover > .explosive:nth-child(12) {transform: translate(20%, 30%) rotate(-20deg);}
-#title:hover > .explosive:nth-child(13) {transform: translate(45%, -30%) rotate(40deg);}
-#title:hover > .explosive:nth-child(14) {transform: translate(75%, 40%) rotate(-80deg);}
-#title:hover > .explosive:nth-child(15) {transform: translate(120%, 20%) rotate(-375deg);}
+#title:hover > .explosive:nth-child(10) {transform: translate(-10%, -100%) rotate(-530deg); color: #fadb14;}
+#title:hover > .explosive:nth-child(11) {transform: translate(10%, -60%) rotate(420deg); color: #fffb8f;}
+#title:hover > .explosive:nth-child(12) {transform: translate(20%, 30%) rotate(-20deg); color:#722ed1;}
+#title:hover > .explosive:nth-child(13) {transform: translate(45%, -30%) rotate(40deg); color: #85a5ff;}
+#title:hover > .explosive:nth-child(14) {transform: translate(75%, 40%) rotate(-80deg); color: #5cdbd3;}
+#title:hover > .explosive:nth-child(15) {transform: translate(120%, 20%) rotate(-375deg); color: #ad2102}
 
 
 /* For mobile devices: prevent browser from intercepting touch gestures */
