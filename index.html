@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang='en'>
 
 <head>
@@ -21,48 +22,35 @@
 
 <body>
 
-    <!-- HEADER | SCOREBOARD -->
-    <header>
-        <section>
-            <div><p>Player One</p></div>
-            <div><p class = "lives left"></p></div>
-            <div><p class = "score left"></p></div>
+    <main>
+        <section id='dialogBox' class='hidden'>
+            <p></p>
+            <p></p>
+            <p></p>
         </section>
-        <section>
-            <div><p class = "score right"></p></div>
-            <div><p class = "lives right"></p></div>
-            <div><p>Player Two</p></div>
-        </section> 
-    </header>
-
-    <!-- NAV | GAMEPLAY AREA -->
-    <nav>
-        <div id="dialogBox">
-            <p></p>
-            <p></p>
-            <p></p>
-        </div>
-        <section  id="mainMenu">
+        <section  id='mainMenu'>
             <div>
                 <p id='title'>Breakout Mayhem</p>
+            </div>
+            <div>
                 <br />
                 <p id='gamelaunch'>Start Game</p>
                 <p>Rules</p>
                 <p>Credits</p>
             </div>
-            </section>
-        <main id="gameArea" class="hidden"></main>
-    </nav>
+        </section>
+        <section id='gameArea' class='hidden'>
+        </section>
+    </main>
 
-    <!-- FOOTER | AUDIO FILES LOADING -->
-    <footer>
+    <section>
         <audio id='new-ball' src='./snd/game.new.ball.wav'></audio>
         <audio id='game-over' src='./snd/game.gameover.wav'></audio>
         <audio id='ball-wall-bounce' src='./snd/ball.wall.bounce.wav'></audio>
         <audio id='ball-touchdown' src='./snd/ball.touch.opponent.wav'></audio>
         <audio id='paddle-ball-bounce' src='./snd/paddle.ball.bounce.wav'></audio>
         <audio id='brick-explosion' src='./snd/brick.explosion.wav'></audio>
-    </footer>
+    </section>
 
 </body>
 

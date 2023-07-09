@@ -1,6 +1,7 @@
 
 // Import Export | Global Variables
 import { gameSettings } from "./code.js";
+import { gameArea } from "./code.js";
 
 
 // CLASS | Paddle
@@ -77,5 +78,5 @@ bounceControl(ball)         {if (!ball) {return;};
                             }
 
 playSound()                 {document.querySelector('#paddle-ball-bounce').play();}
-    
+
 };

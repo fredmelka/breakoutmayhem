@@ -8,28 +8,32 @@ import { mapDiamond, mapFace, mapIsland, mapTest } from './map.js';;
 
 // Game | Settings Singleton 
 export const gameSettings = {
-    _gameBoard: {width: 80, height: 80},  // expressed as {vw,vh} CSS units
+    _gameBoard: {width: 90, height: 90},  // expressed as {vw,vh} CSS units
     _gameMap: [],
     _ballSet: {src: '', size: 1.5, strength: 20, speed: 0.4}, // src is there in case we want to render the ball using either an emoji or an image
     _ballPerRound: 5,
-    _paddle: {height: 12, width: 1.5, speed: 0.7},
+    _paddle: {height: 12.0, width: 2.0, speed: 0.7},
     _opponents: {
         left:   {score: 0, lives: 1, isInPlay: false, ballsInPlay: []}, // ballsInPlay is set as an array in case the developer want to allow multiple balls in play for each player
         right:  {score: 0, lives: 1, isInPlay: false, ballsInPlay: []}} 
 };
 
 let gameAreaBorders, player1, player2;
-
     
-// DOM | Principal Objects
+// DOM | Principal Areas
 export const gameArea = document.getElementById('gameArea');        // ADD addEventListener("resize", (event) => {}); TO KEEP GAME ZONE OK AND BALLS INSIDE WHILE RESIZING
-
 const mainMenu = document.getElementById('mainMenu');
 const dialogBox = document.getElementById('dialogBox');
-const scoreLeft = document.querySelector('.score.left');
-const scoreRight = document.querySelector('.score.right');
-const livesLeft = document.querySelector('.lives.left');
-const livesRight = document.querySelector('.lives.right');
+
+// Game | Create Scoreboard
+const createScoreCards = () => {
+    
+Object.keys(gameSettings._opponents).forEach(opponent => {
+    let scoreCard = document.createElement('span');
+    scoreCard.classList.add('scoreCard', opponent);
+    document.querySelector('main').appendChild(scoreCard);}
+);
+};
 
 // Menu | Title Explosion effect
 const explose = (id) => {
@@ -38,15 +42,15 @@ const explose = (id) => {
     element.innerText = '';
     text.forEach(letter => {
         let span = document.createElement(letter != ' ' ? 'span' : 'p');
-        span.classList.add('explosive'); span.innerText = letter; element.appendChild(span);});
+        span.classList.add('explosive');
+        span.innerText = letter; element.appendChild(span);});
 };
 explose('title');
 
+// Game Controls | Keyboard listeners and mobile pointer events
 const gameLauncher = document.getElementById('gamelaunch');
 gameLauncher.addEventListener('click', gameStart, false)
 
-
-// Game Controls | Keyboard listeners and mobile pointer events
 const keyDown = document.addEventListener('keydown', keyDownHandler, false);
 function keyDownHandler(event) {
     switch (event.key) {
@@ -75,7 +79,7 @@ function keyUpHandler(event) {
     };
 };
 
-// the Event Listener for Mobile Device Control is activated only when the game actually starts as the variable 'gameAreaBorders' is not yet defined
+// Responsive Design | Event-Listener for Mobile Device Control. Is activated only when the game actually starts as the variable 'gameAreaBorders' is not yet defined
 function touchScreenHandler(event) {
     
     let playerSide = event.clientX < (gameAreaBorders.left + gameAreaBorders.right) / 2 ? 'left' : 'right';
@@ -104,7 +108,7 @@ function loadMap(map) {
     };
 };
 
-// Game | Add a new ball in play until both players have no more lives
+// Game | Place a new ball in play until both players have no more lives to spend
 function getInPlay() {
 
     for (let player in gameSettings._opponents) {
@@ -204,16 +208,9 @@ function hitAndScore(ball) {
 // Header | Scoreboard Update
 function updateScoreboard() {
     
-    let stringify = (num, nDigits) => {
-        let stringed = Math.min(Math.pow(10, nDigits) - 1, num).toString().split('').slice(0, nDigits);
-        for (let i = stringed.length ; i < nDigits ; i++) {stringed.unshift('0');};
-        return stringed.join('');}
-
-    scoreLeft.innerText = '🪙 ' + stringify(gameSettings._opponents.left.score, 5);
-    scoreRight.innerText = stringify(gameSettings._opponents.right.score, 5) + ' 🪙';
-
-    livesLeft.innerText = '❤️ ' + stringify(gameSettings._opponents.left.lives, 1);
-    livesRight.innerText = stringify(gameSettings._opponents.right.lives, 1) + ' ❤️';
+    let { left , right } = gameSettings._opponents;
+    document.querySelector('.scoreCard.left').innerText = `🪙 ${left.score.toString().padStart(5, '0')}  ❤️ ${left.lives.toString().padStart(2, '0')}`;
+    document.querySelector('.scoreCard.right').innerText = `${right.lives.toString().padStart(2, '0')} ❤️  ${right.score.toString().padStart(5, '0')} 🪙`;
 };
 
 // Game | Control of the game status
@@ -229,7 +226,10 @@ function gameOver() {
     document.removeEventListener('pointermove', touchScreenHandler);
     document.querySelector('body').classList.remove('screenLock');
 
+    document.querySelectorAll('.scoreCard').forEach(player => player.remove());
+
     let winner = gameSettings._opponents.left.score > gameSettings._opponents.right.score ? 'Left' : 'Right';
+
     dialogBox.querySelectorAll('p')[0].innerText = `Game Over!`;
     dialogBox.querySelectorAll('p')[1].innerText = `Fantastic, ${winner} player wins!`;
     dialogBox.querySelectorAll('p')[2].innerText = `Click to return`;
@@ -239,13 +239,16 @@ function gameOver() {
     gameArea.classList.add('fade-out');
     gameSettings._gameMap = [];
 
-    setTimeout(() => {gameArea.innerHTML = '';
-                      dialogBox.classList.add('appear');
-                      gameArea.classList.add('hidden');}, 4000);
+    setTimeout(() => {  gameArea.innerHTML = '';
+                        dialogBox.classList.remove('hidden');
+                        dialogBox.classList.add('appear');
+                        gameArea.classList.add('hidden');}, 4000);
 
-    dialogBox.addEventListener('click', () => {dialogBox.classList.remove('appear');
-                                                mainMenu.classList.remove('hidden');
-                                                mainMenu.classList.add('appear');});
+    dialogBox.addEventListener('click', () => {
+                        dialogBox.classList.remove('appear');
+                        dialogBox.classList.add('hidden');
+                        mainMenu.classList.remove('hidden');
+                        mainMenu.classList.add('appear');});
 };
 
 // Game | Launch a new game 
@@ -260,6 +263,8 @@ function gameStart() {
     gameArea.classList.remove('hidden');
     gameArea.classList.remove('fade-out');
     gameArea.classList.add('fade-in');
+
+    createScoreCards();
 
     gameAreaBorders = gameArea.getBoundingClientRect();
 

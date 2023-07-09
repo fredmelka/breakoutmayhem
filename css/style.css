@@ -2,91 +2,52 @@
 /* IMPORT FOR FONTS AND ANIMATIONS */
 /* GENERAL SETTTING AND DEFAULT BROWSER SETTINGS RESET */
 
-* {
-    margin: 0;
-    padding: 0;
-    font-family: 'Ubuntu Condensed', sans-serif;
+* {margin: 0; padding: 0; font-family: 'Ubuntu Condensed', sans-serif;}
+
+html {
+    max-width: 1280px;
+    margin: 0 auto;
 }
 
 body {
-    background: linear-gradient(135deg, #1f1f1f, 98%,#434343);
-}
-
-header {
-    border-bottom: 2px solid lightblue;
-    display: flex;
-    justify-content: space-around;
-    padding: 1rem;
-}
-
-header section div {
-    display: inline-block;
-    margin: 0 1rem 0 auto;
-}
-
-p {
-    color: whitesmoke;
-    font-size: 5vh;
-}
-
-nav {
+    background-color: #1f1f1f;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80vh;
+    height: 100vh;
 }
 
-/* #mainMenu {
-    border: 2px solid lightblue;
-    border-radius: 1vh;
-    box-shadow: 0 0 1vh darkgray;
-    display: block;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 70vw;
-} */
+main {position: relative;}
 
-#maiMenu div {
-    padding: 0.5vh 0.5vw;
+p {color: whitesmoke; font-size: 5vh;}
 
-}
+#mainMenu {
 
-#mainMenu p {
-    margin: 0 auto;
-    padding: 1vh 1vw;
     text-align: center;
+    
+    & div:first-child {margin-top: 15vh;}
+    & div:first-child p {padding: 2vh;}
+    & p {padding: 0.5vw 0.5vh;}
 }
 
 #gameArea {
     border-left: 3px dashed #f5222d;
     border-right: 3px dashed #52c41a;
-    height: 80vh;
+    height: 90vh;
     margin: 2vh auto;
     position: relative;
-    width: 80vw;
+    width: 90vw;
 }
 
 #dialogBox {
     border: 2px solid lightgray;
-    border-radius: 1vh;;
+    border-radius: 2vh;
     box-shadow: 0 0 1vh darkgray;
-    display: none;
-    flex-direction: column;
-    align-items: center;
     text-align: center;
-    padding: 2vw 3vh;
-}
+    padding: 2vh 2vw;
 
-#dialogBox p {
-    font-size: 2rem;
-    padding: 1vh 1vw;
-}
-
-#dialogBox p:first-child {
-    font-size: 3rem;
-    font-weight: bold;
-    color: #faad14;
+    & p {font-size: 2rem; padding-bottom: 0.5rem;}
+    & :first-child {padding-bottom: 1rem; color: #faad14; font-weight: bold;}
 }
 
 #gamelaunch {
@@ -94,12 +55,13 @@ nav {
     color:#fa541c;
     font-weight: bold;
     line-height: 5vh;
-    animation: pulse 3s ease-in-out infinite;
+    animation: pulse 2s ease infinite;
 }
-@keyframes pulse{50%{font-size:5.5vh;}}
+@keyframes pulse{50%{opacity: 0.3;}}
 
 #title {
-    font-size: 5rem;
+    padding-top: 15vh;
+    font-size: min(150px, 10vw);
     font-weight: bold;
 }
 
@@ -128,48 +90,27 @@ nav {
 #title:hover > .explosive:nth-child(15) {transform: translate(120%, 20%) rotate(-375deg); color: #ad2102}
 
 
-/* For mobile devices: prevent browser from intercepting touch gestures */
-.screenLock {
-    touch-action: none;
-}
+/* For mobile devices! This prevent browser from intercepting touch gestures */
+.screenLock {touch-action: none;}
 
-.appear {
-    display: block !important;
-}
+.appear {display: block !important;}
 
-.hidden {
-    display: none !important;
-}
+.hidden {display: none !important;}
 
-.fade-in {
-	animation: fade-in 1.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-}
+.fade-in {animation: fade-in 1.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;}
 @keyframes fade-in{0%{opacity:0}100%{opacity:1}}
 
-.fade-out {
-	animation: fade-out 2s ease-out 2s both;
-}
+.fade-out {animation: fade-out 2s ease-out 2s both;}
 @keyframes fade-out{0%{opacity:1}100%{opacity:0}}
 
 .paddle {
     border-radius: 0.2rem;
-    box-shadow: 0 0 0.2vh white, inset 0 0 0.5vh lightgray;
-    height: 6vh;
+    box-shadow: 0 0 0.5vh white, inset 0 0 0.5vh lightgray;
     position: absolute;
-    width: 1vw;    
 }
 
-.paddle.left {
-    background-color: #f5222d;
-    top: 37vh;
-    left: 0vw;
-}
-
-.paddle.right {
-    background-color: #52c41a;
-    top: 37vh;
-    left: 78.5vw;
-}
+.paddle.left {background-color: #f5222d;}
+.paddle.right {background-color: #52c41a;}
 
 .ball {
     border-radius: 1vw;
@@ -178,35 +119,41 @@ nav {
     pointer-events: none;
     width: 2vw;
     aspect-ratio: 1;
-    animation: rotation 2.0s linear infinite reverse none;
-}
-@keyframes rotation { to { transform: rotate(360deg); } }
-
-.ball.left {
-    background-color: #f5222d;
 }
 
-.ball.right {
-    background-color: #52c41a;
-}
+.ball.left {background-color: #f5222d;}
+.ball.right {background-color: #52c41a;}
 
-.wall {
-    background-color: #595959;
-    box-shadow: inset 0 0 0.5vh #fafafa;
-    border: #000000 solid 1px;            /***** border thickness set as a px value ******/
+
+.box {
+    border: #000000 solid 1px;
     border-radius: 0.5vw;
+    box-shadow: inset 0 0 1vh #fafafa;
     position: absolute;
     pointer-events: none;
 }
 
-.brick {
-    border: #000000 solid 1px;            /***** border thickness set as a px value ******/
-    box-shadow: inset 0 0 0.5vh #fafafa;
-    border-radius: 0.5vw;
+.wall {background-color: #595959;}
+.brick {}
+
+.scoreCard {
+    color: whitesmoke;
+    font-size: 1rem;
     position: absolute;
     pointer-events: none;
 }
 
-footer {
-    border-top: 1px solid lightblue;
+.scoreCard.left {
+    top: 1vh;
+    left: 6vw;
+}
+
+.scoreCard.right {
+    top: 1vh;
+    right: 6vw;
+}
+
+@media only screen and (max-height: 450px) {
+    .scoreCard.left {top: 15%; left: -10%; transform: rotate(90deg)}
+    .scoreCard.right {top: 80%; right: -10%; transform: rotate(-90deg)}
 }
