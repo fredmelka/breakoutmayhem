@@ -12,7 +12,7 @@ export const gameSettings = {
     _gameMap: [],
     _ballSet: {src: '', size: 2.0, strength: 20, speed: 0.4}, // src is there in case we want to render the ball using either an emoji or an image
     _ballPerRound: 5,
-    _paddle: {height: 12.0, width: 2.0, speed: 0.7},
+    _paddle: {height: 12.0, width: 2.0, speed: 0.75},
     _opponents: {
         left:   {score: 0, lives: 0, isInPlay: false, ballsInPlay: []}, // ballsInPlay is set as array should the developer wants to allow multiple balls in play for each player
         right:  {score: 0, lives: 0, isInPlay: false, ballsInPlay: []}}
@@ -275,7 +275,7 @@ function gameStart() {
     // Touch-action muted to prevent mobile browser to intercept touch gestures
     document.querySelector('body').classList.add('screenLock');
     // Window onresize | Event-listener that updates the 'gameAreaBorders' variable should window be resized, mobile orientation flipped, etc.
-    window.addEventListener('resize', () => {console.log('resized!'); gameAreaBorders = gameArea.getBoundingClientRect()});
+    window.addEventListener('resize', () => {gameAreaBorders = gameArea.getBoundingClientRect();});
 
     // Instantiation of the two new paddles for the game ahead
     player1 = new Paddle(0, 34, 'left');

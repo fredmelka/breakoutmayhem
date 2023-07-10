@@ -25,7 +25,7 @@ p {color: whitesmoke; font-size: 5vh;}
 
     text-align: center;
     
-    & div:first-child {margin-top: 15vh;}
+    & div:first-child {margin-top: -10vh;}
     & div:first-child p {padding: 2vh;}
     & p {padding: 0.5vw 0.5vh;}
 }
