@@ -60,6 +60,7 @@ a {text-decoration: none; color: #fa541c;}
     border: 2px solid lightgray;
     border-radius: 2vh;
     box-shadow: 0 0 1vh darkgray;
+    cursor: pointer;
     text-align: center;
     padding: 2vh 2vw;
 

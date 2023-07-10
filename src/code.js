@@ -226,16 +226,15 @@ function isGameInProgress() {
 // Game | Terminate game
 function gameOver() {
 
+    let {left, right} = gameSettings._opponents;
+    let winner = left.score > right.score ? 'Left' : 'Right';
+
     document.removeEventListener('pointermove', touchScreenHandler);
     document.querySelector('body').classList.remove('screenLock');
 
     document.querySelectorAll('.scoreCard').forEach(player => player.remove());
 
-    let winner = gameSettings._opponents.left.score > gameSettings._opponents.right.score ? 'Left' : 'Right';
-
-    dialogBox.querySelectorAll('p')[0].innerText = `Game Over!`;
-    dialogBox.querySelectorAll('p')[1].innerText = `Fantastic, ${winner} player wins!`;
-    dialogBox.querySelectorAll('p')[2].innerText = `Click to return`;
+    dialogBox.innerHTML = `<p>Game Over<p/><p>${winner} player wins!<br/>Click to return</p>`;
 
     document.querySelector('#music-game-over').play();
     
@@ -250,9 +249,14 @@ function gameOver() {
     dialogBox.addEventListener('click', () => {
                         dialogBox.classList.remove('appear');
                         dialogBox.classList.add('hidden');
+                        dialogBox.innerHTML = '';
+
                         mainMenu.classList.remove('hidden');
                         mainMenu.classList.add('appear');
-                        accordeon.classList.add('appear')});
+
+                        accordeon.classList.remove('hidden');
+                        accordeon.classList.add('appear')
+                    });
 };
 
 // Game | Launch a new game 
