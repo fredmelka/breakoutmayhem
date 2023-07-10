@@ -24,6 +24,7 @@ let gameAreaBorders, player1, player2;
 export const gameArea = document.getElementById('gameArea');        // ADD addEventListener("resize", (event) => {}); TO KEEP GAME ZONE OK AND BALLS INSIDE WHILE RESIZING
 const mainMenu = document.getElementById('mainMenu');
 const dialogBox = document.getElementById('dialogBox');
+const accordeon = document.getElementById('accordeon');
 
 // Game | Create Scoreboard
 const createScoreCards = () => {
@@ -250,7 +251,8 @@ function gameOver() {
                         dialogBox.classList.remove('appear');
                         dialogBox.classList.add('hidden');
                         mainMenu.classList.remove('hidden');
-                        mainMenu.classList.add('appear');});
+                        mainMenu.classList.add('appear');
+                        accordeon.classList.add('appear')});
 };
 
 // Game | Launch a new game 
@@ -261,6 +263,7 @@ function gameStart() {
         gameSettings._opponents[player].isInPlay = false;
         gameSettings._opponents[player].score = 0;};
 
+    accordeon.classList.add('hidden');
     mainMenu.classList.add('hidden');
     gameArea.classList.remove('hidden');
     gameArea.classList.remove('fade-out');
@@ -281,7 +284,7 @@ function gameStart() {
     player1 = new Paddle(0, 34, 'left');
     player2 = new Paddle(gameSettings._gameBoard.width - gameSettings._paddle.width, 34, 'right');
 
-    loadMap(mapDiamond);
+    loadMap(mapTest);
     console.table(gameSettings._gameMap);
 
     renderGame();

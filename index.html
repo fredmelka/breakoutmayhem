@@ -25,18 +25,39 @@
 
     <main>
         <section id='dialogBox' class='hidden'>
-            <p></p>
-            <p></p>
-            <p></p>
+            <p></p><p></p><p></p>
         </section>
         <section  id='mainMenu'>
             <div>
                 <p id='title'>Breakout Mayhem</p>
             </div>
             <div>
-                <p id='gamelaunch'>Start Game</p>
-                <p>Credits <img src='./img/breakoutmayhem.png' alt='Breakout Mayhem'/></p>
+                <p id='gamelaunch'>- Start game -</p>
             </div>
+        </section>
+        <section id='accordeon'>
+                <label>
+                    <span>Gameplay</span>
+                    <input type='radio' value='faq1' name='accordeon' />
+                    <div>
+                        <p>This is a two player real time game.
+                            <br/>Control the paddle to drive your own ball, destroy bricks, defend your side, get powers, earn points!
+                            <br/>Left player uses keys 'Q' & 'W' while Right opponent uses 'Up' & 'Down' arrows.
+                            <br/>Play single mode to put your brain and coordination to the test!
+                            <br/> Have fun !
+                        </p>
+                    </div>
+                </label>
+                <label>
+                    <span>About the project</span>
+                    <input type='radio' value='faq2' name='accordeon'>
+                    <div>
+                        <p>The game is a tribute to two masterpiece classics of computing games <i>Pong</i>  & <i>Breakout</i>.
+                           <br/><a href='https://www.linkedin.com/in/fredmelka' target='_blank' >Contact.</a>
+                           <br/><img src='./img/breakoutmayhem.png' alt='Breakout Mayhem'/>
+                        </p>
+                    </div>
+                </label>
         </section>
         <section id='gameArea' class='hidden'>
         </section>

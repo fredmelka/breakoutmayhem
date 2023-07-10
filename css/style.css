@@ -19,15 +19,32 @@ body {
 
 main {position: relative;}
 
-p {color: whitesmoke; font-size: 8vh;}
+p {color: whitesmoke; font-size: 6vh;}
+
+a {text-decoration: none; color: #fa541c;}
 
 #mainMenu {
 
     text-align: center;
     
-    & div:first-child {margin-top: -10vh;}
+    & div:first-child {margin-top: -25vh;}
+    /* & div (margin-bottom: 2vh;) */
     & div:first-child p {padding: 2vh;}
-    & p {padding: 0.5vw 0.5vh;}
+}
+
+#accordeon {
+    position: fixed;
+    top: 55vh;
+    left: 15vw;
+    width: 70vw;
+    overflow: hidden;
+    margin: 0 auto;
+
+    > label > span {color: whitesmoke; font-size: 2rem; padding: 5px 10px; display: block; cursor: pointer; text-align: center;}
+    > label > div {display: grid; grid-template-rows: 0fr; transition: all ease 300ms; overflow: hidden; padding: 0px;}
+    > label > div > p {color: #ffe58f; overflow: hidden; font-size: 1rem;text-align: center;}
+    > label input[type=radio] {display: none}
+    > label input[type=radio]:checked + div {grid-template-rows: 1fr;}
 }
 
 #gameArea {
@@ -53,14 +70,13 @@ p {color: whitesmoke; font-size: 8vh;}
 #gamelaunch {
     cursor: pointer;
     color:#fa541c;
+    font-size: 2.5rem;
     font-weight: bold;
-    line-height: 5vh;
     animation: pulse 2s ease infinite;
 }
-@keyframes pulse{50%{opacity: 0.3;}}
+@keyframes pulse{50%{opacity: 0.2;}}
 
 #title {
-    padding-top: 15vh;
     font-size: min(150px, 10vw);
     font-weight: bold;
 }
@@ -124,7 +140,6 @@ p {color: whitesmoke; font-size: 8vh;}
 .ball.left {background-color: #f5222d;}
 .ball.right {background-color: #52c41a;}
 
-
 .box {
     border: #000000 solid 1px;
     border-radius: 0.5vw;
@@ -142,15 +157,8 @@ p {color: whitesmoke; font-size: 8vh;}
     pointer-events: none;
 }
 
-.scoreCard.left {
-    top: 1vh;
-    left: 6vw;
-}
-
-.scoreCard.right {
-    top: 1vh;
-    right: 6vw;
-}
+.scoreCard.left {top: 1vh; left: 6vw;}
+.scoreCard.right {top: 1vh; right: 6vw;}
 
 @media only screen and (max-height: 450px) {
     .scoreCard.left {top: 15%; left: -10%; transform: rotate(90deg)}
