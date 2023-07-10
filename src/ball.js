@@ -75,8 +75,8 @@ touchDown()                 {let opponentSide = this.side == 'left' ? 'right' : 
 
 
 playSound(effect)           {let soundPalette = {
-                                wallBounce: document.querySelector('#ball-wall-bounce'),
-                                touchDown: document.querySelector('#ball-touchdown')};
+                                wallBounce: document.querySelector('#music-ball-wall-bounce'),
+                                touchDown: document.querySelector('#music-ball-touchdown')};
                             return soundPalette[effect].play();}
 
 };

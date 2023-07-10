@@ -77,6 +77,6 @@ bounceControl(ball)         {if (!ball) {return;};
                             };
                             }
 
-playSound()                 {document.querySelector('#paddle-ball-bounce').play();}
+playSound()                 {document.querySelector('#music-paddle-ball-bounce').play();}
 
 };

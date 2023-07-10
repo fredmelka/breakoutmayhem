@@ -10,12 +10,12 @@ import { mapDiamond, mapFace, mapIsland, mapTest } from './map.js';;
 export const gameSettings = {
     _gameBoard: {width: 90, height: 90},  // expressed as {vw,vh} CSS units
     _gameMap: [],
-    _ballSet: {src: '', size: 1.5, strength: 20, speed: 0.4}, // src is there in case we want to render the ball using either an emoji or an image
+    _ballSet: {src: '', size: 2.0, strength: 20, speed: 0.4}, // src is there in case we want to render the ball using either an emoji or an image
     _ballPerRound: 5,
     _paddle: {height: 12.0, width: 2.0, speed: 0.7},
     _opponents: {
-        left:   {score: 0, lives: 1, isInPlay: false, ballsInPlay: []}, // ballsInPlay is set as an array in case the developer want to allow multiple balls in play for each player
-        right:  {score: 0, lives: 1, isInPlay: false, ballsInPlay: []}} 
+        left:   {score: 0, lives: 0, isInPlay: false, ballsInPlay: []}, // ballsInPlay is set as array should the developer wants to allow multiple balls in play for each player
+        right:  {score: 0, lives: 0, isInPlay: false, ballsInPlay: []}}
 };
 
 let gameAreaBorders, player1, player2;
@@ -79,7 +79,7 @@ function keyUpHandler(event) {
     };
 };
 
-// Responsive Design | Event-Listener for Mobile Device Control. Is activated only when the game actually starts as the variable 'gameAreaBorders' is not yet defined
+// Responsive Design | Event-listener for Mobile Device Control. Is activated only when the game actually starts as the variable 'gameAreaBorders' is not yet defined
 function touchScreenHandler(event) {
     
     let playerSide = event.clientX < (gameAreaBorders.left + gameAreaBorders.right) / 2 ? 'left' : 'right';
@@ -111,22 +111,24 @@ function loadMap(map) {
 // Game | Place a new ball in play until both players have no more lives to spend
 function getInPlay() {
 
-    for (let player in gameSettings._opponents) {
+    let { _opponents: opponents} = gameSettings;
 
-        if (gameSettings._opponents[player].isInPlay == false) {
-            gameSettings._opponents[player].ballsInPlay.pop();
+    for (let player in opponents) {
 
-            if (gameSettings._opponents[player].lives > 0) {
+        if (opponents[player].isInPlay == false) {
+            
+            opponents[player].ballsInPlay.pop();
+
+            if (opponents[player].lives > 0) {
                                 
-                    gameSettings._opponents[player].lives -- ;
-                    gameSettings._opponents[player].isInPlay = true;
-                    gameSettings._opponents[player].ballsInPlay.push(new Ball (player, 40, 0, gameAreaBorders));
-
-                    document.querySelector('#new-ball').play();
+                opponents[player].lives -- ; opponents[player].isInPlay = true;
+                opponents[player].ballsInPlay.push(new Ball (player, 40, 0, gameAreaBorders));
+                document.querySelector('#music-new-ball').play();
             };
         };
     };
-    return Object.values(gameSettings._opponents).every(player => player.ballsInPlay.length === 0)
+
+    return Object.values(opponents).every(player => player.ballsInPlay.length === 0)
 };
 
 // Game | Execute the ball move() method for all balls in play
@@ -234,7 +236,7 @@ function gameOver() {
     dialogBox.querySelectorAll('p')[1].innerText = `Fantastic, ${winner} player wins!`;
     dialogBox.querySelectorAll('p')[2].innerText = `Click to return`;
 
-    document.querySelector('#game-over').play();
+    document.querySelector('#music-game-over').play();
     
     gameArea.classList.add('fade-out');
     gameSettings._gameMap = [];
@@ -266,16 +268,20 @@ function gameStart() {
 
     createScoreCards();
 
+    // Capture the gameArea dimensions
     gameAreaBorders = gameArea.getBoundingClientRect();
-
+    // Pointermove activated to enable controls of the paddles by swiping fingers
     document.addEventListener('pointermove', touchScreenHandler, false);
+    // Touch-action muted to prevent mobile browser to intercept touch gestures
     document.querySelector('body').classList.add('screenLock');
+    // Window onresize | Event-listener that updates the 'gameAreaBorders' variable should window be resized, mobile orientation flipped, etc.
+    window.addEventListener('resize', () => {console.log('resized!'); gameAreaBorders = gameArea.getBoundingClientRect()});
 
     // Instantiation of the two new paddles for the game ahead
     player1 = new Paddle(0, 34, 'left');
     player2 = new Paddle(gameSettings._gameBoard.width - gameSettings._paddle.width, 34, 'right');
 
-    loadMap(mapTest);
+    loadMap(mapDiamond);
     console.table(gameSettings._gameMap);
 
     renderGame();

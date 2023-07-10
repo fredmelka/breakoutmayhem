@@ -70,7 +70,7 @@ receiveDamage(damage)       {let bonusKill = 100;
                             return damage;}
 
 playSound(effect)           {let soundPalette = {
-                                explosion: document.querySelector('#brick-explosion')};
+                                explosion: document.querySelector('#music-brick-explosion')};
                             return soundPalette[effect].play();
                             };
 
