@@ -19,7 +19,7 @@ body {
 
 main {position: relative;}
 
-p {color: whitesmoke; font-size: 5vh;}
+p {color: whitesmoke; font-size: 8vh;}
 
 #mainMenu {
 
@@ -137,7 +137,7 @@ p {color: whitesmoke; font-size: 5vh;}
 
 .scoreCard {
     color: whitesmoke;
-    font-size: 1rem;
+    font-size: max(1rem, 4vh);
     position: absolute;
     pointer-events: none;
 }

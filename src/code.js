@@ -275,7 +275,7 @@ function gameStart() {
     // Touch-action muted to prevent mobile browser to intercept touch gestures
     document.querySelector('body').classList.add('screenLock');
     // Window onresize | Event-listener that updates the 'gameAreaBorders' variable should window be resized, mobile orientation flipped, etc.
-    window.addEventListener('resize', () => {gameAreaBorders = gameArea.getBoundingClientRect();});
+    window.addEventListener('resize', () => {gameAreaBorders = gameArea.getBoundingClientRect(); console.log('resizing!');});
 
     // Instantiation of the two new paddles for the game ahead
     player1 = new Paddle(0, 34, 'left');
