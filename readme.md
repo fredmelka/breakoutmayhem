@@ -20,12 +20,14 @@ The game is a tribute to two masterpiece classics of computing games: ✨Pong✨
 
 Two players battle with a paddle to control their balls and destroy as much bricks as possible and earn points.
 
+Bricks can contain surprises and powers!
+
 
 ## How to run the game
 
-Please click the link: https://breakoutmahyem.netlify.app
+Click the link https://breakoutmahyem.netlify.app
 
-Or, simply scan the QR code:
+Or, simply scan this QR code
 
 <img src="https://fredmelka.github.io/ironhack-gaming-project-breakout/img/qrcode.png" width = "250px" height = "250px" alt="App QR Code" />
 
@@ -41,13 +43,11 @@ Mobile controllers:
 - Swipe paddles with your fingers!
 
 
-## Settings and futures releases
+## Game Settings
 
 Most game settings can be modified through a singleton object: game speed, ball controls, number of lives, ball strength, brick sizes, etc.
 
 Developers can also create their own gamemaps via a '.xls' file attached to the github repository: layout, bricks, walls, brick sizes, etc.
-
-Coming updates of the project will include sounds, animations, candies and more surprises!
 
 
 ## Tools used in the project
