@@ -1,26 +1,26 @@
 
-# _Crazy Breakout Mayhem Game_
+# _Breakout Mayhem_
 
 
 ## About the project
 
 
- This repository is the first coding project built entirely from the ground-up in the course of my Web Development formation.
+ The repository is the first coding project built entirely from the ground-up in the course of my web development formation.
 
- Its purpose is to practice and rehearse coding concepts and programming languages.
+ Its purpose is to rehearse coding concepts and programming languages.
 
- Project specification was to develop a game app.
+ Project specification was to develop a game application.
  
- I set myself the additional objective to build a real-time (not turn-by-turn) two players game.
+ I set myself with the additional objective to build a real-time (not just turn-by-turn) two players game.
 
 
 ## Breakout Mayhem
 
-The game is a tribute to two masterpiece classics of computing games: ✨Pong✨ and ✨Breakout✨.
+The game is a tribute to two masterpiece classics of computing games ✨Pong✨ & ✨Breakout✨.
 
 Two players battle with a paddle to control their balls and destroy as much bricks as possible and earn points.
 
-Bricks can contain surprises and powers!
+Bricks can contain surprises and super powers!
 
 
 ## How to run the game
@@ -40,14 +40,14 @@ Desktop controllers:
 
 Mobile controllers:
 
-- Swipe paddles with your fingers!
+- Just use your fingers to swipe the paddles!
 
 
 ## Game Settings
 
-Most game settings can be modified through a singleton object: game speed, ball controls, number of lives, ball strength, brick sizes, etc.
+Most game settings can be modified through a singleton object, e.g. ball speed, paddle ball control, number of lives, brick sizes..
 
-Developers can also create their own gamemaps via a '.xls' file attached to the github repository: layout, bricks, walls, brick sizes, etc.
+Developers can also create easily their own map via a .xls file attached in the github repository: layout, bricks, walls..
 
 
 ## Tools used in the project
@@ -55,6 +55,8 @@ Developers can also create their own gamemaps via a '.xls' file attached to the 
 - Languages: Javascript, HTML and CSS.
 
 - Concepts: DOM manipulation, functions & callbacks, arrays & iterators, objects, asynchronous programming, classes, modules, responsive design, external libraries.
+
+Many elements of the game are coded following some 'React-style framework' as functional components.
 
 
 Thanks for your attention and Happy Gaming !
