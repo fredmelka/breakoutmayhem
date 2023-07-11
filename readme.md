@@ -25,7 +25,7 @@ Bricks can contain surprises and super powers!
 
 ## How to run the game
 
-Click the link https://breakoutmahyem.netlify.app
+Click the link https://breakoutmayhem.netlify.app
 
 Or, simply scan this QR code
 
