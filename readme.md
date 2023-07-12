@@ -43,14 +43,14 @@ Mobile controllers:
 - Just use your fingers to swipe the paddles!
 
 
-## Game Settings
+## Settings
 
 Most game settings can be modified through a singleton object, e.g. ball speed, paddle ball control, number of lives, brick sizes..
 
 Developers can also create easily their own map via a .xls file attached in the github repository: layout, bricks, walls..
 
 
-## Tools used in the project
+## Tools used for this project
 
 - Languages: Javascript, HTML and CSS.
 

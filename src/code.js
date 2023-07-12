@@ -213,10 +213,10 @@ function updateScoreboard() {
     
     let { left , right } = gameSettings._opponents;
     document.querySelector('.scoreCard.left').innerHTML =
-    `<i class='fa-solid fa-store'></i> ${left.score.toString().padStart(5, '0')} <i class='fa-solid fa-shield-heart'></i> ${left.lives.toString().padStart(2, '0')}`;
+    `<i class='fa-solid fa-store'></i> ${Math.floor(left.score).toString().padStart(5, '0')} <i class='fa-solid fa-shield-heart'></i> ${left.lives.toString().padStart(2, '0')}`;
     
     document.querySelector('.scoreCard.right').innerHTML =
-    `${right.lives.toString().padStart(2, '0')} <i class='fa-solid fa-shield-heart'></i> ${right.score.toString().padStart(5, '0')} <i class='fa-solid fa-store'></i>`;
+    `${right.lives.toString().padStart(2, '0')} <i class='fa-solid fa-shield-heart'></i> ${Math.floor(right.score).toString().padStart(5, '0')} <i class='fa-solid fa-store'></i>`;
 };
 
 // Game | Control of the game status

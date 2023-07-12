@@ -140,6 +140,7 @@ a {text-decoration: none; color: #fa541c;}
 
 .ball.left {background-color: #f5222d;}
 .ball.right {background-color: #52c41a;}
+.ball.invisiBall {background-color: whitesmoke; opacity: 0.05;}
 
 .box {
     border: #000000 solid 1px;
