@@ -80,7 +80,7 @@ function keyUpHandler(event) {
     };
 };
 
-// Responsive Design | Event-listener for Mobile Device Control. Is activated only when the game actually starts as the variable 'gameAreaBorders' is not yet defined
+// Responsive Design | Event-listener for Mobile Device Control. Gets activated only when the game actually starts as the variable 'gameAreaBorders' is not yet defined
 function touchScreenHandler(event) {
     
     let playerSide = event.clientX < (gameAreaBorders.left + gameAreaBorders.right) / 2 ? 'left' : 'right';
@@ -203,7 +203,7 @@ function hitAndScore(ball) {
     if (scanZone.length == 0) {return;};
     
     for (let block of scanZone) {
-        if (collisionDetection(block, ball) && block.name == 'brick') {gameSettings._opponents[ball.side].score += block.receiveDamage(ball.strength);};};
+        if (collisionDetection(block, ball) && block.name == 'brick') {gameSettings._opponents[ball.side].score += block.receiveDamage(ball.strength, ball.side);};};
 
     gameSettings._gameMap = gameSettings._gameMap.filter(block => (block.name == 'wall') || (block.energyPoints > 0));
 };
@@ -212,8 +212,11 @@ function hitAndScore(ball) {
 function updateScoreboard() {
     
     let { left , right } = gameSettings._opponents;
-    document.querySelector('.scoreCard.left').innerText = `🪙 ${left.score.toString().padStart(5, '0')}  ❤️ ${left.lives.toString().padStart(2, '0')}`;
-    document.querySelector('.scoreCard.right').innerText = `${right.lives.toString().padStart(2, '0')} ❤️  ${right.score.toString().padStart(5, '0')} 🪙`;
+    document.querySelector('.scoreCard.left').innerHTML =
+    `<i class='fa-solid fa-store'></i> ${left.score.toString().padStart(5, '0')} <i class='fa-solid fa-shield-heart'></i> ${left.lives.toString().padStart(2, '0')}`;
+    
+    document.querySelector('.scoreCard.right').innerHTML =
+    `${right.lives.toString().padStart(2, '0')} <i class='fa-solid fa-shield-heart'></i> ${right.score.toString().padStart(5, '0')} <i class='fa-solid fa-store'></i>`;
 };
 
 // Game | Control of the game status
@@ -297,21 +300,23 @@ function gameStart() {
 // Game | Game Render Processing
 function renderGame() {
 
+    let { _gameMap: gameMap, _opponents: opponents } = gameSettings;
+
     let noBallsLeft = getInPlay();
-    if (noBallsLeft || gameSettings._gameMap.length == 0) {return gameOver();};
+    if (noBallsLeft || gameMap.every(box => box.name === 'wall')) {return gameOver();};
 
     movePaddle(player1);
-    player1.bounceControl(gameSettings._opponents.left.ballsInPlay[0]);
-    player1.bounceControl(gameSettings._opponents.right.ballsInPlay[0]);
+    player1.bounceControl(opponents.left.ballsInPlay[0]);
+    player1.bounceControl(opponents.right.ballsInPlay[0]);
     
     movePaddle(player2);
-    player2.bounceControl(gameSettings._opponents.left.ballsInPlay[0]);
-    player2.bounceControl(gameSettings._opponents.right.ballsInPlay[0]);
+    player2.bounceControl(opponents.left.ballsInPlay[0]);
+    player2.bounceControl(opponents.right.ballsInPlay[0]);
 
     moveBalls();
 
-    hitAndScore(gameSettings._opponents.left.ballsInPlay[0]);
-    hitAndScore(gameSettings._opponents.right.ballsInPlay[0]);
+    hitAndScore(opponents.left.ballsInPlay[0]);
+    hitAndScore(opponents.right.ballsInPlay[0]);
     
     updateScoreboard();
 

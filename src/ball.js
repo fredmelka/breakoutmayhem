@@ -39,13 +39,11 @@ set speed(num)              {this._speed = num;}
 createBall()                {const div = document.createElement('div');
                             div.classList.add('ball');
                             div.classList.add(this.side);
-                            // div.innerText = gameSettings._ballSet.src; ==> in case we want to use an emoji or an image to render the ball
-                            div.style.fontSize = `${gameSettings._ballSet.size}rem`;
+                            div.style.width = `${gameSettings._ballSet.size}vw`;
                             gameArea.append(div);
                             return div;}
 
 setPosition()               {this.element.style.left = `${this.x}vw`; this.element.style.top = `${this.y}vh`;}
-
 
 move()                      {this.x += this.speed * this.vector.x;                                                          
                             this.y += this.speed * this.vector.y;
@@ -66,17 +64,14 @@ move()                      {this.x += this.speed * this.vector.x;
                             };
                             this.setPosition();}
 
-
 touchDown()                 {let opponentSide = this.side == 'left' ? 'right' : 'left';
                             if (!gameSettings._opponents[opponentSide].ballsInPlay[0]) {return};
 
                             gameSettings._opponents[opponentSide].ballsInPlay[0].speed *= 0.1;
                             setTimeout(() => {gameSettings._opponents[opponentSide].ballsInPlay[0].speed /= 0.1;}, 5000);}
 
-
 playSound(effect)           {let soundPalette = {
                                 wallBounce: document.querySelector('#music-ball-wall-bounce'),
                                 touchDown: document.querySelector('#music-ball-touchdown')};
                             return soundPalette[effect].play();}
-
 };

@@ -84,7 +84,7 @@ a {text-decoration: none; color: #fa541c;}
 
 .explosive {
     display: inline-block;
-    transition: transform 400ms ease, color 1s ease;
+    transition: transform 1s ease, color 4s ease;
 }
 
 /* explosive title transition */
@@ -134,8 +134,8 @@ a {text-decoration: none; color: #fa541c;}
     box-shadow: inset 0 0 1vh ghostwhite;
     position: absolute;
     pointer-events: none;
-    width: 2vw;
     aspect-ratio: 1;
+    transition: width 500ms ease, border-radius 500ms ease;
 }
 
 .ball.left {background-color: #f5222d;}
@@ -151,6 +151,18 @@ a {text-decoration: none; color: #fa541c;}
 
 .wall {background-color: #595959;}
 
+.candy {pointer-events: none; position: absolute;}
+
+.candy.left{
+    animation: fly-left 4s ease both, fade-out 2s ease-out 2s both;
+    color: #f5222d;}
+@keyframes fly-left{100%{transform: translate(-200%, -160%);}}
+
+.candy.right{
+    animation: fly-right 4s ease both, fade-out 2s ease-out 2s both;
+    color: #52c41a;}
+@keyframes fly-right{100%{transform: translate(180%, -140%);}}
+
 .scoreCard {
     color: whitesmoke;
     font-size: max(1rem, 4vh);
@@ -158,8 +170,8 @@ a {text-decoration: none; color: #fa541c;}
     pointer-events: none;
 }
 
-.scoreCard.left {top: 1vh; left: 6vw;}
-.scoreCard.right {top: 1vh; right: 6vw;}
+.scoreCard.left {top: 1vh; left: 6vw; & i {color: #f5222d;}}
+.scoreCard.right {top: 1vh; right: 6vw; & i {color: #52c41a;}}
 
 @media only screen and (max-height: 450px) {
     .scoreCard.left {top: 15%; left: -10%; transform: rotate(90deg)}

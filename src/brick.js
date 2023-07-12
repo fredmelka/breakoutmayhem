@@ -40,7 +40,6 @@ createBox()                 {const div = document.createElement('div');
                             div.style.width = `${boxSet[this.name].width}vw`;
                             gameArea.append(div);
                             return div;}
-
 };
 
 
@@ -60,18 +59,43 @@ set energyPoints(num)       {this._energyPoints = (typeof num == 'number') ? num
 setColor()                  {let rgb = '#' + Math.floor(Math.random()*16777215).toString(16);
                             this.element.style.backgroundColor = `${rgb}`;}
 
-receiveDamage(damage)       {let bonusKill = 100;
+receiveDamage(damage,hitter){let bonusKill = 100;
                             this.energyPoints -= damage;
                             this.element.style.opacity = `${OpacityLevels.find(threshold => threshold > this.energyPoints) / 100}`;
-                            if (this.energyPoints <= 0) {this.element.remove(); damage += bonusKill; this.playSound('explosion');};
                             this.energyPoints > 0
                                 ? console.log(`A brick has received ${damage} points of damage!`)
                                 : console.log(`A brick has been exploded: ${bonusKill} bonus points!`);
+                            if (this.energyPoints <= 0) {this.element.remove(); damage += bonusKill; this.playSound('explosion'); this.releaseCandy(hitter);};
                             return damage;}
+
+releaseCandy(side)          {let candyOdds = {nothing: 0.60, DoubleBall: 0.70, invisible: 0.80, extraLife: 0.90};
+                            let odds = Math.random();
+
+                            // Exits if no candy released
+                            if (odds < candyOdds.nothing) {return ;}
+                            
+                            // Create a empty candy box in DOM
+                            const candy = document.createElement('div');
+                            gameArea.append(candy);
+                            candy.style.left = `${this.x}vw`; candy.style.top = `${this.y}vh`;
+                            candy.classList.add('candy', `${side}`);
+                            setTimeout(() => candy.remove(), 4000);
+                            
+                            // Big Ball Candy Effect
+                            if (odds < candyOdds.DoubleBall) {
+                                candy.innerHTML = `<i class='fa-solid fa-burst fa-beat'></i>`;
+                                gameSettings._opponents[side].ballsInPlay[0].element.style.width = `${gameSettings._ballSet.size * 2}vw`;
+                                gameSettings._opponents[side].ballsInPlay[0].element.style.borderRadius = `${gameSettings._ballSet.size}vw`;
+                                gameSettings._opponents[side].ballsInPlay[0].strength *= 2; 
+                                setTimeout(()=> {
+                                    gameSettings._opponents[side].ballsInPlay[0].element.style.width = `${gameSettings._ballSet.size}vw`;
+                                    gameSettings._opponents[side].ballsInPlay[0].element.style.borderRadius = `${gameSettings._ballSet.size / 2}vw`;
+                                    gameSettings._opponents[side].ballsInPlay[0].strength /= 2;
+                                }, 5000);
+                            return;};
+                            }
 
 playSound(effect)           {let soundPalette = {
                                 explosion: document.querySelector('#music-brick-explosion')};
-                            return soundPalette[effect].play();
-                            };
-
+                            return soundPalette[effect].play();}
 };
