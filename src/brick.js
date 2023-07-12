@@ -68,7 +68,7 @@ receiveDamage(damage,hitter){let bonusKill = 100;
                             if (this.energyPoints <= 0) {this.element.remove(); damage += bonusKill; this.playSound('explosion'); this.popSpell(hitter);};
                             return damage;}
 
-popSpell(side)          {let spellOdds = {nothing: 0.60, giantBall: 0.70, invisiBall: 0.80, extraLife: 0.90};
+popSpell(side)              {let spellOdds = {nothing: 0.60, giantBall: 0.70, invisiBall: 0.80, extraLife: 0.90};
                             let odds = Math.random();
 
                             // Exits if no candy released
@@ -83,11 +83,13 @@ popSpell(side)          {let spellOdds = {nothing: 0.60, giantBall: 0.70, invisi
                             
                             // Giant Ball Spell | Ball'size * 2 & Ball'strength * 4 for 8 seconds! 
                             if (odds < spellOdds.giantBall) {
+
                                 this.playSound('giantBall');
                                 candy.innerHTML = `<i class='fa-solid fa-burst fa-beat'></i>`;
                                 gameSettings._opponents[side].ballsInPlay[0].element.style.width = `${gameSettings._ballSet.size * 2}vw`;
                                 gameSettings._opponents[side].ballsInPlay[0].element.style.borderRadius = `${gameSettings._ballSet.size}vw`;
-                                gameSettings._opponents[side].ballsInPlay[0].strength *= 4; 
+                                gameSettings._opponents[side].ballsInPlay[0].strength *= 4;
+                                
                                 setTimeout(() => {
                                     if (!gameSettings._opponents[side].ballsInPlay[0]) {return;};
                                     gameSettings._opponents[side].ballsInPlay[0].element.style.width = `${gameSettings._ballSet.size}vw`;
@@ -98,23 +100,32 @@ popSpell(side)          {let spellOdds = {nothing: 0.60, giantBall: 0.70, invisi
 
                             // Invisible Ball | Opponent's ball becomes invisible for 8 seconds!
                             if (odds < spellOdds.invisiBall) {
+
                                 this.playSound('invisiBall');
                                 candy.innerHTML = `<i class='fa-solid fa-ghost fa-fade'></i>`;
                                 let opponent = side === 'left' ? 'right' : 'left';
                                 if (!gameSettings._opponents[opponent].ballsInPlay[0]) {return;};
                                 gameSettings._opponents[opponent].ballsInPlay[0].element.classList.replace(`${opponent}`, 'invisiBall');
+
                                 setTimeout(() => {
                                     if (!gameSettings._opponents[opponent].ballsInPlay[0]) {return;};
                                     gameSettings._opponents[opponent].ballsInPlay[0].element.classList.replace('invisiBall', `${opponent}`);
                                 }, 8000);
                             return;};
 
+                            // Extra Ball | Player gets an extra life for free!
+                            if (odds < spellOdds.extraLife) {
+                                this.playSound('extraLife');
+                                candy.innerHTML = `<i class='fa-solid fa-heart-circle-plus fa-flip' style='color: #fff566;'></i>`;
+                                gameSettings._opponents[side].lives ++;
+                            return;};
                             }
 
 playSound(effect)           {let soundPalette = {
                                 explosion: document.getElementById('music-brick-explosion'),
                                 giantBall: document.getElementById('music-brick-spell-giantBall'),
-                                invisiBall: document.getElementById('music-brick-spell-invisiBall')
+                                invisiBall: document.getElementById('music-brick-spell-invisiBall'),
+                                extraLife: document.getElementById('music-brick-spell-extraLife')
                             };
                             return soundPalette[effect].play();}
 };
