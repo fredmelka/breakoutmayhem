@@ -68,9 +68,9 @@ receiveDamage(damage,hitter){let bonusKill = 100;
                             if (this.energyPoints <= 0) {this.element.remove(); damage += bonusKill; this.playSound('explosion'); this.popSpell(hitter);};
                             return damage;}
 
-popSpell(side)              {let spellOdds = {nothing: 0.60, giantBall: 0.70, invisiBall: 0.80, extraLife: 0.90};
-                            let odds = Math.random();
-
+popSpell(side)              {let odds = Math.random();
+                            let spellOdds = {nothing: 0.50, superPaddle: 0.60, giantBall: 0.70, invisiBall: 0.80, extraLife: 0.90};
+                            
                             // Exits if no candy released
                             if (odds < spellOdds.nothing) {return;};
                             
@@ -80,8 +80,22 @@ popSpell(side)              {let spellOdds = {nothing: 0.60, giantBall: 0.70, in
                             candy.style.left = `${this.x}vw`; candy.style.top = `${this.y}vh`;
                             candy.classList.add('candy', `${side}`);
                             setTimeout(() => candy.remove(), 4000);
+
+                            // Super Paddle | Double the size of the Paddle for both Players for 15 seconds!
+                            if (odds < spellOdds.superPaddle) {
+
+                                this.playSound('superPaddle');
+                                candy.innerHTML = `<i class='fa-solid fa-gears fa-bounce fa-lg' style='color: #b5f5ec;'></i>`;
+                                gameSettings._paddle.height *= 2;
+                                document.querySelectorAll('.paddle').forEach(paddle => paddle.style.height = `${gameSettings._paddle.height}vh`);
+
+                                setTimeout(() => {
+                                    gameSettings._paddle.height /= 2;
+                                    document.querySelectorAll('.paddle').forEach(paddle => paddle.style.height = `${gameSettings._paddle.height}vh`);
+                                }, 15000);
+                            return;};
                             
-                            // Giant Ball Spell | Ball'size * 2 & Ball'strength * 4 for 8 seconds! 
+                            // Giant Ball | Ball'size * 2 & Ball'strength * 4 for 10 seconds! 
                             if (odds < spellOdds.giantBall) {
 
                                 this.playSound('giantBall');
@@ -95,10 +109,10 @@ popSpell(side)              {let spellOdds = {nothing: 0.60, giantBall: 0.70, in
                                     gameSettings._opponents[side].ballsInPlay[0].element.style.width = `${gameSettings._ballSet.size}vw`;
                                     gameSettings._opponents[side].ballsInPlay[0].element.style.borderRadius = `${gameSettings._ballSet.size / 2}vw`;
                                     gameSettings._opponents[side].ballsInPlay[0].strength /= 4;
-                                }, 8000);
+                                }, 10000);
                             return;};
 
-                            // Invisible Ball | Opponent's ball becomes invisible for 8 seconds!
+                            // Invisible Ball | Opponent's ball becomes invisible for 10 seconds!
                             if (odds < spellOdds.invisiBall) {
 
                                 this.playSound('invisiBall');
@@ -110,7 +124,7 @@ popSpell(side)              {let spellOdds = {nothing: 0.60, giantBall: 0.70, in
                                 setTimeout(() => {
                                     if (!gameSettings._opponents[opponent].ballsInPlay[0]) {return;};
                                     gameSettings._opponents[opponent].ballsInPlay[0].element.classList.replace('invisiBall', `${opponent}`);
-                                }, 8000);
+                                }, 10000);
                             return;};
 
                             // Extra Ball | Player gets an extra life for free!
@@ -125,7 +139,8 @@ playSound(effect)           {let soundPalette = {
                                 explosion: document.getElementById('music-brick-explosion'),
                                 giantBall: document.getElementById('music-brick-spell-giantBall'),
                                 invisiBall: document.getElementById('music-brick-spell-invisiBall'),
-                                extraLife: document.getElementById('music-brick-spell-extraLife')
+                                extraLife: document.getElementById('music-brick-spell-extraLife'),
+                                superPaddle: document.getElementById('music-brick-spell-superPaddle')
                             };
                             return soundPalette[effect].play();}
 };
