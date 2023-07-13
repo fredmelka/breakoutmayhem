@@ -84,11 +84,11 @@ a {text-decoration: none; color: #fa541c;}
 
 .explosive {
     display: inline-block;
-    transition: transform 1s ease, color 4s ease;
+    transition: transform 1s ease, color 5s ease, text-shadow 1s ease;
 }
 
 /* explosive title transition */
-#title:hover > .explosive {transition-duration: 800ms;}
+#title:hover > .explosive {transition-duration: 800ms; text-shadow: #8c8c8c 5px 5px 10px;}
 
 #title:hover > .explosive:nth-child(1) {transform: translate(-130%, 60%) rotate(10deg); color: #cf1322;}
 #title:hover > .explosive:nth-child(2) {transform: translate(-120%, -60%) rotate(-30deg); color: #d46b08;}

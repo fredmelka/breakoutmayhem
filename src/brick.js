@@ -69,7 +69,7 @@ receiveDamage(damage,hitter){let bonusKill = 100;
                             return damage;}
 
 popSpell(side)              {let odds = Math.random();
-                            let spellOdds = {nothing: 0.50, superPaddle: 0.60, giantBall: 0.70, invisiBall: 0.80, extraLife: 0.90};
+                            let spellOdds = {nothing: 0.50, superPaddle: 0.60, giantBall: 0.70, invisiBall: 0.80, extraLife: 0.90, explosion: 0.98};
                             
                             // Exits if no candy released
                             if (odds < spellOdds.nothing) {return;};
@@ -87,10 +87,12 @@ popSpell(side)              {let odds = Math.random();
                                 this.playSound('superPaddle');
                                 candy.innerHTML = `<i class='fa-solid fa-gears fa-bounce fa-lg' style='color: #b5f5ec;'></i>`;
                                 gameSettings._paddle.height *= 2;
+                                gameSettings._paddle.height = Math.min(gameSettings._paddle.height, 48);
                                 document.querySelectorAll('.paddle').forEach(paddle => paddle.style.height = `${gameSettings._paddle.height}vh`);
 
                                 setTimeout(() => {
                                     gameSettings._paddle.height /= 2;
+                                    gameSettings._paddle.height = Math.max(gameSettings._paddle.height, 12);
                                     document.querySelectorAll('.paddle').forEach(paddle => paddle.style.height = `${gameSettings._paddle.height}vh`);
                                 }, 15000);
                             return;};
@@ -99,7 +101,7 @@ popSpell(side)              {let odds = Math.random();
                             if (odds < spellOdds.giantBall) {
 
                                 this.playSound('giantBall');
-                                candy.innerHTML = `<i class='fa-solid fa-burst fa-beat'></i>`;
+                                candy.innerHTML = `<i class='fa-solid fa-burst fa-beat fa-lg'></i>`;
                                 gameSettings._opponents[side].ballsInPlay[0].element.style.width = `${gameSettings._ballSet.size * 2}vw`;
                                 gameSettings._opponents[side].ballsInPlay[0].element.style.borderRadius = `${gameSettings._ballSet.size}vw`;
                                 gameSettings._opponents[side].ballsInPlay[0].strength *= 4;
@@ -116,7 +118,7 @@ popSpell(side)              {let odds = Math.random();
                             if (odds < spellOdds.invisiBall) {
 
                                 this.playSound('invisiBall');
-                                candy.innerHTML = `<i class='fa-solid fa-ghost fa-fade'></i>`;
+                                candy.innerHTML = `<i class='fa-solid fa-ghost fa-fade fa-lg'></i>`;
                                 let opponent = side === 'left' ? 'right' : 'left';
                                 if (!gameSettings._opponents[opponent].ballsInPlay[0]) {return;};
                                 gameSettings._opponents[opponent].ballsInPlay[0].element.classList.replace(`${opponent}`, 'invisiBall');
@@ -130,9 +132,15 @@ popSpell(side)              {let odds = Math.random();
                             // Extra Ball | Player gets an extra life for free!
                             if (odds < spellOdds.extraLife) {
                                 this.playSound('extraLife');
-                                candy.innerHTML = `<i class='fa-solid fa-heart-circle-plus fa-flip' style='color: #fff566;'></i>`;
+                                candy.innerHTML = `<i class='fa-solid fa-heart-circle-plus fa-flip fa-lg' style='color: #fff566;'></i>`;
                                 gameSettings._opponents[side].lives ++;
                             return;};
+
+                            // Wall Explosion | All Walls get explodes and disappears!
+                            if (odds < spellOdds.explosion) {
+                                
+                            }
+
                             }
 
 playSound(effect)           {let soundPalette = {
