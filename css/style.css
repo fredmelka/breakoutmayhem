@@ -28,7 +28,6 @@ a {text-decoration: none; color: #fa541c;}
     text-align: center;
     
     & div:first-child {margin-top: -25vh;}
-    /* & div (margin-bottom: 2vh;) */
     & div:first-child p {padding: 2vh;}
 }
 
@@ -51,9 +50,10 @@ a {text-decoration: none; color: #fa541c;}
     border-left: 3px dashed #f5222d;
     border-right: 3px dashed #52c41a;
     height: 90vh;
+    width: 90vw;
     margin: 2vh auto;
     position: relative;
-    width: 90vw;
+    overflow: hidden;
 }
 
 #dialogBox {
@@ -152,6 +152,7 @@ a {text-decoration: none; color: #fa541c;}
 }
 
 .wall {background-color: #595959;}
+.wallToExplode {border: none; box-shadow: none; text-align: center;}
 
 .candy {pointer-events: none; position: absolute;}
 

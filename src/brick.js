@@ -69,11 +69,11 @@ receiveDamage(damage,hitter){let bonusKill = 100;
                             return damage;}
 
 popSpell(side)              {let odds = Math.random();
-                            let spellOdds = {nothing: 0.50, superPaddle: 0.60, giantBall: 0.70, invisiBall: 0.80, extraLife: 0.90, explosion: 0.98};
+                            let spellOdds = {nothing: 0.75, superPaddle: 0.84, giantBall: 0.89, invisiBall: 0.94, extraLife: 0.99, mayhem: 1.00};
                             
                             // Exits if no candy released
                             if (odds < spellOdds.nothing) {return;};
-                            
+
                             // Create a empty candy box in DOM
                             const candy = document.createElement('div');
                             gameArea.append(candy);
@@ -97,20 +97,20 @@ popSpell(side)              {let odds = Math.random();
                                 }, 15000);
                             return;};
                             
-                            // Giant Ball | Ball'size * 2 & Ball'strength * 4 for 10 seconds! 
+                            // Giant Ball | Double Ball'size! Double the Ball'strength! for 10 seconds! 
                             if (odds < spellOdds.giantBall) {
 
                                 this.playSound('giantBall');
                                 candy.innerHTML = `<i class='fa-solid fa-burst fa-beat fa-lg'></i>`;
                                 gameSettings._opponents[side].ballsInPlay[0].element.style.width = `${gameSettings._ballSet.size * 2}vw`;
                                 gameSettings._opponents[side].ballsInPlay[0].element.style.borderRadius = `${gameSettings._ballSet.size}vw`;
-                                gameSettings._opponents[side].ballsInPlay[0].strength *= 4;
+                                gameSettings._opponents[side].ballsInPlay[0].strength *= 2;
                                 
                                 setTimeout(() => {
                                     if (!gameSettings._opponents[side].ballsInPlay[0]) {return;};
                                     gameSettings._opponents[side].ballsInPlay[0].element.style.width = `${gameSettings._ballSet.size}vw`;
                                     gameSettings._opponents[side].ballsInPlay[0].element.style.borderRadius = `${gameSettings._ballSet.size / 2}vw`;
-                                    gameSettings._opponents[side].ballsInPlay[0].strength /= 4;
+                                    gameSettings._opponents[side].ballsInPlay[0].strength /= 2;
                                 }, 10000);
                             return;};
 
@@ -136,10 +136,22 @@ popSpell(side)              {let odds = Math.random();
                                 gameSettings._opponents[side].lives ++;
                             return;};
 
-                            // Wall Explosion | All Walls get explodes and disappears!
-                            if (odds < spellOdds.explosion) {
-                                
-                            }
+                            // Wall Mayhem! | REMAINING OCCURENCE CASE (NO if) | All Walls get explodes and disappears!
+                            let allWalls = gameSettings._gameMap.filter(box => box.name === 'wall');
+                            if (allWalls.length == 0) {return;};
+
+                            this.playSound('mayhem');
+                            candy.innerHTML = `<i class="fa-solid fa-rocket fa-beat-fade fa-xl" style="color: #f5222d;"></i>`;
+
+                            setTimeout(() => {
+                                allWalls.forEach(wall => wall.element.remove());
+                                gameSettings._gameMap = gameSettings._gameMap.filter(box => box.name !== 'wall');
+                            }, 4000);
+
+                            allWalls.forEach(wall => {
+                                wall.element.classList.replace('wall','wallToExplode');
+                                wall.element.innerHTML += `<img src='../img/breakoutmayhem.ico'>`;
+                                wall.element.classList.add('fade-out');})
 
                             }
 
@@ -148,7 +160,8 @@ playSound(effect)           {let soundPalette = {
                                 giantBall: document.getElementById('music-brick-spell-giantBall'),
                                 invisiBall: document.getElementById('music-brick-spell-invisiBall'),
                                 extraLife: document.getElementById('music-brick-spell-extraLife'),
-                                superPaddle: document.getElementById('music-brick-spell-superPaddle')
+                                superPaddle: document.getElementById('music-brick-spell-superPaddle'),
+                                mayhem: document.getElementById('music-brick-spell-mayhem')
                             };
                             return soundPalette[effect].play();}
 };

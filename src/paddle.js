@@ -18,7 +18,7 @@ this._side                  = side; // also defines the CSS class for rendering
 this._element               = this.createPaddle();
 this.setPosition()
 }
-    
+
 get element()               {return this._element;}
 get x()                     {return this._x;}
 get y()                     {return this._y;}
@@ -27,14 +27,14 @@ get upPressed()             {return this._upPressed;}
 get downPressed()           {return this._downPressed;}    
 get side()                  {return this._side;}
     
-set x(num)                  {if (num < 0 || num > gameSettings._gameBoard.width - gameSettings._paddle.width) // Setter that prevents moves outside the gamearea
+set x(num)                  {if (num < 0 || num > gameSettings._gameBoard.width - gameSettings._paddle.width) // Setter that prevents moves outside the game Area
                                 {console.log(`Oups, ${this.side}-paddle cannot stand outside the gameboard!`)}
                             else {this._x = num};}
         
-set y(num)                  {if (num < 0 || num > gameSettings._gameBoard.height - gameSettings._paddle.height) // Setter that prevents moves outside the gamearea
+set y(num)                  {if (num < 0 || num > gameSettings._gameBoard.height - gameSettings._paddle.height) // Setter that prevents moves outside the game Area
                                 {console.log(`Oups, ${this.side}-paddle cannot stand outside the gameboard!`);}
-                            else {this._y = num;};}                  
-        
+                            else {this._y = num;};}
+                                    
 set upPressed(boolean)      {this._upPressed = boolean;}
 set downPressed(boolean)    {this._downPressed = boolean;}
 set side(cssClass)          {this._side = cssClass;}

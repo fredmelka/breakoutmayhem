@@ -28,12 +28,10 @@ const accordeon = document.getElementById('accordeon');
 
 // Game | Create Scoreboard
 const createScoreCards = () => {
-    
 Object.keys(gameSettings._opponents).forEach(opponent => {
     let scoreCard = document.createElement('span');
     scoreCard.classList.add('scoreCard', opponent);
-    document.querySelector('main').appendChild(scoreCard);}
-);
+    document.querySelector('main').appendChild(scoreCard);});
 };
 
 // Menu | Title Explosion effect
@@ -213,10 +211,10 @@ function updateScoreboard() {
     
     let { left , right } = gameSettings._opponents;
     document.querySelector('.scoreCard.left').innerHTML =
-    `<i class='fa-solid fa-store'></i> ${Math.floor(left.score).toString().padStart(5, '0')} <i class='fa-solid fa-shield-heart'></i> ${left.lives.toString().padStart(2, '0')}`;
+    `<i class='fa-solid fa-coins'></i> ${Math.floor(left.score).toString().padStart(5, '0')} <i class='fa-solid fa-shield-heart'></i> ${left.lives.toString().padStart(2, '0')}`;
     
     document.querySelector('.scoreCard.right').innerHTML =
-    `${right.lives.toString().padStart(2, '0')} <i class='fa-solid fa-shield-heart'></i> ${Math.floor(right.score).toString().padStart(5, '0')} <i class='fa-solid fa-store'></i>`;
+    `${right.lives.toString().padStart(2, '0')} <i class='fa-solid fa-shield-heart'></i> ${Math.floor(right.score).toString().padStart(5, '0')} <i class='fa-solid fa-coins'></i>`;
 };
 
 // Game | Control of the game status
@@ -322,5 +320,4 @@ function renderGame() {
 
     if (isGameInProgress() && gameSettings._gameMap.length > 0) {requestAnimationFrame(renderGame)}
     else {gameOver(); console.log(`Good Game!`)};
-
 };
