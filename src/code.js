@@ -20,9 +20,12 @@ export const gameSettings = {
 
 // Variables | Game Global variables
 let gameAreaBorders, player1, player2;
+// ***** TO IMPROVE AND REFACTOR *****
+// ***** GAME AREA BORDERS ARE WELL UPDATED UPON WINDOW-RESIZING BUT THE NEW VALUES ARE NOT PASSED TO EACH BALL (WAS ONLY GIVEN STATICALLY AT CLASS INSTANTIATION VIA ARGUMEN) ****** 
 
-// Game Control | Exit a game
-let abortGame = {spaceBarHits: 0, threshold: 10, scoreCardDoubleClicks: 0, doubleClicksToExit: 3, isTriggered: false, timeToTrigger: 500};
+
+// Game Control | Controller for Quitting the game
+let abortGame = {spaceBarHits: 0, HitsToExit: 10, clickleft: 0, clickright: 0, clickToExit: 3, isTriggered: false, timeToTrigger: 500};
     
 // DOM | Principal Areas
 export const gameArea = document.getElementById('gameArea');
@@ -35,7 +38,8 @@ const createScoreCards = () => {
 Object.keys(gameSettings._opponents).forEach(opponent => {
     let scoreCard = document.createElement('span');
     scoreCard.classList.add('scoreCard', opponent);
-    document.querySelector('main').appendChild(scoreCard);});
+    document.querySelector('main').appendChild(scoreCard);
+    scoreCard.addEventListener('click', touchAbortGameHandler, false);});
 };
 
 // Menu | Title Explosion effect
@@ -67,11 +71,10 @@ function keyDownHandler(event) {
     case 'ArrowDown': player2.downPressed = true; break;
     // Must press 'SpaceBar' 10 times within one half of a second (eg. holding the bar) to quit game from Desktop
     case ' ':   abortGame.spaceBarHits ++;
-                setTimeout(() => {abortGame.spaceBarHits > abortGame.threshold ? abortGame.isTriggered = true : abortGame.spaceBarHits = 0}, abortGame.timeToTrigger);
+                setTimeout(() => {abortGame.spaceBarHits > abortGame.HitsToExit ? abortGame.isTriggered = true : abortGame.spaceBarHits = 0}, abortGame.timeToTrigger);
                 break;
     };
 };
-
 const keyUp = document.addEventListener('keyup', keyUpHandler, false);
 function keyUpHandler(event) {
     switch (event.key) {
@@ -86,7 +89,7 @@ function keyUpHandler(event) {
     };
 };
 
-// Responsive Design | Event-listener for Mobile Device Game Controls. Gets only activated when the game actually starts as the variable 'gameAreaBorders' is not yet defined
+// Responsive Design | Event-listener for Mobile Device Game Controls. Gets only activated when the game actually starts as the variable 'gameAreaBorders' is later set
 function touchScreenHandler(event) {
     
     let playerSide = event.clientX < (gameAreaBorders.left + gameAreaBorders.right) / 2 ? 'left' : 'right';
@@ -98,8 +101,11 @@ function touchScreenHandler(event) {
     };
 };
 
-// Responsive Design |Event-listener for Mobile Device Game Early Stop.Get activated when match starts.
-function touchAbortGameHandler(event) {};
+// Responsive Design | Event-listener for Mobile Device Game Controls. Early Quits the game.
+const touchAbortGameHandler = (event) => {
+    abortGame[`click${event.target.classList[1]}`]++;
+    setTimeout(() => abortGame[`click${event.target.classList[1]}`] == abortGame.clickToExit ? abortGame.isTriggered = true : abortGame[`click${event.target.classList[1]}`] = 0, abortGame.timeToTrigger);
+};
 
 // Map | Game map builder
 function loadMap(map) {
@@ -254,20 +260,14 @@ function gameOver() {
     gameSettings._gameMap = [];
 
     setTimeout(() => {  gameArea.innerHTML = '';
-                        dialogBox.classList.remove('hidden');
-                        dialogBox.classList.add('appear');
+                        dialogBox.classList.replace('hidden', 'appear');
                         gameArea.classList.add('hidden');}, 4000);
 
     dialogBox.addEventListener('click', () => {
-                        dialogBox.classList.remove('appear');
-                        dialogBox.classList.add('hidden');
+                        dialogBox.classList.replace('appear', 'hidden');
                         dialogBox.innerHTML = '';
-
-                        mainMenu.classList.remove('hidden');
-                        mainMenu.classList.add('appear');
-
-                        accordeon.classList.remove('hidden');
-                        accordeon.classList.add('appear')
+                        mainMenu.classList.replace('hidden', 'appear');
+                        accordeon.classList.replace('hidden', 'appear');
                     });
 };
 
@@ -282,8 +282,7 @@ function gameStart() {
     accordeon.classList.add('hidden');
     mainMenu.classList.add('hidden');
     gameArea.classList.remove('hidden');
-    gameArea.classList.remove('fade-out');
-    gameArea.classList.add('fade-in');
+    gameArea.classList.replace('fade-out', 'fade-in');
 
     createScoreCards();
 

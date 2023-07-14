@@ -42,10 +42,9 @@ a {
 #accordeon {
     position: fixed;
     top: 55vh;
-    left: 15vw;
-    width: 70vw;
+    left: 10vw;
+    width: 80vw;
     overflow: hidden;
-    margin: 0 auto;
 
     > label > span {color: whitesmoke; font-size: 2rem; padding: 5px 10px; display: block; cursor: pointer; text-align: center;}
     > label > div {display: grid; grid-template-rows: 0fr; transition: all ease 300ms; overflow: hidden; padding: 0px;}
@@ -139,7 +138,7 @@ a {
 
 .ball {
     border-radius: 1vw;
-    box-shadow: inset 0 0 1vh ghostwhite;
+    box-shadow: inset 0 0 1vh #fadb14;
     position: absolute;
     pointer-events: none;
     aspect-ratio: 1;
@@ -178,7 +177,6 @@ a {
     color: whitesmoke;
     font-size: max(1rem, 4vh);
     position: absolute;
-    pointer-events: none;
 }
 
 .scoreCard.left {top: 1vh; left: 6vw; & i {color: #f5222d;}}
