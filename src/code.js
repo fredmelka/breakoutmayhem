@@ -22,7 +22,7 @@ export const gameSettings = {
 let gameAreaBorders, player1, player2;
 
 // Game Control | Exit a game
-let abortGame = {spaceBarHits: 0, threshold: 10, scoreCardDoubleClicks: 0, doubleClicksToExit: 3, trigger: false};
+let abortGame = {spaceBarHits: 0, threshold: 10, scoreCardDoubleClicks: 0, doubleClicksToExit: 3, isTriggered: false, timeToTrigger: 500};
     
 // DOM | Principal Areas
 export const gameArea = document.getElementById('gameArea');
@@ -65,8 +65,10 @@ function keyDownHandler(event) {
     case'ArrowUp': player2.upPressed = true; break;
     case 'Down':
     case 'ArrowDown': player2.downPressed = true; break;
-    // Must press 10 times the spaceBar key within one very half of second (eg. holding the bar) to trigger Abort
-    case ' ': abortGame.spaceBarHits ++; setTimeout(() => { abortGame.spaceBarHits > abortGame.threshold ? abortGame.trigger = true : abortGame.spaceBarHits = 0}, 500); break;
+    // Must press 'SpaceBar' 10 times within one half of a second (eg. holding the bar) to quit game from Desktop
+    case ' ':   abortGame.spaceBarHits ++;
+                setTimeout(() => {abortGame.spaceBarHits > abortGame.threshold ? abortGame.isTriggered = true : abortGame.spaceBarHits = 0}, abortGame.timeToTrigger);
+                break;
     };
 };
 
@@ -295,7 +297,7 @@ function gameStart() {
     window.addEventListener('resize', () => {gameAreaBorders = gameArea.getBoundingClientRect(); console.log('resizing!');});
 
     // Reset of the Object abortGame
-    abortGame = {...abortGame, spaceBarHits: 0, trigger: false};
+    abortGame = {...abortGame, spaceBarHits: 0, isTriggered: false};
 
     // Instantiation of the two new paddles for the game ahead
     player1 = new Paddle(0, 34, 'left');
@@ -313,7 +315,7 @@ function renderGame() {
     let { _gameMap: gameMap, _opponents: opponents } = gameSettings;
 
     let noBallsLeft = getInPlay();
-    if (noBallsLeft || gameMap.every(box => box.name === 'wall') || abortGame.trigger) {return gameOver();};
+    if (noBallsLeft || gameMap.every(box => box.name === 'wall') || abortGame.isTriggered) {return gameOver();};
 
     movePaddle(player1);
     player1.bounceControl(opponents.left.ballsInPlay[0]);

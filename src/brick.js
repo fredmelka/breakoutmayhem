@@ -7,7 +7,15 @@ export const boxSet = {
                             wall:   {name: 'wall', width: 3.9, height: 3.9},
                             brick:  {name: 'brick', width: 3.9, height: 3.9}};
 
-export const OpacityLevels   = [0, 25, 50, 100]; // Abolute remaining energy points of the Brick 
+const OpacityLevels = [0, 25, 50, 100]; // Abolute remaining energy points of the Brick
+const spells        = {
+    nothing:        {threshold: 0.70},
+    superPaddle:    {threshold: 0.80, duration: 15000, isActive: false},
+    giantBall:      {threshold: 0.90, duration: 10000, isActive: false},
+    invisiBall:     {threshold: 0.95, duration: 10000},
+    extraLife:      {threshold: 0.99},
+    mayhem:         {threshold: 1.00, hasOccured: false}
+};
 
 
 // Main Class | Box
@@ -69,15 +77,7 @@ receiveDamage(damage,hitter){let bonusKill = 100;
                             return damage;}
 
 popSpell(side)              {let draw = Math.random();
-                            let spells = {
-                                nothing:        {threshold: 0.70},
-                                superPaddle:    {threshold: 0.80, duration: 15000, isActive: false},
-                                giantBall:      {threshold: 0.90, duration: 10000, isActive: false},
-                                invisiBall:     {threshold: 0.95, duration: 10000},
-                                extraLife:      {threshold: 0.99},
-                                mayhem:         {threshold: 1.00, hasOccured: false}
-                            };
-                            
+
                             // Exits if no Spell has been cast
                             if (draw < spells.nothing.threshold) {return;};
 
@@ -88,21 +88,21 @@ popSpell(side)              {let draw = Math.random();
                             candy.classList.add('candy', `${side}`);
                             setTimeout(() => candy.remove(), 4000);
 
-                            // Super Paddle | Increase the size of the Paddle by 50% for both Players for 15 seconds!
+                            // Super Paddle | Double the size of the Paddle for both Players for 15 seconds!
                             if (draw < spells.superPaddle.threshold) {
 
                                 candy.innerHTML = `<i class='fa-solid fa-gears fa-bounce fa-lg' style='color: #b5f5ec;'></i>`;
                                 this.playSound('superPaddle');
-                                if (spells.superPaddle.isActive) {return;};
 
-                                gameSettings._paddle.height *= 1.5;
+                                if (spells.superPaddle.isActive) {return;} else {spells.superPaddle.isActive = true};
+
+                                gameSettings._paddle.height *= 2;
                                 document.querySelectorAll('.paddle').forEach(paddle => paddle.style.height = `${gameSettings._paddle.height}vh`);
-                                if (gameSettings._paddle.height >= 27) {spells.superPaddle.isActive = true};
-
+                                
                                 setTimeout(() => {
-                                    gameSettings._paddle.height /= 1.5;
+                                    gameSettings._paddle.height /= 2;
                                     document.querySelectorAll('.paddle').forEach(paddle => paddle.style.height = `${gameSettings._paddle.height}vh`);
-                                    if (gameSettings._paddle.height <= 27) {spells.superPaddle.isActive = false};
+                                    spells.superPaddle.isActive = false;
                                     this.playSound('superPaddle');
                                 }, spells.superPaddle.duration);
                             return;};
@@ -144,15 +144,14 @@ popSpell(side)              {let draw = Math.random();
                                 }, spells.invisiBall.duration);
                             return;};
 
-                            // Extra Ball | Player gets an additional life for free!
+                            // Extra Life | Player gets an additional ball!
                             if (draw < spells.extraLife.threshold) {
-
                                 candy.innerHTML = `<i class='fa-solid fa-heart-circle-plus fa-flip fa-lg' style='color: #fff566;'></i>`;
                                 this.playSound('extraLife');
                                 gameSettings._opponents[side].lives ++;
                             return;};
 
-                            // Wall Mayhem! | REMAINING OCCURENCE CASE (if no mandatory) | All Walls get explodes and disappears!
+                            // Wall Mayhem! | REMAINING OCCURENCE CASE (if no mandatory) | All Walls explode and disappear!
                             if (draw < spells.mayhem.threshold) {
 
                                 if (spells.mayhem.hasOccured) {return;} else {spells.mayhem.hasOccured = true;};
