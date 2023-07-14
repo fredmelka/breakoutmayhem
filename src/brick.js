@@ -10,8 +10,8 @@ export const boxSet = {
 const OpacityLevels = [0, 25, 50, 100]; // Abolute remaining energy points of the Brick
 const spells        = {
     nothing:        {threshold: 0.70},
-    superPaddle:    {threshold: 0.80, duration: 15000, isActive: false},
-    giantBall:      {threshold: 0.90, duration: 10000, isActive: false},
+    superPaddle:    {threshold: 0.80, duration: 15000},
+    giantBall:      {threshold: 0.90, duration: 10000},
     invisiBall:     {threshold: 0.95, duration: 10000},
     extraLife:      {threshold: 0.99},
     mayhem:         {threshold: 1.00, hasOccured: false}
