@@ -18,10 +18,14 @@ export const gameSettings = {
         right:  {score: 0, lives: 0, isInPlay: false, ballsInPlay: []}}
 };
 
+// Variables | Game Global variables
 let gameAreaBorders, player1, player2;
+
+// Game Control | Exit a game
+let abortGame = {spaceBarHits: 0, threshold: 10, scoreCardDoubleClicks: 0, doubleClicksToExit: 3, trigger: false};
     
 // DOM | Principal Areas
-export const gameArea = document.getElementById('gameArea');        // ADD addEventListener("resize", (event) => {}); TO KEEP GAME ZONE OK AND BALLS INSIDE WHILE RESIZING
+export const gameArea = document.getElementById('gameArea');
 const mainMenu = document.getElementById('mainMenu');
 const dialogBox = document.getElementById('dialogBox');
 const accordeon = document.getElementById('accordeon');
@@ -46,7 +50,7 @@ const explose = (id) => {
 };
 explose('title');
 
-// Game Controls | Keyboard listeners and mobile pointer events
+// Game Controls | Desktop Keyboard listeners | Mobile Listeners & pointer events
 const gameLauncher = document.getElementById('gamelaunch');
 gameLauncher.addEventListener('click', gameStart, false)
 
@@ -61,6 +65,8 @@ function keyDownHandler(event) {
     case'ArrowUp': player2.upPressed = true; break;
     case 'Down':
     case 'ArrowDown': player2.downPressed = true; break;
+    // Must press 10 times the spaceBar key within one very half of second (eg. holding the bar) to trigger Abort
+    case ' ': abortGame.spaceBarHits ++; setTimeout(() => { abortGame.spaceBarHits > abortGame.threshold ? abortGame.trigger = true : abortGame.spaceBarHits = 0}, 500); break;
     };
 };
 
@@ -78,7 +84,7 @@ function keyUpHandler(event) {
     };
 };
 
-// Responsive Design | Event-listener for Mobile Device Control. Gets activated only when the game actually starts as the variable 'gameAreaBorders' is not yet defined
+// Responsive Design | Event-listener for Mobile Device Game Controls. Gets only activated when the game actually starts as the variable 'gameAreaBorders' is not yet defined
 function touchScreenHandler(event) {
     
     let playerSide = event.clientX < (gameAreaBorders.left + gameAreaBorders.right) / 2 ? 'left' : 'right';
@@ -89,6 +95,9 @@ function touchScreenHandler(event) {
         case 'right': player2.y = paddleOffsetTop; player2.setPosition(); break;
     };
 };
+
+// Responsive Design |Event-listener for Mobile Device Game Early Stop.Get activated when match starts.
+function touchAbortGameHandler(event) {};
 
 // Map | Game map builder
 function loadMap(map) {
@@ -285,6 +294,9 @@ function gameStart() {
     // Window onresize | Event-listener that updates the 'gameAreaBorders' variable should window be resized, mobile orientation flipped, etc.
     window.addEventListener('resize', () => {gameAreaBorders = gameArea.getBoundingClientRect(); console.log('resizing!');});
 
+    // Reset of the Object abortGame
+    abortGame = {...abortGame, spaceBarHits: 0, trigger: false};
+
     // Instantiation of the two new paddles for the game ahead
     player1 = new Paddle(0, 34, 'left');
     player2 = new Paddle(gameSettings._gameBoard.width - gameSettings._paddle.width, 34, 'right');
@@ -301,7 +313,7 @@ function renderGame() {
     let { _gameMap: gameMap, _opponents: opponents } = gameSettings;
 
     let noBallsLeft = getInPlay();
-    if (noBallsLeft || gameMap.every(box => box.name === 'wall')) {return gameOver();};
+    if (noBallsLeft || gameMap.every(box => box.name === 'wall') || abortGame.trigger) {return gameOver();};
 
     movePaddle(player1);
     player1.bounceControl(opponents.left.ballsInPlay[0]);

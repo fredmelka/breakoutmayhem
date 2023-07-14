@@ -71,8 +71,8 @@ receiveDamage(damage,hitter){let bonusKill = 100;
 popSpell(side)              {let draw = Math.random();
                             let spells = {
                                 nothing:        {threshold: 0.70},
-                                superPaddle:    {threshold: 0.80, isActive: false, duration: 15000},
-                                giantBall:      {threshold: 0.90, isActive: false, duration: 10000},
+                                superPaddle:    {threshold: 0.80, duration: 15000, isActive: false},
+                                giantBall:      {threshold: 0.90, duration: 10000, isActive: false},
                                 invisiBall:     {threshold: 0.95, duration: 10000},
                                 extraLife:      {threshold: 0.99},
                                 mayhem:         {threshold: 1.00, hasOccured: false}
@@ -97,12 +97,12 @@ popSpell(side)              {let draw = Math.random();
 
                                 gameSettings._paddle.height *= 1.5;
                                 document.querySelectorAll('.paddle').forEach(paddle => paddle.style.height = `${gameSettings._paddle.height}vh`);
-                                if (gameSettings._paddle.height === 27) {spells.superPaddle.isActive = true};
+                                if (gameSettings._paddle.height >= 27) {spells.superPaddle.isActive = true};
 
                                 setTimeout(() => {
                                     gameSettings._paddle.height /= 1.5;
                                     document.querySelectorAll('.paddle').forEach(paddle => paddle.style.height = `${gameSettings._paddle.height}vh`);
-                                    if (gameSettings._paddle.height < 27) {spells.superPaddle.isActive = false};
+                                    if (gameSettings._paddle.height <= 27) {spells.superPaddle.isActive = false};
                                     this.playSound('superPaddle');
                                 }, spells.superPaddle.duration);
                             return;};
