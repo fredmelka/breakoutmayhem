@@ -81,7 +81,7 @@ popSpell(side)              {let odds = Math.random();
                             candy.classList.add('candy', `${side}`);
                             setTimeout(() => candy.remove(), 4000);
 
-                            // Super Paddle | Double the size of the Paddle for both Players for 15 seconds!
+                            // Super Paddle | Double the size of the Paddle for both Players for 10 seconds!
                             if (odds < spellOdds.superPaddle) {
 
                                 this.playSound('superPaddle');
@@ -94,7 +94,8 @@ popSpell(side)              {let odds = Math.random();
                                     gameSettings._paddle.height /= 2;
                                     gameSettings._paddle.height = Math.max(gameSettings._paddle.height, 12);
                                     document.querySelectorAll('.paddle').forEach(paddle => paddle.style.height = `${gameSettings._paddle.height}vh`);
-                                }, 15000);
+                                    this.playSound('superPaddle');
+                                }, 10000);
                             return;};
                             
                             // Giant Ball | Double Ball'size! Double the Ball'strength! for 10 seconds! 
@@ -129,7 +130,7 @@ popSpell(side)              {let odds = Math.random();
                                 }, 10000);
                             return;};
 
-                            // Extra Ball | Player gets an extra life for free!
+                            // Extra Ball | Player gets an additional life for free!
                             if (odds < spellOdds.extraLife) {
                                 this.playSound('extraLife');
                                 candy.innerHTML = `<i class='fa-solid fa-heart-circle-plus fa-flip fa-lg' style='color: #fff566;'></i>`;
@@ -150,7 +151,8 @@ popSpell(side)              {let odds = Math.random();
 
                             allWalls.forEach(wall => {
                                 wall.element.classList.replace('wall','wallToExplode');
-                                wall.element.innerHTML += `<img src='../img/breakoutmayhem.ico'>`;
+                                wall.element.innerHTML += `<img src='../img/breakoutmayhem.png'>`;
+                                document.querySelector('body').classList.add('mayhem');
                                 wall.element.classList.add('fade-out');})
 
                             }

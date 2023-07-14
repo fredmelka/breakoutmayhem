@@ -17,14 +17,22 @@ body {
     height: 100vh;
 }
 
+body.mayhem {animation: thundermayhem 200ms ease 3;}
+@keyframes thundermayhem{50%{background-color:whitesmoke; opacity: 0.8;}}
+
 main {position: relative;}
 
-p {color: whitesmoke; font-size: 6vh;}
+p {
+    color: whitesmoke;
+    font-size: 6vh;
+}
 
-a {text-decoration: none; color: #fa541c;}
+a {
+    text-decoration: none;
+    color: #fa541c;
+}
 
 #mainMenu {
-
     text-align: center;
     
     & div:first-child {margin-top: -25vh;}
@@ -157,13 +165,13 @@ a {text-decoration: none; color: #fa541c;}
 .candy {pointer-events: none; position: absolute;}
 
 .candy.left{
-    animation: fly-left 4s ease both, fade-out 2s ease-out 2s both;
-    color: #f5222d;}
+    color: #f5222d;
+    animation: fly-left 4s ease both, fade-out 2s ease-out 2s both;}
 @keyframes fly-left{100%{transform: translate(-200%, -160%);}}
 
 .candy.right{
-    animation: fly-right 4s ease both, fade-out 2s ease-out 2s both;
-    color: #52c41a;}
+    color: #52c41a;
+    animation: fly-right 4s ease both, fade-out 2s ease-out 2s both;}
 @keyframes fly-right{100%{transform: translate(180%, -140%);}}
 
 .scoreCard {

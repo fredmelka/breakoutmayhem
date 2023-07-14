@@ -65,7 +65,7 @@ move()                      {this.x += this.speed * this.vector.x;
                             this.setPosition();}
 
 touchDown()                 {let opponentSide = this.side == 'left' ? 'right' : 'left';
-                            if (!gameSettings._opponents[opponentSide].ballsInPlay[0]) {return};
+                            if (!gameSettings._opponents[opponentSide].ballsInPlay[0]) {return;};
 
                             gameSettings._opponents[opponentSide].ballsInPlay[0].speed *= 0.1;
                             setTimeout(() => {gameSettings._opponents[opponentSide].ballsInPlay[0].speed /= 0.1;}, 5000);}
