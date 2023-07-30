@@ -37,10 +37,12 @@ Or, simply scan this QR code
 Desktop controllers:
 1. 'Q' and 'W' keys to control left paddle
 2. 'Arrow Up' and 'Arrow Down' keys control right paddle.
+3. Press down 'Spacebar' for a moment to quit game.
 
 Mobile controllers:
 
 - Just use your fingers to swipe the paddles!
+- Triple click on a scorecard to give up a match.
 
 
 ## Settings
