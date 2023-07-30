@@ -45,18 +45,18 @@ Mobile controllers:
 
 ## Settings
 
-Most game settings can be modified through a singleton object, e.g. ball speed, paddle ball control, number of lives, brick sizes..
+Most game settings can be modified through a singleton object, e.g. ball speed, paddle control, number of lives, brick sizes..
 
 Developers can also create easily their own map via a .xls file attached in the github repository: layout, bricks, walls..
 
 
 ## Tools used for this project
 
-- Languages: Javascript, HTML and CSS.
+- Languages: Javascript (ES6), HTML5, CSS3.
 
 - Concepts: DOM manipulation, functions & callbacks, arrays & iterators, objects, asynchronous programming, classes, modules, responsive design, external libraries.
 
-Many elements of the game are coded following some 'React-style framework' as functional components.
+Many of the code follows 'React framework' approach with functional components.
 
 
 Thanks for your attention and Happy Gaming !
