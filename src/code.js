@@ -5,7 +5,6 @@ import Ball from './ball.js';
 import Box, { Brick } from './brick.js';
 import { mapDiamond, mapFace, mapIsland, mapTest } from './map.js';;
 
-
 // Game | Settings Singleton 
 export const gameSettings = {
     _gameBoard: {width: 90, height: 90},  // expressed as {vw,vh} CSS units

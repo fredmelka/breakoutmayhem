@@ -1,8 +1,6 @@
 
 // Import Export | Global Variables
-import { gameSettings } from './code.js';
-import { gameArea } from './code.js';
-
+import { gameSettings, gameArea } from './code.js';
 
 // Class | Ball
 export default class Ball {

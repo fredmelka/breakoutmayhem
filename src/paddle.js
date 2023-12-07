@@ -1,10 +1,8 @@
 
 // Import Export | Global Variables
-import { gameSettings } from "./code.js";
-import { gameArea } from "./code.js";
+import { gameSettings, gameArea } from "./code.js";
 
-
-// CLASS | Paddle
+// Class | Paddle
 export default class Paddle {
 
 constructor(x, y, side) {

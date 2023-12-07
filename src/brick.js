@@ -1,13 +1,12 @@
 
 // Import Export | Global Variables
-import { gameSettings } from './code.js';
-import { gameArea } from './code.js';
+import { gameSettings, gameArea } from './code.js';
 
 export const boxSet = {
                             wall:   {name: 'wall', width: 3.9, height: 3.9},
                             brick:  {name: 'brick', width: 3.9, height: 3.9}};
 
-const OpacityLevels = [0, 25, 50, 100]; // Abolute remaining energy points of the Brick
+const OpacityLevels = [0, 25, 50, 100]; // Absolute remaining energy points of the Brick
 const spells        = {
     nothing:        {threshold: 0.70},
     superPaddle:    {threshold: 0.80, duration: 15000},
@@ -16,7 +15,6 @@ const spells        = {
     extraLife:      {threshold: 0.99},
     mayhem:         {threshold: 1.00, hasOccured: false}
 };
-
 
 // Main Class | Box
 export default class Box {

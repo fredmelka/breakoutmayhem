@@ -1,9 +1,7 @@
 
-/*
-Currently MAP Sizings are set with a format [20 x 20] units.
+/* Currently MAP Sizings are set with a format [20 x 20] units.
 This can be changed via the Singleton of Parameters in order to increase or decrease the box size and get maps to look different.
-Use the file mapmaker.xls attached to the repo to design quickly a new gamemap. 
-*/
+Use the file mapmaker.xls attached to the repo to design quickly a new gamemap.*/
 
 export const mapDiamond = [
     ['0','0','0','B','B','B','B','B','0','0','0','0','B','B','B','B','B','0','0','0',],
