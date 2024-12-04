@@ -19,8 +19,10 @@ export const gameSettings = {
 
 // Variables | Game Global variables
 let gameAreaBorders, player1, player2;
-// ***** TO IMPROVE AND REFACTOR *****
-// ***** GAME AREA BORDERS ARE WELL UPDATED UPON WINDOW-RESIZING BUT THE NEW VALUES ARE NOT PASSED TO EACH BALL (ONLY PASSED ONCE AT CLASS INSTANTIATION VIA ARGUMENTS) ****** 
+/***** TO IMPROVE AND REFACTOR
+ * GAME AREA BORDERS ARE WELL UPDATED UPON WINDOW-RESIZING
+ * BUT THE NEW VALUES ARE NOT PASSED TO EACH BALL
+ * (ONLY PASSED ONCE AT CLASS INSTANTIATION VIA ARGUMENTS) *****/ 
 
 
 // Game Control | Controller for Quitting the game
@@ -106,12 +108,9 @@ const touchAbortGameHandler = (event) => {
     setTimeout(() => abortGame[`click${event.target.classList[1]}`] == abortGame.clickToExit ? abortGame.isTriggered = true : abortGame[`click${event.target.classList[1]}`] = 0, abortGame.timeToTrigger);
 };
 
-// Map | Game map builder
+// Map | Game Map Builder
 function loadMap(map) {
-
-    let rowInterval = gameSettings._gameBoard.width / map.length;
-    let columnInterval = gameSettings._gameBoard.height / map[0].length;
-
+    let rowInterval = gameSettings._gameBoard.width / map.length, columnInterval = gameSettings._gameBoard.height / map[0].length;
     for (let row in map) {
         for (let column in map[row]) {
             switch (map[row][column]) {
@@ -125,32 +124,25 @@ function loadMap(map) {
 
 // Game | Place a new ball in play until both players have no more lives to spend
 function getInPlay() {
-
     let { _opponents: opponents} = gameSettings;
-
     for (let player in opponents) {
-
         if (opponents[player].isInPlay == false) {
-            
             opponents[player].ballsInPlay.pop();
-
             if (opponents[player].lives > 0) {
-                                
                 opponents[player].lives -- ; opponents[player].isInPlay = true;
                 opponents[player].ballsInPlay.push(new Ball (player, 40, 0, gameAreaBorders));
                 document.querySelector('#music-new-ball').play();
             };
         };
     };
-
     return Object.values(opponents).every(player => player.ballsInPlay.length === 0)
 };
 
 // Game | Execute the ball move() method for all balls in play
 function moveBalls() {
-    for (let player in gameSettings._opponents) {
-        for (let ball of gameSettings._opponents[player].ballsInPlay) {ball.move();}
-    };
+for (let player in gameSettings._opponents) {
+    for (let ball of gameSettings._opponents[player].ballsInPlay) {ball.move();};
+};
 };
 
 // Game | Execute the paddle move() method for a given player during game
@@ -168,15 +160,11 @@ function collisionDetection (obstacle, ball) {
 
     let randomBounceFactor = (Math.random() - 0.5) * 0.75;
 
-    let isInX =
-            ballEdge.left < obstacleEdge.right &&
-            ballEdge.right > obstacleEdge.left;
-    let isInY = 
-            ballEdge.bottom > obstacleEdge.top &&
-            ballEdge.top < obstacleEdge.bottom;
+    let isInX = ballEdge.left < obstacleEdge.right && ballEdge.right > obstacleEdge.left;
+    let isInY = ballEdge.bottom > obstacleEdge.top && ballEdge.top < obstacleEdge.bottom;
 
     if (isInX && isInY) {
-    
+
         let inOutAnalysis = {
             left: {
                 entrance:  ballEdge.left < obstacleEdge.left ? ballEdge.right - obstacleEdge.left : 0,
@@ -195,8 +183,6 @@ function collisionDetection (obstacle, ball) {
                 bounceEffect: function (ball) {ball.vector.y = -1 + randomBounceFactor;}
             },
         };
-
-        // console.log(ball.side, Object.entries(inOutAnalysis).map(x => [x[0], x[1].entrance]).filter(x => x[1] > 0));
         Object.values(inOutAnalysis).sort((a,b) => b.entrance - a.entrance).shift().bounceEffect(ball);
     };
     return (isInX && isInY);
@@ -224,20 +210,21 @@ function hitAndScore(ball) {
 
 // Header | Scoreboard Update
 function updateScoreboard() {
-    
-    let { left , right } = gameSettings._opponents;
+
+    let {left, right} = gameSettings._opponents;
     document.querySelector('.scoreCard.left').innerHTML =
     `<i class='fa-solid fa-coins'></i> ${Math.floor(left.score).toString().padStart(5, '0')} <i class='fa-solid fa-shield-heart'></i> ${left.lives.toString().padStart(2, '0')}`;
-    
+
     document.querySelector('.scoreCard.right').innerHTML =
     `${right.lives.toString().padStart(2, '0')} <i class='fa-solid fa-shield-heart'></i> ${Math.floor(right.score).toString().padStart(5, '0')} <i class='fa-solid fa-coins'></i>`;
 };
 
 // Game | Control of the game status
 function isGameInProgress() {
-    return ((gameSettings._opponents.left.lives !== 0 || gameSettings._opponents.left.ballsInPlay.length > 0)
-            ||
-            (gameSettings._opponents.right.lives !== 0 || gameSettings._opponents.right.ballsInPlay.length > 0));
+    return (
+        (gameSettings._opponents.left.lives !== 0 || gameSettings._opponents.left.ballsInPlay.length > 0)
+        ||
+        (gameSettings._opponents.right.lives !== 0 || gameSettings._opponents.right.ballsInPlay.length > 0));
 };
 
 // Game | Terminate game
@@ -254,7 +241,7 @@ function gameOver() {
     dialogBox.innerHTML = `<p>Game Over<p/><p>${winner} player wins!<br/>Click to return</p>`;
 
     document.querySelector('#music-game-over').play();
-    
+
     gameArea.classList.add('fade-out');
     gameSettings._gameMap = [];
 
@@ -280,8 +267,7 @@ function gameStart() {
 
     accordeon.classList.add('hidden');
     mainMenu.classList.add('hidden');
-    gameArea.classList.remove('hidden');
-    gameArea.classList.replace('fade-out', 'fade-in');
+    gameArea.classList.remove('hidden'); gameArea.classList.replace('fade-out', 'fade-in');
 
     createScoreCards();
 
@@ -301,16 +287,14 @@ function gameStart() {
     player1 = new Paddle(0, 34, 'left');
     player2 = new Paddle(gameSettings._gameBoard.width - gameSettings._paddle.width, 34, 'right');
 
-    loadMap(mapTest);
-    console.table(gameSettings._gameMap);
-
+    loadMap(mapTest); console.table(gameSettings._gameMap);
     renderGame();
 };
 
 // Game | Game Render Processing
 function renderGame() {
 
-    let { _gameMap: gameMap, _opponents: opponents } = gameSettings;
+    let {_gameMap: gameMap, _opponents: opponents} = gameSettings;
 
     let noBallsLeft = getInPlay();
     if (noBallsLeft || gameMap.every(box => box.name === 'wall') || abortGame.isTriggered) {return gameOver();};
@@ -318,7 +302,7 @@ function renderGame() {
     movePaddle(player1);
     player1.bounceControl(opponents.left.ballsInPlay[0]);
     player1.bounceControl(opponents.right.ballsInPlay[0]);
-    
+
     movePaddle(player2);
     player2.bounceControl(opponents.left.ballsInPlay[0]);
     player2.bounceControl(opponents.right.ballsInPlay[0]);
@@ -330,6 +314,6 @@ function renderGame() {
     
     updateScoreboard();
 
-    if (isGameInProgress() && gameSettings._gameMap.length > 0) {requestAnimationFrame(renderGame)}
-    else {gameOver(); console.log(`Good Game!`)};
+    if (isGameInProgress() && gameSettings._gameMap.length > 0) {requestAnimationFrame(renderGame);}
+    else {gameOver(); console.log(`Good Game!`);};
 };

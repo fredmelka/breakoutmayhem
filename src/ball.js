@@ -6,16 +6,15 @@ import { gameSettings, gameArea } from './code.js';
 export default class Ball {
 
 constructor(side, x, y, gameAreaBorders) {
- 
-this._side                  = side; // left || right
-this._element               = this.createBall();
-this._x                     = x;
-this._y                     = y;
-this._vector                = { x: this.side == 'left' ? -1 : +1, y: 1 };
-this._strength              = gameSettings._ballSet.strength;
-this._speed                 = gameSettings._ballSet.speed;
-this.gameAreaBorders        = gameAreaBorders;
-this.setPosition()
+    this._side = side; // left || right
+    this._element = this.createBall();
+    this._x = x;
+    this._y = y;
+    this._vector = { x: this.side == 'left' ? -1 : +1, y: 1 };
+    this._strength = gameSettings._ballSet.strength;
+    this._speed = gameSettings._ballSet.speed;
+    this.gameAreaBorders = gameAreaBorders; // Can be improved to place gameAreaBorders in gameSettings so that borders can be accessed at any time by a ball
+    this.setPosition();
 }
 
 get name()                  {return this._name;}
@@ -46,10 +45,10 @@ setPosition()               {this.element.style.left = `${this.x}vw`; this.eleme
 move()                      {this.x += this.speed * this.vector.x;                                                          
                             this.y += this.speed * this.vector.y;
                             let ballBounding = this.element.getBoundingClientRect();
-                            
+
                             if (ballBounding.top <= this.gameAreaBorders.top) {this.vector.y = +1; this.playSound('wallBounce');};
                             if (ballBounding.bottom >= this.gameAreaBorders.bottom) {this.vector.y = -1; this.playSound('wallBounce');};
-                            
+
                             switch (this.side) {
                                 case 'left':
                                     if (ballBounding.left <= this.gameAreaBorders.left) {this.element.remove(); gameSettings._opponents[this.side].isInPlay = false;};

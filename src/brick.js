@@ -3,16 +3,17 @@
 import { gameSettings, gameArea } from './code.js';
 
 export const boxSet = {
-                            wall:   {name: 'wall', width: 3.9, height: 3.9},
-                            brick:  {name: 'brick', width: 3.9, height: 3.9}};
+    wall: {name: 'wall', width: 3.9, height: 3.9},
+    brick: {name: 'brick', width: 3.9, height: 3.9}
+};
 
 const OpacityLevels = [0, 25, 50, 100]; // Absolute remaining energy points of the Brick
 const spells        = {
-    nothing:        {threshold: 0.70},
-    superPaddle:    {threshold: 0.80, duration: 15000},
-    giantBall:      {threshold: 0.90, duration: 10000},
-    invisiBall:     {threshold: 0.95, duration: 10000},
-    extraLife:      {threshold: 0.99},
+    nothing:        {threshold: 0.60},
+    superPaddle:    {threshold: 0.75, duration: 15000},
+    giantBall:      {threshold: 0.85, duration: 10000},
+    invisiBall:     {threshold: 0.90, duration: 7000},
+    extraLife:      {threshold: 0.95},
     mayhem:         {threshold: 1.00, hasOccured: false}
 };
 
@@ -20,12 +21,11 @@ const spells        = {
 export default class Box {
 
 constructor(name, x, y) {
-
-this._name                  = name;
-this._element               = this.createBox();
-this._x                     = x;
-this._y                     = y;
-this.setPosition();
+    this._name = name;
+    this._element = this.createBox();
+    this._x = x;
+    this._y = y;
+    this.setPosition();
 }
 
 get name()                  {return this._name;}
@@ -48,22 +48,19 @@ createBox()                 {const div = document.createElement('div');
                             return div;}
 };
 
-
 // Class Extension | Brick
 export class Brick extends Box {
 
 constructor(name, x, y, energyPoints) {
-
-super(name, x, y);
-this._energyPoints          = energyPoints;
-this.setColor();
+    super(name, x, y);
+    this._energyPoints = energyPoints;
+    this.setColor();
 }
 
 get energyPoints()          {return this._energyPoints;}
 set energyPoints(num)       {this._energyPoints = (typeof num == 'number') ? num : console.log(`Must be a valid number`);}
 
-setColor()                  {let rgb = '#' + Math.floor(Math.random()*16777215).toString(16);
-                            this.element.style.backgroundColor = `${rgb}`;}
+setColor()                  {let rgb = '#' + Math.floor(Math.random()*16777215).toString(16); this.element.style.backgroundColor = `${rgb}`;}
 
 receiveDamage(damage,hitter){let bonusKill = 100;
                             this.energyPoints -= damage;
@@ -104,10 +101,10 @@ popSpell(side)              {let draw = Math.random();
                                     this.playSound('superPaddle');
                                 }, spells.superPaddle.duration);
                             return;};
-                            
+
                             // Giant Ball | Double Ball'size! Double the Ball'strength! for 10 seconds! 
                             if (draw < spells.giantBall.threshold) {
-                            
+
                                 candy.innerHTML = `<i class='fa-solid fa-burst fa-beat fa-lg'></i>`;
                                 this.playSound('giantBall');
                                 if (spells.giantBall.isActive) {return;};
@@ -116,7 +113,7 @@ popSpell(side)              {let draw = Math.random();
                                 gameSettings._opponents[side].ballsInPlay[0].element.style.width = `${gameSettings._ballSet.size * 2}vw`;
                                 gameSettings._opponents[side].ballsInPlay[0].element.style.borderRadius = `${gameSettings._ballSet.size}vw`;
                                 gameSettings._opponents[side].ballsInPlay[0].strength *= 2;
-                                
+
                                 setTimeout(() => {
                                     if (!gameSettings._opponents[side].ballsInPlay[0]) {return;};
                                     gameSettings._opponents[side].ballsInPlay[0].element.style.width = `${gameSettings._ballSet.size}vw`;
@@ -126,7 +123,7 @@ popSpell(side)              {let draw = Math.random();
                                 }, spells.giantBall.duration);
                             return;};
 
-                            // Invisible Ball | Opponent's ball becomes invisible for 10 seconds!
+                            // Invisible Ball | Opponent's ball becomes invisible for 7 seconds!
                             if (draw < spells.invisiBall.threshold) {
 
                                 candy.innerHTML = `<i class='fa-solid fa-ghost fa-fade fa-lg'></i>`;
@@ -149,7 +146,7 @@ popSpell(side)              {let draw = Math.random();
                                 gameSettings._opponents[side].lives ++;
                             return;};
 
-                            // Wall Mayhem! | REMAINING OCCURENCE CASE (if no mandatory) | All Walls explode and disappear!
+                            // Wall Mayhem! | REMAINING OCCURENCE CASE (if statement is not mandatory) | All Walls explode and disappear!
                             if (draw < spells.mayhem.threshold) {
 
                                 if (spells.mayhem.hasOccured) {return;} else {spells.mayhem.hasOccured = true;};
@@ -166,8 +163,8 @@ popSpell(side)              {let draw = Math.random();
                                 allWalls.forEach(wall => {
                                     wall.element.classList.replace('wall','wallToExplode');
                                     wall.element.innerHTML += `<img src='../img/breakoutmayhem.png'>`;
-                                    wall.element.classList.add('fade-out');})
-                            
+                                    wall.element.classList.add('fade-out');});
+
                             document.querySelector('body').classList.add('mayhem');
                             return;};
                             }
